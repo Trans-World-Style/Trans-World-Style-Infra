@@ -1,0 +1,7 @@
+version: '3.7'
+
+services:
+  jenkins:
+    extends:
+      file: ./CiCd/jenkins/docker-compose.yaml
+      service: jenkins
