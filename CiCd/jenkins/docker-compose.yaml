@@ -4,7 +4,6 @@ services:
   jenkins:
     build: 
       context: .
-      dockerfile: .
     container_name: jenkins
     user: root
     ports:
