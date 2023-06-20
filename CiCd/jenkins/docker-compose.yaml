@@ -8,10 +8,8 @@ services:
     user: root
     ports:
       - 12590:8080
+      # for master-slave system
       - 12591:50000
     volumes:
       - ./jenkins_home:/var/jenkins_home
       - /var/run/docker.sock:/var/run/docker.sock
-    stdin_open: true
-    tty: true
-    entrypoint: /bin/bash
