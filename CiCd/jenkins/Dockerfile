@@ -9,6 +9,7 @@ RUN apt-get update && \
         gnupg2 \
         zip \
         unzip \
+        openssh-server \
         software-properties-common && \
     curl -fsSL https://download.docker.com/linux/$(. /etc/os-release; echo "$ID")/gpg > /tmp/dkey; apt-key add /tmp/dkey && \
     add-apt-repository \
