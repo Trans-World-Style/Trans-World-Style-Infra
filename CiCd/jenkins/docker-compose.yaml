@@ -15,9 +15,3 @@ services:
     stdin_open: true
     tty: true
     entrypoint: /bin/bash
-    networks:
-      - jenkinsNet
-
-networks:
-  jenkinsNet:
-    external: true
