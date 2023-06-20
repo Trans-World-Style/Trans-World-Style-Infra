@@ -5,3 +5,7 @@ services:
     extends:
       file: ./CiCd/jenkins/docker-compose.yaml
       service: jenkins
+
+networks:
+  jenkinsNet:
+    driver: bidge
