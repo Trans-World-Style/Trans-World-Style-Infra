@@ -8,4 +8,4 @@ services:
 
 networks:
   jenkinsNet:
-    driver: bidge
+    driver: bridge
