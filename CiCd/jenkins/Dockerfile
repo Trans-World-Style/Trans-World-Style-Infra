@@ -17,5 +17,7 @@ RUN apt-get update && \
     stable" && \
     apt-get update && \
     apt-get -y install docker-ce
+
+WORKDIR /workspace
 # RUN jenkins-plugin-cli --plugins blueocean:1.24.7
 USER jenkins
