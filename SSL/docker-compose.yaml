@@ -11,9 +11,9 @@ services:
     ports:
       - "80:80"
       - "443:443"
-    stdin_open: true
-    tty: true
-    command: bash
+    # stdin_open: true
+    # tty: true
+    # command: bash
 
 volumes:
   certbot-etc:
