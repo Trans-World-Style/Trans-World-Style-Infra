@@ -8,6 +8,9 @@ services:
     environment:
       - DOMAIN= tw-style.duckdns.org
       - EMAIL=pch14545@gmail.com
+    ports:
+      - "80:80"
+      - "443:443"
     stdin_open: true
     tty: true
     command: bash

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # The environment variables DOMAIN and EMAIL should be set.
 if [ -z "$DOMAIN" ] || [ -z "$EMAIL" ]; then
