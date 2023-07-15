@@ -12,4 +12,4 @@ RUN chmod +x /etc/letsencrypt/renew-script.sh
 # Set working directory
 WORKDIR /etc/letsencrypt
 
-CMD ["./renew-script.sh"]
+CMD ["sh", "./renew-script.sh"]
