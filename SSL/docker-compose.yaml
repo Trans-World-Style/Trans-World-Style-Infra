@@ -8,9 +8,9 @@ services:
     environment:
       - DOMAIN= tw-style.duckdns.org
       - EMAIL=pch14545@gmail.com
-    stdin_open: true
-    tty: true
-    command: bash
+    # stdin_open: true
+    # tty: true
+    # command: bash
 
 volumes:
   certbot-etc:
