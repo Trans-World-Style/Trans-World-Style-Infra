@@ -6,7 +6,7 @@ services:
     volumes:
       - certbot-etc:/etc/letsencrypt
     environment:
-      - DOMAIN= tw-style.duckdns.org
+      - DOMAIN=tw-style.duckdns.org
       - EMAIL=pch14545@gmail.com
     ports:
       - "80:80"
