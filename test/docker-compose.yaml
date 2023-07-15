@@ -1,0 +1,14 @@
+version: "3"
+services:
+  certbot:
+    build:
+      context: .
+    volumes:
+      - ssl_certbot-etc:/workspace
+    stdin_open: true
+    tty: true
+    command: bash
+
+volumes:
+  ssl_certbot-etc:
+    external: true
