@@ -2,7 +2,7 @@ FROM debian:latest
 
 # Install Certbot
 RUN apt-get update \
-  && apt-get install -y certbot \
+  && apt-get install -y certbot libssl-dev openssl\
   && rm -rf /var/lib/apt/lists/*
 
 # Add renewal script
