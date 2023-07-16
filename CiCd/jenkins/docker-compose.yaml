@@ -6,6 +6,8 @@ services:
       context: .
     container_name: jenkins
     user: root
+    environment:
+      - DOMAIN=tw-style.duckdns.org
     ports:
       - 12590:8080
       # for master-slave system
