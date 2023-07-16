@@ -8,6 +8,7 @@ services:
     environment:
       - DOMAIN=tw-style.duckdns.org
       - EMAIL=pch14545@gmail.com
+      - PW=0000
     ports:
       - "80:80"
       - "443:443"

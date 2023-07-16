@@ -12,14 +12,14 @@ fi
 while :; do
   if ! certbot certificates | grep -q "$DOMAIN"; then
     certbot certonly --standalone -d "$DOMAIN" -m "$EMAIL" --agree-tos --no-eff-email
-    openssl pkcs12 -export -in ./live/$DOMAIN/fullchain.pem -inkey ./live/$DOMAIN/privkey.pem -out ./live/$DOMAIN/keystore.p12 -name ttp -CAfile ./live/$DOMAIN/chain.pem -caname root -passin pass:0000 -passout pass:0000
+    openssl pkcs12 -export -in ./live/$DOMAIN/fullchain.pem -inkey ./live/$DOMAIN/privkey.pem -out ./live/$DOMAIN/keystore.p12 -name ttp -CAfile ./live/$DOMAIN/chain.pem -caname root -passin pass:$PW -passout pass:$PW
   elif openssl x509 -checkend 2592000 -noout -in "/etc/letsencrypt/live/$DOMAIN/fullchain.pem"; then
     echo "The certificate is up to date, sleeping..."
     sleep 12h
     continue
   else
     certbot renew
-    openssl pkcs12 -export -in ./live/$DOMAIN/fullchain.pem -inkey ./live/$DOMAIN/privkey.pem -out ./live/$DOMAIN/keystore.p12 -name ttp -CAfile ./live/$DOMAIN/chain.pem -caname root -passin pass:0000 -passout pass:0000
+    openssl pkcs12 -export -in ./live/$DOMAIN/fullchain.pem -inkey ./live/$DOMAIN/privkey.pem -out ./live/$DOMAIN/keystore.p12 -name ttp -CAfile ./live/$DOMAIN/chain.pem -caname root -passin pass:$PW -passout pass:$PW
   fi
   sleep 12h
 done
