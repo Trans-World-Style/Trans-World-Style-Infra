@@ -19,6 +19,7 @@ while :; do
     continue
   else
     certbot renew
+    openssl pkcs12 -export -in ./live/$DOMAIN/fullchain.pem -inkey ./live/$DOMAIN/privkey.pem -out ./live/$DOMAIN/keystore.p12 -name ttp -CAfile ./live/$DOMAIN/chain.pem -caname root -passin pass:0000 -passout pass:0000
   fi
   sleep 12h
 done
