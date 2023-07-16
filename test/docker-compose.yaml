@@ -4,10 +4,11 @@ services:
     build:
       context: .
     volumes:
-      - certbot-etc:/workspace
+      - ssl_certbot-etc:/workspace
     # stdin_open: true
     # tty: true
     # command: bash
 
 volumes:
-  certbot-etc:
+  ssl_certbot-etc:
+    external: true
