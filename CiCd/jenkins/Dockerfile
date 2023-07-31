@@ -9,7 +9,8 @@ RUN apt-get update && \
         gnupg2 \
         zip \
         unzip \
-        software-properties-common && \
+        software-properties-common \ 
+        rsync && \
     curl -fsSL https://download.docker.com/linux/$(. /etc/os-release; echo "$ID")/gpg > /tmp/dkey; apt-key add /tmp/dkey && \
     add-apt-repository \
     "deb [arch=amd64] https://download.docker.com/linux/$(. /etc/os-release; echo "$ID") \
