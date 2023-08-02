@@ -50,7 +50,7 @@ metadata:
 spec:
   rules:
   - host: tw-style.duckdns.org
-    http:
+  - http:
       paths:
       - pathType: Prefix
         path: "/"
@@ -59,7 +59,7 @@ spec:
             name: react-service-service
             port:
               number: 11911
-    https:
+  - https:
       paths:
       - pathType: Prefix
         path: "/"
