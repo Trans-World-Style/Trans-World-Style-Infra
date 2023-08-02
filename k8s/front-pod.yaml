@@ -59,3 +59,10 @@ spec:
             name: react-service-service
             port:
               number: 11911
+  tls:
+  - hosts:
+    - tw-style.duckdns.org
+    secretName: tls-secret
+
+
+# docker run --rm -p 11910:443 -p 11911:80 --env-file ./.env dodo133/react_service-dev
