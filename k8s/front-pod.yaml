@@ -17,6 +17,7 @@ spec:
         image: dodo133/react_service-dev:latest
         ports:
         - containerPort: 80
+        - containerPort: 443
         env:
         - name: DOMAIN
           value: "tw-style.duckdns.org"
@@ -33,9 +34,14 @@ spec:
   selector:
     app: react-service
   ports:
-    - protocol: TCP
-      port: 80
+    - name: http
+      protocol: TCP
+      port: 11911
       targetPort: 80
+    - name: https
+      protocol: TCP
+      port: 11910
+      targetPort: 443
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -52,4 +58,4 @@ spec:
           service:
             name: react-service-service
             port:
-              number: 80
+              number: 11911
