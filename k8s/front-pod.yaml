@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: react-service-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: react-service
+  template:
+    metadata:
+      labels:
+        app: react-service
+    spec:
+      containers:
+      - name: react-service
+        image: dodo133/react_service-dev:latest
+        ports:
+        - containerPort: 80
+        env:
+        - name: DOMAIN
+          value: "tw-style.duckdns.org"
+        - name: SSL_PORT
+          value: "11910"
+        - name: PORT
+          value: "11911"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: react-service-service
+spec:
+  selector:
+    app: react-service
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: react-service-ingress
+spec:
+  rules:
+  - host: tw-style.duckdns.org
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: react-service-service
+            port:
+              number: 80
