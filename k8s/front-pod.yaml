@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: react-service-deployment
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: react-service
@@ -31,33 +31,20 @@ kind: Service
 metadata:
   name: react-service-service
 spec:
+  type: NodePort
   selector:
     app: react-service
   ports:
     - name: http
       protocol: TCP
-      port: 11911
+      port: 80
       targetPort: 80
+      nodePort: 11911
     - name: https
       protocol: TCP
-      port: 11910
+      port: 443
       targetPort: 443
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: react-service-ingress
-spec:
-  rules:
-  - host: tw-style.duckdns.org
-  - https:
-      paths:
-      - pathType: Prefix
-        path: "/"
-        backend:
-          service:
-            name: react-service-service
-            port:
-              number: 11910
+      nodePort: 11910
+
 
 # docker run --rm -p 11910:443 -p 11911:80 --env-file ./.env dodo133/react_service-dev
