@@ -37,14 +37,32 @@ spec:
   ports:
     - name: http
       protocol: TCP
-      port: 80
+      port: 11911
       targetPort: 80
-      nodePort: 30011
+      nodePort: 30001  # 변경된 포트
     - name: https
       protocol: TCP
-      port: 443
+      port: 11910
       targetPort: 443
-      nodePort: 30010
+      nodePort: 30000  # 변경된 포트
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: react-service-ingress
+spec:
+  rules:
+  - host: tw-style.duckdns.org
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: react-service-service
+            port:
+              number: 80
+
 
 
 
