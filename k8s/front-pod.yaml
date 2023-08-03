@@ -39,12 +39,30 @@ spec:
       protocol: TCP
       port: 80
       targetPort: 80
-      nodePort: 11911
+      nodePort: 30000
     - name: https
       protocol: TCP
       port: 443
       targetPort: 443
-      nodePort: 11910
+      nodePort: 30001
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: react-service-ingress
+spec:
+  rules:
+  - host: tw-style.duckdns.org
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: react-service-service
+            port:
+              number: 80
+
 
 
 # docker run --rm -p 11910:443 -p 11911:80 --env-file ./.env dodo133/react_service-dev
