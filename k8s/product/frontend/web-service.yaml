@@ -2,6 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: tws-web-service
+  namespace: prod
 spec:
   type: LoadBalancer
   selector:
@@ -9,4 +10,4 @@ spec:
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 9376
+      targetPort: 80

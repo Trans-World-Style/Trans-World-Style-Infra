@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: tws-web-deploy
+  namespace: prod
 spec:
   replicas: 1
   selector:
@@ -14,6 +15,6 @@ spec:
     spec:
       containers:
       - name: tws-web
-        image: [...]
+        image: nginx:1.14.2
         ports:
         - containerPort: 80
