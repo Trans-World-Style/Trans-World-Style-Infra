@@ -6,9 +6,9 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
+  ingressClassName: nginx-example
   rules:
-  - host: "endnjs.iptime.org"
-    http:
+  - http:
       paths:
       - path: /
         pathType: Prefix
