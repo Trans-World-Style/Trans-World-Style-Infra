@@ -4,7 +4,6 @@ metadata:
   name: tws-web-service
   namespace: prod
 spec:
-  type: LoadBalancer
   selector:
     app: tws-web
   ports:
