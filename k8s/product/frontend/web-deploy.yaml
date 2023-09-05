@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tws-web-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tws-web
+  template:
+    metadata:
+      labels:
+        app: tws-web
+    spec:
+      containers:
+      - name: tws-web
+        image: [...]
+        ports:
+        - containerPort: 80
