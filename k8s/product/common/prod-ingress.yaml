@@ -3,15 +3,11 @@ kind: Ingress
 metadata:
   name: front-ingress
   namespace: prod
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
   - http:
       paths:
-      - path: /fe
-        pathType: Prefix
-        backend:
+      - backend:
           service:
             name: tws-web-service
             port:
