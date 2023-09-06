@@ -7,10 +7,6 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   ingressClassName: nginx
-  tls:
-  - hosts:
-      - tw-style.duckdns.org
-    secretName: prod-secret-tls
   rules:
   - http:
       paths:
