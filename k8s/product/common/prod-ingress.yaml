@@ -12,7 +12,8 @@ spec:
       - tw-style.duckdns.org
     secretName: prod-secret-tls
   rules:
-  - http:
+  - host: tw-style.duckdns.org
+    http:
       paths:
       - path: /
         pathType: Prefix
