@@ -36,5 +36,6 @@ spec:
         - containerPort: 9093
       - name: test
         image: ubuntu:20.04
+        command: ["/bin/sleep", "infinity"]
         ports:
         - containerPort: 9999
