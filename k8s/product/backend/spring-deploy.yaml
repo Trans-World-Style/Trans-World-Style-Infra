@@ -17,25 +17,25 @@ spec:
       - name: config
         image: dodo133/config_backend_spring_service
         ports:
-        - containerPort: 12520
-          hostPort: 9090
+        - containerPort: 9090
+          hostPort: 12520
       - name: gateway
         image: dodo133/prod_gateway_backend_spring_service
         ports:
-        - containerPort: 12521
-          hostPort: 9090
+        - hostPort: 12521
+          containerPort: 9090
       - name: member
         image: dodo133/prod_member_backend_spring_service
         ports:
-        - containerPort: 12522
-          hostPort: 9090
+        - containerPort: 9090
+          hostPort: 12522
       - name: video
         image: dodo133/prod_video_backend_spring_service
         ports:
-        - containerPort: 12523
-          hostPort: 9090
+        - containerPort: 9090
+          hostPort: 12523
       - name: email
         image: dodo133/prod_email_backend_spring_service
         ports:
-        - containerPort: 12524
-          hostPort: 9090
+        - containerPort: 9090
+          hostPort: 12524
