@@ -35,6 +35,6 @@ spec:
         ports:
         - containerPort: 9093
       - name: test
-        iamge: ubuntu20.04
+        image: ubuntu20.04
         ports:
         - containerPort: 9999
