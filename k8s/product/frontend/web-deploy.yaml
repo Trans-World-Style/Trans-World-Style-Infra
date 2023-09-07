@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
       - name: tws-web
-        image: nginx:1.14.2
+        image: dodo133/react-test:latest
         ports:
         - containerPort: 80
