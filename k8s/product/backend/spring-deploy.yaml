@@ -34,3 +34,7 @@ spec:
         image: dodo133/prod_email_backend_spring_service
         ports:
         - containerPort: 9093
+      - name: test
+        iamge: ubuntu20.04
+        prots:
+        - containerPort: 9999
