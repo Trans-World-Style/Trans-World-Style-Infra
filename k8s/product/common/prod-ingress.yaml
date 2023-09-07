@@ -10,7 +10,7 @@ spec:
   tls:
   - hosts:
       - tw-style.duckdns.org
-    secretName: prod-secret-tls
+    secretName: default/secret-tls
   rules:
   - host: tw-style.duckdns.org
     http:
