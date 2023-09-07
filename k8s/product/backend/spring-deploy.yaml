@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tws-spring-deploy
+  namespace: prod
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tws-spring
+  template:
+    metadata:
+      labels:
+        app: tws-spring
+    spec:
+      containers:
+      - name: config
+        image: dodo133/config_backend_spring_service
+        ports:
+        - containerPort: 12520
+          hostPort: 9090
+      - name: gateway
+        image: dodo133/prod_gateway_backend_spring_service
+        ports:
+        - containerPort: 12521
+          hostPort: 9090
+      - name: member
+        image: dodo133/prod_member_backend_spring_service
+        ports:
+        - containerPort: 12522
+          hostPort: 9090
+      - name: video
+        image: dodo133/prod_video_backend_spring_service
+        ports:
+        - containerPort: 12523
+          hostPort: 9090
+      - name: email
+        image: dodo133/prod_email_backend_spring_service
+        ports:
+        - containerPort: 12524
+          hostPort: 9090
