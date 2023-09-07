@@ -7,23 +7,11 @@ spec:
   selector:
     app: tws-spring
   ports:
-    - name: config
-      protocol: TCP
-      port: 12520
-      targetPort: 12520
     - name: gateway
       protocol: TCP
-      port: 12521
-      targetPort: 12521
-    - name: member
-      protocol: TCP
-      port: 12522
-      targetPort: 12522
+      port: 9090
+      targetPort: 9090
     - name: video
       protocol: TCP
-      port: 12523
-      targetPort: 12523
-    - name: email
-      protocol: TCP
-      port: 12524
-      targetPort: 12524
+      port: 9092
+      targetPort: 9092
