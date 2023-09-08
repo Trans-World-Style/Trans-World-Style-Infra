@@ -10,8 +10,15 @@ spec:
     - name: gateway
       protocol: TCP
       port: 9090
-      targetPort: 9090
     - name: video
       protocol: TCP
       port: 9092
-      targetPort: 9092
+    - name: config
+      protocol: TCP
+      port: 9089
+    - name: member
+      protocol: TCP
+      port: 9091
+    - name: email
+      protocol: TCP
+      port: 9093
