@@ -24,7 +24,7 @@ spec:
         ports:
         - containerPort: 9090
         volumeMounts:
-        - name: mysecret
+        - name: ssl
           mountPath: "/etc/tls"
 
       - name: member
@@ -32,7 +32,7 @@ spec:
         ports:
         - containerPort: 9091
         volumeMounts:
-        - name: mysecret
+        - name: ssl
           mountPath: "/etc/tls"
 
       - name: video
@@ -40,7 +40,7 @@ spec:
         ports:
         - containerPort: 9092
         volumeMounts:
-        - name: mysecret
+        - name: ssl
           mountPath: "/etc/tls"
 
       - name: email
@@ -48,7 +48,7 @@ spec:
         ports:
         - containerPort: 9093
         volumeMounts:
-        - name: mysecret
+        - name: ssl
           mountPath: "/etc/tls"
 
       - name: test
