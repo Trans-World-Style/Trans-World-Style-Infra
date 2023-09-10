@@ -15,6 +15,13 @@ spec:
   - host: tw-style.duckdns.org
     http:
       paths:
+      - path: /api
+        pathType: Prefix
+        backend:
+          service:
+            name: tws-spring-service
+            port:
+              number: 9090
       - path: /
         pathType: Prefix
         backend:
