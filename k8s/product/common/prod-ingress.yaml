@@ -15,8 +15,8 @@ spec:
   - host: tw-style.duckdns.org
     http:
       paths:
-      - path: /api
-        pathType: Prefix
+      - path: /api(/|$)(.*)
+        # pathType: Prefix
         backend:
           service:
             name: tws-spring-service
