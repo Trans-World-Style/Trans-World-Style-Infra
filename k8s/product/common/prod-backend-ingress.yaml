@@ -22,7 +22,7 @@ spec:
           service:
             name: tws-spring-service
             port:
-              number: 9090
+              number: 9091
       - path: /apim(/|$)(.*)
         pathType: ImplementationSpecific
         backend:
