@@ -1,10 +1,11 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: front-ingress
+  name: backend-ingress
   namespace: prod
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
 spec:
   ingressClassName: nginx
   tls:
@@ -15,17 +16,10 @@ spec:
   - host: tw-style.duckdns.org
     http:
       paths:
-      # - path: /api(/|$)(.*)
-      #   pathType: ImplementationSpecific
-      #   backend:
-      #     service:
-      #       name: tws-spring-service
-      #       port:
-      #         number: 9090
-      - path: /
-        pathType: Prefix
+      - path: /api(/|$)(.*)
+        pathType: ImplementationSpecific
         backend:
           service:
-            name: tws-web-service
+            name: tws-spring-service
             port:
-              number: 80
+              number: 9090
