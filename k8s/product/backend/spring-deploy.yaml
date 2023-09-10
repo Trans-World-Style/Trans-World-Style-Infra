@@ -24,7 +24,7 @@ spec:
         ports:
         - containerPort: 9090
         volumeMounts:
-        - name: tls
+        - name: ssl-keysotre
           mountPath: "/app/src/main/resources/ssl"
 
       - name: member
@@ -32,7 +32,7 @@ spec:
         ports:
         - containerPort: 9091
         volumeMounts:
-        - name: tls
+        - name: tls-keysotre
           mountPath: "/app/src/main/resources/ssl"
 
       - name: video
@@ -40,7 +40,7 @@ spec:
         ports:
         - containerPort: 9092
         volumeMounts:
-        - name: tls
+        - name: tls-keysotre
           mountPath: "/app/src/main/resources/ssl"
 
       - name: email
@@ -48,7 +48,7 @@ spec:
         ports:
         - containerPort: 9093
         volumeMounts:
-        - name: tls
+        - name: tls-keysotre
           mountPath: "/app/src/main/resources/ssl"
 
       - name: test
@@ -58,7 +58,7 @@ spec:
         - containerPort: 9999
 
       volumes:
-      - name: tls
+      - name: tls-keysotre
         secret:
-          secretName: prod-secret-tls
+          secretName: prod-secret-tls-keystore
       
