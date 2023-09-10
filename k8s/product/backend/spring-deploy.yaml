@@ -18,24 +18,46 @@ spec:
         image: dodo133/config_backend_spring_service
         ports:
         - containerPort: 9089
+
       - name: gateway
         image: dodo133/prod_gateway_backend_spring_service
         ports:
         - containerPort: 9090
+        volumeMounts:
+        - name: mysecret
+          mountPath: "/etc/tls"
+
       - name: member
         image: dodo133/prod_member_backend_spring_service
         ports:
         - containerPort: 9091
+        volumeMounts:
+        - name: mysecret
+          mountPath: "/etc/tls"
+
       - name: video
         image: dodo133/prod_video_backend_spring_service
         ports:
         - containerPort: 9092
+        volumeMounts:
+        - name: mysecret
+          mountPath: "/etc/tls"
+
       - name: email
         image: dodo133/prod_email_backend_spring_service
         ports:
         - containerPort: 9093
+        volumeMounts:
+        - name: mysecret
+          mountPath: "/etc/tls"
+
       - name: test
         image: ubuntu:20.04
         command: ["/bin/sleep", "infinity"]
         ports:
         - containerPort: 9999
+
+      volumes:
+      - name: ssl
+        secret:
+          secretName: prod-secret-tls
