@@ -60,4 +60,4 @@ spec:
       volumes:
       - name: ssl
         secret:
-          secretName: prod-secret-tls
+          secretName: prod-secret-tls-keystore
