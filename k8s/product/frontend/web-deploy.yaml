@@ -20,7 +20,7 @@ spec:
         - containerPort: 80
         volumeMounts:
         - name: cert-volume
-          mountPath: /etc/ssl/certs
+          mountPath: /etc/ssl/certs/tmp
       volumes:
       - name: cert-volume
         secret:
