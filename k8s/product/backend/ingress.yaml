@@ -12,7 +12,7 @@ spec:
   tls:
   - hosts:
       - tws-spring-service.prod.svc.cluster.local
-    secretName: spring-certificate-v9wlq
+    secretName: spring-ssl-secret
   rules:
   - host: tws-spring-service.prod.svc.cluster.local
     http:
@@ -24,3 +24,5 @@ spec:
             name: tws-spring-service
             port:
               number: 9092
+
+# curl http://tws-spring-service.prod.svc.cluster.local/video/list
