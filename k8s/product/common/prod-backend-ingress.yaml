@@ -17,7 +17,8 @@ spec:
   - host: tw-style.duckdns.org
     http:
       paths:
-      - path: /api(/|$)(.*)
+      # - path: /api(/|$)(.*)
+      - path: /api/
         pathType: ImplementationSpecific
         backend:
           service:
