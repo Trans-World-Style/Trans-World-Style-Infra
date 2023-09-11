@@ -21,8 +21,8 @@ spec:
     name: selfsigned-issuer
     kind: ClusterIssuer
     group: cert-manager.io
-# dnsNames:
-# - tws-spring-service.prod.svc.cluster.local
+dnsNames:
+- tws-spring-service.prod.svc.cluster.local
 ---
 apiVersion: cert-manager.io/v1
 kind: Issuer
