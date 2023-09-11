@@ -8,7 +8,7 @@ spec:
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: spring-certificate
+  name: spring-ca
   namespace: prod
 spec:
   isCA: true
@@ -18,7 +18,7 @@ spec:
     algorithm: ECDSA
     size: 256
   issuerRef:
-    name: spring-selfsigned-issuer
+    name: selfsigned-issuer
     kind: ClusterIssuer
     group: cert-manager.io
 # dnsNames:
