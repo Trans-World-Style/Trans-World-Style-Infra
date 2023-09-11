@@ -23,7 +23,7 @@ spec:
       #       port:
       #         number: 9090
       - path: /
-        pathType: Prefix
+        pathType: Exact
         backend:
           service:
             name: tws-web-service
