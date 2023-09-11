@@ -23,8 +23,9 @@ spec:
           service:
             name: tws-spring-service
             port:
-              number: 9092
+              number: 9091
 
-# curl https://tws-spring-service.prod.svc.cluster.local/video/list
-# curl https://tws-spring-service.prod.svc.cluster.local/member/hello2
+# curl -k https://tws-spring-service.prod.svc.cluster.local/video/list
+# curl https://tws-spring-service.prod.svc.cluster.local:9091/member/hello2
+# curl https://tws-spring-service.prod.svc.cluster.local:9091/member/hello2
 # curl https://tws-spring-service/member/hello2
