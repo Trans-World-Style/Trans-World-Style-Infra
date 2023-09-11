@@ -18,3 +18,10 @@ spec:
         image: dodo133/react-test:latest
         ports:
         - containerPort: 80
+        volumeMounts:
+        - name: cert-volume
+          mountPath: /etc/ssl/certs
+      volumes:
+      - name: cert-volume
+        secret:
+          secretName: spring-ssl-secret
