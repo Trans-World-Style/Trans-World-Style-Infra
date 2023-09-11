@@ -9,10 +9,10 @@ metadata:
     # nginx.ingress.kubernetes.io/ssl-redirect: "false"
 spec:
   ingressClassName: nginx
-  tls:
-  - hosts:
-      - tw-style.duckdns.org
-    secretName: prod-secret-tls
+  # tls:
+  # - hosts:
+  #     - tw-style.duckdns.org
+  #   secretName: prod-secret-tls
   rules:
   - host: tw-style.duckdns.org
     http:
