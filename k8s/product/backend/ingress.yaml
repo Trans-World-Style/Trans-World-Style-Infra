@@ -23,4 +23,4 @@ spec:
           service:
             name: tws-spring-service
             port:
-              number: 9092
+              number: 9090
