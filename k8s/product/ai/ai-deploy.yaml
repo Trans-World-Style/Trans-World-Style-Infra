@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tws-ai-deploy
+  namespace: prod
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tws-ai
+  template:
+    metadata:
+      labels:
+        app: tws-ai
+    spec:
+      containers:
+      - name: tws-ai
+        image: dodo133/tws-ai:latest
+        ports:
+        - containerPort: 8000
