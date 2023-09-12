@@ -3,29 +3,24 @@ kind: Ingress
 metadata:
   name: backend-ingress
   namespace: prod
-  # annotations:
-  #   nginx.ingress.kubernetes.io/rewrite-target: /$2
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
     # nginx.ingress.kubernetes.io/ssl-passthrough: "true"
     # nginx.ingress.kubernetes.io/ssl-redirect: "false"
 spec:
   ingressClassName: nginx
   tls:
   - hosts:
-      - tws-spring-service.prod.svc.cluster.local
-    secretName: spring-ssl-secret
+      - tw-style.duckdns.org
+    secretName: prod-secret-tls
   rules:
-  - host: tws-spring-service.prod.svc.cluster.local
+  - host: tw-style.duckdns.org
     http:
       paths:
-      - path: /
-        pathType: Prefix
+      - path: /api(/|$)(.*)
+        pathType: ImplementationSpecific
         backend:
           service:
             name: tws-spring-service
             port:
               number: 9091
-
-# curl -k https://tws-spring-service.prod.svc.cluster.local/video/list
-# curl https://tws-spring-service.prod.svc.cluster.local:9091/member/hello2
-# curl https://tws-spring-service.prod.svc.cluster.local:9091/member/hello2
-# curl https://tws-spring-service/member/hello2
