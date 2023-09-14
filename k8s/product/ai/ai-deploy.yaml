@@ -5,6 +5,15 @@ metadata:
   namespace: prod
 spec:
   replicas: 1
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: driver
+            operator: In
+            values:
+            - vulkan
   selector:
     matchLabels:
       app: tws-ai
