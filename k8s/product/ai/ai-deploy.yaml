@@ -30,7 +30,7 @@ spec:
         - name: AWS_ACCESS_KEY
           value: AKIA4NJHVZKRCWWUG5KJ
         - name: AWS_SECRET_KEY
-          # value: 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
+          value: T4O/TSwELPRbW6EcAV+Z4QviMSVNWe0IKrGS+sb3
         image: dodo133/tws-ai:latest
         # image: test_ai_upscale_service
         ports:
