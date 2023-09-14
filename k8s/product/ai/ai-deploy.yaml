@@ -27,3 +27,5 @@ spec:
         image: dodo133/tws-ai:latest
         ports:
         - containerPort: 8000
+        securityContext:
+          privileged: true
