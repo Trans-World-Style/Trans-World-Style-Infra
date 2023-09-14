@@ -14,14 +14,14 @@ spec:
         app: tws-ai
     spec:
       affinity:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-          - matchExpressions:
-            - key: driver
-              operator: In
-              values:
-              - vulkan
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: driver
+                operator: In
+                values:
+                - vulkan
       containers:
       - name: tws-ai
         image: dodo133/tws-ai:latest
