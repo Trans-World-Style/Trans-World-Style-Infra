@@ -30,4 +30,4 @@ spec:
         - containerPort: 8000
         resources:
           limits:
-            nvidia.com/gpu: 0 # requesting 1 GPU
+            nvidia.com/gpu: "0" # requesting 1 GPU
