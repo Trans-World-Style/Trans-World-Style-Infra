@@ -28,5 +28,6 @@ spec:
         # image: test_ai_upscale_service
         ports:
         - containerPort: 8000
-        securityContext:
-          privileged: true
+        resources:
+        limits:
+          nvidia.com/gpu: 1 # requesting 1 GPU
