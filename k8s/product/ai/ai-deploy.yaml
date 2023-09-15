@@ -31,3 +31,7 @@ spec:
         # image: test_ai_upscale_service
         ports:
         - containerPort: 8000
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "1"
