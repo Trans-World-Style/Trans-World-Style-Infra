@@ -25,9 +25,9 @@ spec:
       containers:
       - name: tws-ai
         image: dodo133/tws-ai:local
+        env:
+        - name: NVIDIA_VISIBLE_DEVICES
+          value: "none"
         # image: test_ai_upscale_service
         ports:
         - containerPort: 8000
-        resources:
-          limits:
-            nvidia.com/gpu: "0" # requesting 1 GPU
