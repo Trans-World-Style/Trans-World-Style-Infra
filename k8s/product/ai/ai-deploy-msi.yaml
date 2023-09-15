@@ -4,7 +4,7 @@ metadata:
   name: tws-ai-deploy
   namespace: prod
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: tws-ai
@@ -18,10 +18,10 @@ spec:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
             - matchExpressions:
-              - key: driver
+              - key: kubernetes.io/hostname
                 operator: In
                 values:
-                - vulkan
+                - ubuntu-msi
       containers:
       - name: tws-ai
         image: dodo133/tws-ai:local
