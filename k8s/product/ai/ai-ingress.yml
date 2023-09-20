@@ -1,0 +1,33 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ai-ingress
+  namespace: prod
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    # nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+    # nginx.ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+      - tw-style.duckdns.org
+    secretName: prod-secret-tls
+  rules:
+  - host: tw-style.duckdns.org
+    http:
+      paths:
+      - path: /ai-gpu(/|$)(.*)
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: tws-ai-gpu-service
+            port:
+              number: 8000
+      - path: /ai-cpu(/|$)(.*)
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: tws-ai-cpu-service
+            port:
+              number: 8000
