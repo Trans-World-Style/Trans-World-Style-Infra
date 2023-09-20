@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: tws-ai-deploy
+  name: tws-ai-cpu-deploy
   namespace: prod
 spec:
   replicas: 2
