@@ -7,7 +7,7 @@ spec:
   replicas: 2
   selector:
     matchLabels:
-      app: tws-ai-cpu
+      app: ai-cpu
   template:
     metadata:
       labels:

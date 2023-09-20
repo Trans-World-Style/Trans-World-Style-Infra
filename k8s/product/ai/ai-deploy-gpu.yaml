@@ -7,7 +7,7 @@ spec:
   replicas: 2
   selector:
     matchLabels:
-      app: tws-ai-gpu
+      app: ai-gpu
   template:
     metadata:
       labels:
