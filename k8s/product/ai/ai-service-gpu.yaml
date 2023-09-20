@@ -5,7 +5,7 @@ metadata:
   namespace: prod
 spec:
   selector:
-    app: tws-ai-gpu
+    app: ai-gpu
   ports:
     - protocol: TCP
       port: 8000

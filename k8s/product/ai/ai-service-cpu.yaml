@@ -5,7 +5,7 @@ metadata:
   namespace: prod
 spec:
   selector:
-    app: tws-ai-cpu
+    app: ai-cpu
   ports:
     - protocol: TCP
       port: 8000
