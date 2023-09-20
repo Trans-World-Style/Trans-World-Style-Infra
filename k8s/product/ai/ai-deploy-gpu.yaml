@@ -7,11 +7,11 @@ spec:
   replicas: 2
   selector:
     matchLabels:
-      app: tws-ai
+      app: tws-ai-gpu
   template:
     metadata:
       labels:
-        app: tws-ai
+        app: ai-gpu
     spec:
       affinity:
         nodeAffinity:
@@ -23,7 +23,7 @@ spec:
                 values:
                 - vulkan
       containers:
-      - name: tws-ai
+      - name: ai-gpu
         image: dodo133/tws-ai:gpu
         # env:
         # - name: NVIDIA_VISIBLE_DEVICES
