@@ -24,7 +24,7 @@ spec:
                 - vulkan
       containers:
       - name: tws-ai
-        image: dodo133/tws-ai:local
+        image: dodo133/tws-ai:gpu
         # env:
         # - name: NVIDIA_VISIBLE_DEVICES
         #   value: "none"

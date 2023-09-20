@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tws-ai-deploy
+  namespace: prod
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: tws-ai
+  template:
+    metadata:
+      labels:
+        app: tws-ai
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: driver
+                operator: In
+                values:
+                - vulkan
+      containers:
+      - name: tws-ai
+        image: dodo133/tws-ai:cpu
+        # env:
+        # - name: NVIDIA_VISIBLE_DEVICES
+        #   value: "none"
+        # image: test_ai_upscale_service
+        ports:
+        - containerPort: 8000
