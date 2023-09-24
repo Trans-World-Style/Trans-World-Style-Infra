@@ -5,7 +5,8 @@ def call() {
         def match = commitMessage =~ /tag: (\S+)/
         if(match) {
             dockerTag = match[0][1]
-            echo "Commit Tag: ${dockerTag}"
+            return dockerTag
+            // echo "Commit Tag: ${dockerTag}"
         } else {
             error("Tag not found in commit message!\ncommit message: ${commitMessage}")
         }
