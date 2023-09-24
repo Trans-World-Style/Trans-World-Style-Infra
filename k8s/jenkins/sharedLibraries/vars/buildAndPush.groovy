@@ -1,4 +1,4 @@
-def call(String dockerUsername, String imageName) {
+def call(String dockerUsername, String imageName, String dockerTag) {
     container('kaniko') {
         script {
             def imageFullName = "${dockerUsername}/${imageName}:${dockerTag}"
