@@ -1,6 +1,6 @@
 def call() {
-    return {
-        kubernetes {
+    return [
+        kubernetes [
             cloud "kubernetes-docker-job"
             yaml '''
                 apiVersion: v1
@@ -29,6 +29,6 @@ def call() {
                             - key: .dockerconfigjson
                               path: config.json
                 '''
-        }
-    }
+        ]
+    ]
 }
