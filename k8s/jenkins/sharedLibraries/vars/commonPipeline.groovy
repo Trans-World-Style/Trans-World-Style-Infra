@@ -94,12 +94,12 @@ def call(Closure body) {
                     container('git') {
                         script {
                             sh """
-                            git config credential.helper 'store --file=/root/.git-credentials'
+                            git config credential.helper --global 'store --file=/root/.git-credentials'
                             git clone https://github.com/${MANIFEST_REPO}
-                            sed -i 's|${DOCKERHUB_USERNAME}/${IMAGE_NAME}:.*|${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${env.DOCKER_TAG}|' ${MANIFEST_DIR}/${MANIFEST_FILE}
                             """
                             dir(MANIFEST_DIR) {
                                 sh """
+                                sed -i 's|${DOCKERHUB_USERNAME}/${IMAGE_NAME}:.*|${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${env.DOCKER_TAG}|' ${MANIFEST_FILE}
                                 git config user.name "${env.GIT_AUTHOR_NAME}"
                                 git config user.email "${env.GIT_AUTHOR_EMAIL}"
                                 git add .
