@@ -75,10 +75,10 @@ def call(Closure body) {
                 steps {
                     container('kaniko') {
                         script {
-                            // env.DOCKERHUB_USERNAME = sh(script: 'kubectl get secrets -n jenkins dockerhub-secret -o jsonpath="{.data.username}" | base64 -d', returnStdout: true).trim()
-                            env.DOCKERHUB_USERNAME = sh(script: '''kubectl get secrets -n jenkins dockerhub-secret -o jsonpath="{.data.username}" | base64 -d''', returnStdout: true).trim()
-
+                            withCredentials([usernamePassword(credentialsId: 'dockerhub-secret',
+                                usernameVariable: 'DOCKERHUB_ID', passwordVariable: 'DOCKERHUB_TOKEN')]) {
                             
+                            env.DOCKERHUB_USERNAME = DOCKERHUB_ID
                             // buildAndPush(env.DOCKERHUB_USERNAME, IMAGE_NAME, env.IMAGE_TAG)
                             sh "ls /kaniko/.docker"
                             sh "echo ${env.DOCKERHUB_USERNAME}/${IMAGE_NAME}:${env.IMAGE_TAG}"
