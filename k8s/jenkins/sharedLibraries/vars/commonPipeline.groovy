@@ -4,6 +4,10 @@ def call(Closure body) {
     body.delegate = config
     body()
 
+    if (!config.imageName || !config.manifestRepo || !config.manifestDir || !config.manifestFile) {
+        error("Mandatory config values are missing!")
+    }
+
     pipeline {
         agent {
             kubernetes {
@@ -37,11 +41,10 @@ def call(Closure body) {
             }
         }
         environment {
-            // DOCKERHUB_USERNAME = "${config.dockerhubUsername ?: 'dodo133'}" // 주의: 추가적인 작은따옴표
-            IMAGE_NAME = "${config.imageName ?: 'tws-ai'}" // 주의: 추가적인 작은따옴표
-            MANIFEST_REPO = "${config.manifestRepo ?: 'Trans-World-Style/Trans-World-Style-Infra.git'}"
-            MANIFEST_DIR = "${config.manifestDir ?: 'k8s/product/ai/cpu'}"
-            MANIFEST_FILE = "${config.manifestFile ?: 'ai-deploy-cpu.yaml'}"
+            IMAGE_NAME = config.imageName
+            MANIFEST_REPO = config.manifestRepo
+            MANIFEST_DIR = config.manifestDir
+            MANIFEST_FILE = config.manifestFile
             GIT_COMMIT_SHORT = sh(script: 'echo $GIT_COMMIT | cut -c 1-12', returnStdout: true).trim()
         }
         stages {
