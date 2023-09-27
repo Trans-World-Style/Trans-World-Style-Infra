@@ -37,7 +37,7 @@ def call(Closure body) {
             }
         }
         environment {
-            DOCKERHUB_USERNAME = "${config.dockerhubUsername ?: 'dodo133'}" // 주의: 추가적인 작은따옴표
+            // DOCKERHUB_USERNAME = "${config.dockerhubUsername ?: 'dodo133'}" // 주의: 추가적인 작은따옴표
             IMAGE_NAME = "${config.imageName ?: 'tws-ai'}" // 주의: 추가적인 작은따옴표
             MANIFEST_REPO = "${config.manifestRepo ?: 'Trans-World-Style/Trans-World-Style-Infra.git'}"
             MANIFEST_DIR = "${config.manifestDir ?: 'k8s/product/ai/cpu'}"
@@ -76,8 +76,9 @@ def call(Closure body) {
                                 usernameVariable: 'DOCKERHUB_ID', passwordVariable: 'DOCKERHUB_TOKEN')]) {
                                 sh "env"
                                 // buildAndPush(DOCKERHUB_ID, IMAGE_NAME, env.IMAGE_TAG)
+                                env.DOCKERHUB_USERNAME = DOCKERHUB_ID
                                 sh "ls /kaniko/.docker"
-                                sh "echo ${DOCKERHUB_ID}/${IMAGE_NAME}:${env.IMAGE_TAG}"
+                                sh "echo ${env.DOCKERHUB_USERNAME}/${IMAGE_NAME}:${env.IMAGE_TAG}"
                             }
                         }
                     }
@@ -90,10 +91,10 @@ def call(Closure body) {
                         withCredentials([usernamePassword(credentialsId: 'github-app-credentials',
                             usernameVariable: 'GITHUB_APP_ID', passwordVariable: 'GITHUB_ACCESS_TOKEN')]) {
                             dir("${AGENT_WORKDIR}") {
-                                sh 'git clone https://$GITHUB_APP:$GITHUB_ACCESS_TOKEN@github.com/$MANIFEST_REPO'
+                                sh 'git clone https://$GITHUB_APP_ID:$GITHUB_ACCESS_TOKEN@github.com/$MANIFEST_REPO'
                                 dir("${MANIFEST_REPO.split('/')[1].replace('.git', '')}") {
                                     sh """
-                                        sed -i 's|${DOCKERHUB_USERNAME}/${IMAGE_NAME}:.*|${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${env.IMAGE_TAG}|' ${MANIFEST_DIR}/${MANIFEST_FILE}
+                                        sed -i 's|${DOCKERHUB_USERNAME}/${IMAGE_NAME}:.*|${env.DOCKERHUB_USERNAME}/${IMAGE_NAME}:${env.IMAGE_TAG}|' ${MANIFEST_DIR}/${MANIFEST_FILE}
                                         git config user.name '${env.AUTHOR_NAME}'
                                         git config user.email '${env.AUTHOR_EMAIL}'
                                         git add .
