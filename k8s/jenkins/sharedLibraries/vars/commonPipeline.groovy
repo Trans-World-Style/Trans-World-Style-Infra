@@ -72,6 +72,7 @@ def call(Closure body) {
                 steps {
                     container('kaniko') {
                         script {
+                            sh "env"
                             // buildAndPush(DOCKERHUB_USERNAME, IMAGE_NAME, env.IMAGE_TAG)
                             sh "ls /kaniko/.docker"
                             sh "echo '${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${env.IMAGE_TAG}'"
