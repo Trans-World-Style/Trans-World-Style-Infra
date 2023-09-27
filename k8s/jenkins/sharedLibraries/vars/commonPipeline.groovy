@@ -39,9 +39,9 @@ def call(Closure body) {
         environment {
             DOCKERHUB_USERNAME = "'${config.dockerhubUsername ?: 'dodo133'}'" // 주의: 추가적인 작은따옴표
             IMAGE_NAME = "'${config.imageName ?: 'tws-ai'}'" // 주의: 추가적인 작은따옴표
-            MANIFEST_REPO = config.manifestRepo ?: 'Trans-World-Style/Trans-World-Style-Infra.git'
-            MANIFEST_DIR = config.manifestDir ?: 'Trans-World-Style-Infra/k8s/product/ai/cpu'
-            MANIFEST_FILE = config.manifestFile ?: 'ai-deploy-cpu.yaml'
+            MANIFEST_REPO = "'${config.manifestRepo ?: 'Trans-World-Style/Trans-World-Style-Infra.git'}'"
+            MANIFEST_DIR = "'${config.manifestDir ?: 'Trans-World-Style-Infra/k8s/product/ai/cpu'}'"
+            MANIFEST_FILE = "'${config.manifestFile ?: 'ai-deploy-cpu.yaml'}'"
             GIT_COMMIT_SHORT = sh(script: 'echo $GIT_COMMIT | cut -c 1-12', returnStdout: true).trim()
         }
         stages {
