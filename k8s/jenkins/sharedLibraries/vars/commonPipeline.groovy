@@ -95,7 +95,7 @@ def call(Closure body) {
                                         git config user.email "${env.GIT_AUTHOR_EMAIL}"
                                         git add .
                                         git commit -m "Update image tag to ${env.DOCKER_TAG} from ${env.GIT_COMMIT}"
-                                        git push origin ${env.GIT_BRANCH.replace('origin/', '')}  // GIT_BRANCH의 'origin/' 접두사를 제거
+                                        git push origin ${env.GIT_BRANCH.replace('origin/', '')}
                                     """
                                 }
                             }
