@@ -49,12 +49,37 @@ def call(Closure body) {
                     }
                 }
             }
+
+            if (config.beforeBuildStages) {
+                config.beforeBuildStages.each { stageName, stageClosure ->
+                    stage(stageName) {
+                        steps {
+                            script {
+                                stageClosure.call()
+                            }
+                        }
+                    }
+                }
+            }
+
             stage('Build and Push') {
                 steps {
                     container('kaniko') {
                         script {
                             sh "ls /kaniko/.docker"
                             sh "echo '${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${env.DOCKER_TAG}'"
+                        }
+                    }
+                }
+            }
+
+            if (config.afterBuildStages) {
+                config.afterBuildStages.each { stageName, stageClosure ->
+                    stage(stageName) {
+                        steps {
+                            script {
+                                stageClosure.call()
+                            }
                         }
                     }
                 }
