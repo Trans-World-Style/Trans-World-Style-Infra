@@ -41,10 +41,10 @@ def call(Closure body) {
             }
         }
         environment {
-            IMAGE_NAME = config.imageName
-            MANIFEST_REPO = config.manifestRepo
-            MANIFEST_DIR = config.manifestDir
-            MANIFEST_FILE = config.manifestFile
+            IMAGE_NAME = ${config.imageName}
+            MANIFEST_REPO = ${config.manifestRepo}
+            MANIFEST_DIR = ${config.manifestDir}
+            MANIFEST_FILE = ${config.manifestFile}
             GIT_COMMIT_SHORT = sh(script: 'echo $GIT_COMMIT | cut -c 1-12', returnStdout: true).trim()
         }
         stages {
