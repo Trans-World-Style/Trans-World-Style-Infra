@@ -87,6 +87,7 @@ def call(Closure body) {
                             dir("${AGENT_WORKDIR}") {
                                 sh 'git clone https://$GITHUB_APP:$GITHUB_ACCESS_TOKEN@github.com/$MANIFEST_REPO'
                                 dir("${MANIFEST_REPO.split('/')[1].replace('.git', '')}") {
+                                    sh "env"
                                     def branch_name = "${env.GIT_BRANCH}"
                                     sh """
                                         sed -i 's|${DOCKERHUB_USERNAME}/${IMAGE_NAME}:.*|${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${env.DOCKER_TAG}|' ${MANIFEST_DIR}/${MANIFEST_FILE}
@@ -117,10 +118,6 @@ def call(Closure body) {
             }
         }
         post {
-            script {
-                    echo "An error occurred. Keeping the pod running for debugging..."
-                    sleep 3600 // Pod will be kept running for 1 hour
-            }
             failure {
                 script {
                     echo "An error occurred. Keeping the pod running for debugging..."
