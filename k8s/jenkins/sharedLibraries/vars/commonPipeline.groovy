@@ -85,7 +85,6 @@ def call(Closure body) {
                                           usernameVariable: 'GITHUB_APP',
                                           passwordVariable: 'GITHUB_ACCESS_TOKEN')]) {
                             dir("${AGENT_WORKDIR}") {
-                                sh "git config credential.helper store --global"
                                 sh 'git clone https://$GITHUB_APP:$GITHUB_ACCESS_TOKEN@github.com/$MANIFEST_REPO'
                                 dir("${MANIFEST_REPO.split('/')[1].replace('.git', '')}") {
                                     sh "pwd"
@@ -96,8 +95,8 @@ def call(Closure body) {
                                         git config user.email "${env.GIT_AUTHOR_EMAIL}"
                                         git add .
                                         git commit -m "Update image tag to ${env.DOCKER_TAG} from ${env.GIT_COMMIT}"
-                                        git push origin ${env.GIT_BRANCH.replace('origin/', '')}
                                     """
+                                    sh 'git push https://$GITHUB_APP:$GITHUB_ACCESS_TOKEN@github.com/$MANIFEST_REPO $env.GIT_BRANCH.replace("origin/", "")'
                                 }
                             }
                             sh "pwd"
