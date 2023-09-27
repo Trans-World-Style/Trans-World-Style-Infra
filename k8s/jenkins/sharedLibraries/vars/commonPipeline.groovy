@@ -75,7 +75,7 @@ def call(Closure body) {
                 steps {
                     container('kaniko') {
                         script {
-                            env.DOCKERHUB_USERNAME = sh(script: 'k get secrets -n jenkins dockerhub-secret -o jsonpath='{.data.username}' | base64 -d', returnStdout: true).trim()
+                            env.DOCKERHUB_USERNAME = sh(script: 'k get secrets -n jenkins dockerhub-secret -o jsonpath="{.data.username}" | base64 -d', returnStdout: true).trim()
                             
                             // buildAndPush(env.DOCKERHUB_USERNAME, IMAGE_NAME, env.IMAGE_TAG)
                             sh "ls /kaniko/.docker"
