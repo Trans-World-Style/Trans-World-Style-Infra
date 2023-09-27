@@ -12,7 +12,7 @@ def call() {
             env.DOCKER_TAG = dockerTag,
             env.AUTHOR_NAME =  authorName,
             env.AUTHOR_EMAIL = authorEmail
-            // echo "Commit Tag: ${dockerTag}"
+            echo "AUTHOR_EMAIL: ${authorEmail}"
         } else {
             error("Tag not found in commit message!\ncommit message: ${commitMessage}")
         }
