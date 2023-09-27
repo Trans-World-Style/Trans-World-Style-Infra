@@ -48,7 +48,7 @@ def call(Closure body) {
             stage('extract docker tag') {
                 steps {
                     script {
-                        env.DOCKER_TAG = extractDockerTag() + '-' + GIT_COMMIT_SHORT
+                        env.docker_extracted = extractDockerTag() + '-' + GIT_COMMIT_SHORT
                     }
                 }
             }
@@ -72,7 +72,7 @@ def call(Closure body) {
                         script {
                             // buildAndPush(DOCKERHUB_USERNAME, IMAGE_NAME, env.DOCKER_TAG)
                             sh "ls /kaniko/.docker"
-                            sh "echo '${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${env.DOCKER_TAG}'"
+                            sh "echo '${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${env.docker_extracted.dockerTag}'"
                         }
                     }
                 }
@@ -91,8 +91,8 @@ def call(Closure body) {
                                     def branch_name = "${env.GIT_BRANCH}"
                                     sh """
                                         sed -i 's|${DOCKERHUB_USERNAME}/${IMAGE_NAME}:.*|${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${env.DOCKER_TAG}|' ${MANIFEST_DIR}/${MANIFEST_FILE}
-                                        git config user.name "${env.GIT_AUTHOR_NAME}"
-                                        git config user.email "${env.GIT_AUTHOR_EMAIL}"
+                                        git config user.name "${env.docker_extracted.authorName}"
+                                        git config user.email "${env.docker_extracted.authorEmail}"
                                         git add .
                                         git commit -m "Update image tag to ${env.DOCKER_TAG}"
                                     """
