@@ -9,10 +9,9 @@ def call() {
         if(match) {
             dockerTag = match[0][1]
             
-            env.DOCKER_TAG = dockerTag,
-            env.AUTHOR_NAME =  authorName,
+            env.DOCKER_TAG = dockerTag
+            env.AUTHOR_NAME =  authorName
             env.AUTHOR_EMAIL = authorEmail
-            echo "AUTHOR_EMAIL: ${authorEmail}"
         } else {
             error("Tag not found in commit message!\ncommit message: ${commitMessage}")
         }
