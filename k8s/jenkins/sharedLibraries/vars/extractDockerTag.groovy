@@ -7,9 +7,7 @@ def call() {
         def match = commitMessage =~ /tag: (\S+)/
 
         if(match) {
-            dockerTag = match[0][1]
-            
-            env.DOCKER_TAG = dockerTag
+            env.DOCKER_TAG = match[0][1]
             env.AUTHOR_NAME =  authorName
             env.AUTHOR_EMAIL = authorEmail
         } else {
