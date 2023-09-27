@@ -57,13 +57,7 @@ def call(Closure body) {
                 steps {
                     script {
                         config.beforeBuildStages.each { stageName, stageClosure ->
-                            stage(stageName) {
-                                steps {
-                                    script {
-                                        stageClosure.call()
-                                    }
-                                }
-                            }
+                            stageClosure.call()
                         }
                     }
                 }
@@ -87,13 +81,7 @@ def call(Closure body) {
                 steps {
                     script {
                         config.afterBuildStages.each { stageName, stageClosure ->
-                            stage(stageName) {
-                                steps {
-                                    script {
-                                        stageClosure.call()
-                                    }
-                                }
-                            }
+                            stageClosure.call()
                         }
                     }
                 }
