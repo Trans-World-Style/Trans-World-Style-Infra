@@ -31,7 +31,7 @@ def call(Closure body) {
                         tty: true
                         volumeMounts:
                         - name: github-credentials
-                          mountPath: /root/.git-credentials
+                          mountPath: /root/
                       volumes:
                       - name: jenkins-docker-cfg
                         projected:
