@@ -85,7 +85,7 @@ def call(Closure body) {
                                           usernameVariable: 'GITHUB_APP',
                                           passwordVariable: 'GITHUB_ACCESS_TOKEN')]) {
                             dir("${AGENT_WORKDIR}") {
-                                sh 'git clone https://$GITHUB_APP:$GITHUB_ACCESS_TOKEN@github.com/$MANIFEST_REPO'
+                                sh 'git clone https://$GITHUB_APP:$GITHUB_ACCESS_TOKEN@github.com/${MANIFEST_REPO.replace("'", "")}'
                                 dir("${MANIFEST_REPO.split('/')[1].replace('.git', '')}") {
                                     sh "pwd"
                                     sh "ls"
