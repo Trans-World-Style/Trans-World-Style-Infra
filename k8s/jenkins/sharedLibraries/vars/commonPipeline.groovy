@@ -40,7 +40,7 @@ def call(Closure body) {
             DOCKERHUB_USERNAME = "'${config.dockerhubUsername ?: 'dodo133'}'" // 주의: 추가적인 작은따옴표
             IMAGE_NAME = "'${config.imageName ?: 'tws-ai'}'" // 주의: 추가적인 작은따옴표
             MANIFEST_REPO = "'${config.manifestRepo ?: 'Trans-World-Style/Trans-World-Style-Infra.git'}'"
-            MANIFEST_DIR = "'${config.manifestDir ?: 'Trans-World-Style-Infra/k8s/product/ai/cpu'}'"
+            MANIFEST_DIR = "'${config.manifestDir ?: 'k8s/product/ai/cpu'}'"
             MANIFEST_FILE = "'${config.manifestFile ?: 'ai-deploy-cpu.yaml'}'"
             GIT_COMMIT_SHORT = sh(script: 'echo $GIT_COMMIT | cut -c 1-12', returnStdout: true).trim()
         }
@@ -85,15 +85,19 @@ def call(Closure body) {
                                           usernameVariable: 'GITHUB_APP',
                                           passwordVariable: 'GITHUB_ACCESS_TOKEN')]) {
                             dir("${AGENT_WORKDIR}") {
-                                sh "git clone https://${GITHUB_APP}:${GITHUB_ACCESS_TOKEN}@github.com/${MANIFEST_REPO}"    
-                                sh """
-                                    sed -i 's|${DOCKERHUB_USERNAME}/${IMAGE_NAME}:.*|${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${env.DOCKER_TAG}|' ${MANIFEST_DIR}/${MANIFEST_FILE}
-                                    git config user.name "${env.GIT_AUTHOR_NAME}"
-                                    git config user.email "${env.GIT_AUTHOR_EMAIL}"
-                                    git add .
-                                    git commit -m "Update image tag to ${env.DOCKER_TAG} from ${env.GIT_COMMIT}"
-                                    git push origin ${env.GIT_BRANCH.replace('origin/', '')}  // GIT_BRANCH의 'origin/' 접두사를 제거
-                                """
+                                sh "git clone https://${GITHUB_APP}:${GITHUB_ACCESS_TOKEN}@github.com/${MANIFEST_REPO}"
+                                dir("${MANIFEST_REPO.split('/')[1].replace('.git', '')}") {
+                                    sh "pwd"
+                                    sh "ls"
+                                    sh """
+                                        sed -i 's|${DOCKERHUB_USERNAME}/${IMAGE_NAME}:.*|${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${env.DOCKER_TAG}|' ${MANIFEST_DIR}/${MANIFEST_FILE}
+                                        git config user.name "${env.GIT_AUTHOR_NAME}"
+                                        git config user.email "${env.GIT_AUTHOR_EMAIL}"
+                                        git add .
+                                        git commit -m "Update image tag to ${env.DOCKER_TAG} from ${env.GIT_COMMIT}"
+                                        git push origin ${env.GIT_BRANCH.replace('origin/', '')}  // GIT_BRANCH의 'origin/' 접두사를 제거
+                                    """
+                                }
                             }
                             sh "pwd"
                             sh "ls"
