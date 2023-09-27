@@ -74,7 +74,6 @@ def call(Closure body) {
                         script {
                             withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials',
                                 usernameVariable: 'DOCKERHUB_ID', passwordVariable: 'DOCKERHUB_TOKEN')]) {
-                                sh "env"
                                 // buildAndPush(DOCKERHUB_ID, IMAGE_NAME, env.IMAGE_TAG)
                                 env.DOCKERHUB_USERNAME = DOCKERHUB_ID
                                 sh "ls /kaniko/.docker"
@@ -88,6 +87,7 @@ def call(Closure body) {
             stage('Delivery To Github Manifest') {
                 steps {
                     script {
+                        sh "env"
                         withCredentials([usernamePassword(credentialsId: 'github-app-credentials',
                             usernameVariable: 'GITHUB_APP_ID', passwordVariable: 'GITHUB_ACCESS_TOKEN')]) {
                             dir("${AGENT_WORKDIR}") {
