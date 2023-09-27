@@ -37,11 +37,11 @@ def call(Closure body) {
             }
         }
         environment {
-            DOCKERHUB_USERNAME = "'${config.dockerhubUsername ?: 'dodo133'}'" // 주의: 추가적인 작은따옴표
-            IMAGE_NAME = "'${config.imageName ?: 'tws-ai'}'" // 주의: 추가적인 작은따옴표
-            MANIFEST_REPO = "'${config.manifestRepo ?: 'Trans-World-Style/Trans-World-Style-Infra.git'}'"
-            MANIFEST_DIR = "'${config.manifestDir ?: 'k8s/product/ai/cpu'}'"
-            MANIFEST_FILE = "'${config.manifestFile ?: 'ai-deploy-cpu.yaml'}'"
+            DOCKERHUB_USERNAME = "${config.dockerhubUsername ?: 'dodo133'}" // 주의: 추가적인 작은따옴표
+            IMAGE_NAME = "${config.imageName ?: 'tws-ai'}" // 주의: 추가적인 작은따옴표
+            MANIFEST_REPO = "${config.manifestRepo ?: 'Trans-World-Style/Trans-World-Style-Infra.git'}"
+            MANIFEST_DIR = "${config.manifestDir ?: 'k8s/product/ai/cpu'}"
+            MANIFEST_FILE = "${config.manifestFile ?: 'ai-deploy-cpu.yaml'}"
             GIT_COMMIT_SHORT = sh(script: 'echo $GIT_COMMIT | cut -c 1-12', returnStdout: true).trim()
         }
         stages {
@@ -85,7 +85,7 @@ def call(Closure body) {
                                           usernameVariable: 'GITHUB_APP',
                                           passwordVariable: 'GITHUB_ACCESS_TOKEN')]) {
                             dir("${AGENT_WORKDIR}") {
-                                sh "git clone https://$GITHUB_APP:$GITHUB_ACCESS_TOKEN@github.com/${MANIFEST_REPO}"
+                                sh 'git clone https://$GITHUB_APP:$GITHUB_ACCESS_TOKEN@github.com/$MANIFEST_REPO'
                                 dir("${MANIFEST_REPO.split('/')[1].replace('.git', '')}") {
                                     sh "pwd"
                                     sh "ls"
