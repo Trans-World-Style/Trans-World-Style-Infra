@@ -99,7 +99,7 @@ def call(Closure body) {
                                         git add .
                                         git commit -m "Update image tag to ${env.DOCKER_TAG}"
                                     """
-                                    sh 'git push https://$GITHUB_APP:$GITHUB_ACCESS_TOKEN@github.com/$MANIFEST_REPO $env.GIT_BRANCH'
+                                    sh 'git push https://$GITHUB_APP:$GITHUB_ACCESS_TOKEN@github.com/$MANIFEST_REPO ${env.GIT_BRANCH}'
                                 }
                             }
                             sh "pwd"
