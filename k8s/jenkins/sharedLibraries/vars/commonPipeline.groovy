@@ -45,7 +45,7 @@ def call(Closure body) {
             stage('extract docker tag') {
                 steps {
                     script {
-                        env.DOCKER_TAG = extractDockerTag() + GIT_COMMIT_SHORT
+                        env.DOCKER_TAG = extractDockerTag() + '-' + GIT_COMMIT_SHORT
                     }
                 }
             }
