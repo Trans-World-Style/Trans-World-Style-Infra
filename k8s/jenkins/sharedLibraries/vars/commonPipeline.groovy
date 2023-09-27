@@ -3,7 +3,7 @@ def call(Closure body) {
     body.resolveStrategy = Closure.DELEGATE_FIRST
     body.delegate = config
     body()
-    
+
     pipeline {
         agent {
             kubernetes {
@@ -45,7 +45,7 @@ def call(Closure body) {
             stage('extract docker tag') {
                 steps {
                     script {
-                        env.DOCKER_TAG = extractDockerTag()
+                        env.DOCKER_TAG = extractDockerTag() + GIT_COMMIT_SHORT
                     }
                 }
             }
