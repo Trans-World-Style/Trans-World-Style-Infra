@@ -87,6 +87,7 @@ def call(Closure body) {
                             sh "pwd"
                             sh "ls"
                             sh "echo ${MANIFEST_DIR}"
+                            sh "echo ${AGENT_WORKDIR}"
                             // if (!fileExists(MANIFEST_DIR)) {
                             //     sh "git clone https://${GITHUB_APP}:${GITHUB_ACCESS_TOKEN}@github.com/${MANIFEST_REPO}"
                             // }
