@@ -93,18 +93,16 @@ def call(Closure body) {
                 steps {
                     container('git') {
                         script {
-                            sh """
-                            git config credential.helper --global 'store --file=/root/.git-credentials'
-                            git clone https://github.com/${MANIFEST_REPO}
-                            """
-                            dir(MANIFEST_DIR) {
+                            sh "git clone https://github.com/${MANIFEST_REPO}"
+                            dir("${MANIFEST_REPO.split('/')[1].replace('.git', '')}") {  // GitHub 저장소 이름으로 디렉토리를 변경합니다.
+                                sh "git config credential.helper 'store --file=/root/.git-credentials'"
                                 sh """
-                                sed -i 's|${DOCKERHUB_USERNAME}/${IMAGE_NAME}:.*|${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${env.DOCKER_TAG}|' ${MANIFEST_FILE}
+                                sed -i 's|${DOCKERHUB_USERNAME}/${IMAGE_NAME}:.*|${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${env.DOCKER_TAG}|' ${MANIFEST_DIR}/${MANIFEST_FILE}
                                 git config user.name "${env.GIT_AUTHOR_NAME}"
                                 git config user.email "${env.GIT_AUTHOR_EMAIL}"
                                 git add .
                                 git commit -m "Update image tag to ${env.DOCKER_TAG} from ${env.GIT_COMMIT}"
-                                git push origin ${env.GIT_BRANCH.replace('origin/', '')}
+                                git push origin ${env.GIT_BRANCH.replace('origin/', '')}  // GIT_BRANCH의 'origin/' 접두사를 제거
                                 """
                             }
                             // withCredentials([usernamePassword(credentialsId: 'github-cridentials', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
