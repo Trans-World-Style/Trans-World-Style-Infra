@@ -90,7 +90,8 @@ def call(Closure body) {
                                 sh 'git clone https://$GITHUB_APP:$GITHUB_ACCESS_TOKEN@github.com/$MANIFEST_REPO'
                                 dir("${MANIFEST_REPO.split('/')[1].replace('.git', '')}") {
                                     sh "env"
-                                    def branch_name = "${env.GIT_BRANCH}"
+                                    // def branch_name = "${env.GIT_BRANCH}"
+                                    sh "echo gb: $GIT_BRANCH"
                                     sh """
                                         sed -i 's|${DOCKERHUB_USERNAME}/${IMAGE_NAME}:.*|${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${env.IMAGE_TAG}|' ${MANIFEST_DIR}/${MANIFEST_FILE}
                                         git config user.name "${env.AUTHOR_NAME}"
@@ -98,7 +99,7 @@ def call(Closure body) {
                                         git add .
                                         git commit -m "Update image tag to ${env.docker_extracted.dockerTag}"
                                     """
-                                    sh 'git push https://$GITHUB_APP:$GITHUB_ACCESS_TOKEN@github.com/$MANIFEST_REPO $branch_name'
+                                    sh 'git push https://$GITHUB_APP:$GITHUB_ACCESS_TOKEN@github.com/$MANIFEST_REPO $GIT_BRANCH'
                                 }
                             }
                         }
