@@ -12,7 +12,7 @@ def call(Closure body) {
                     kind: Pod
                     metadata:
                       labels:
-                        role: kaniko
+                        jenkins: slave
                     spec:
                       containers:
                       - name: kaniko
@@ -24,6 +24,14 @@ def call(Closure body) {
                         volumeMounts:
                         - name: jenkins-docker-cfg
                           mountPath: /kaniko/.docker
+                      - name: git
+                        image: alpine/git
+                        command:
+                        - cat
+                        tty: true
+                        volumeMounts:
+                        - name: github-credentials
+                          mountPath: /root/.git-credentials
                       volumes:
                       - name: jenkins-docker-cfg
                         projected:
@@ -33,6 +41,9 @@ def call(Closure body) {
                               items:
                                 - key: config.json
                                   path: config.json
+                      - name: github-credentials
+                        secret:
+                          secretName: github-secret
                     '''
             }
         }
@@ -80,32 +91,46 @@ def call(Closure body) {
 
             stage('Delivery To Github Manifest') {
                 steps {
-                    container('kaniko') {
+                    container('git') {
                         script {
-                            withCredentials([usernamePassword(credentialsId: 'github-cridentials', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
-                                sh "git clone https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/${MANIFEST_REPO}"
+                            sh """
+                            git config credential.helper 'store --file=/root/.git-credentials'
+                            git clone https://github.com/${MANIFEST_REPO}
+                            sed -i 's|${DOCKERHUB_USERNAME}/${IMAGE_NAME}:.*|${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${env.DOCKER_TAG}|' ${MANIFEST_DIR}/${MANIFEST_FILE}
+                            """
+                            dir(MANIFEST_DIR) {
                                 sh """
-                                sed -i 's|${DOCKERHUB_USERNAME}/${IMAGE_NAME}:.*|${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${env.DOCKER_TAG}|' ${MANIFEST_DIR}/${MANIFEST_FILE}
+                                git config user.name "${env.GIT_AUTHOR_NAME}"
+                                git config user.email "${env.GIT_AUTHOR_EMAIL}"
+                                git add .
+                                git commit -m "Update image tag to ${env.DOCKER_TAG} from ${env.GIT_COMMIT}"
+                                git push origin ${env.GIT_BRANCH.replace('origin/', '')}
                                 """
-                                dir(MANIFEST_DIR) {
-                                    sh """
-                                    git config user.name "${env.GIT_AUTHOR_NAME}"
-                                    git config user.email "${env.GIT_AUTHOR_EMAIL}"
-                                    git add .
-                                    git commit -m "Update image tag to ${env.DOCKER_TAG} from ${env.GIT_COMMIT}"
-                                    git push origin ${env.GIT_BRANCH.replace('origin/', '')}  // GIT_BRANCH의 'origin/' 접두사를 제거
-                                    """
-                                }
-                                // dir(MANIFEST_DIR) {
-                                //     sh """
-                                //     git config user.name "DW-K"
-                                //     git config user.email "pch145@naver.com"
-                                //     git add .
-                                //     git commit -m "Update image tag to ${env.DOCKER_TAG}"
-                                //     git push origin main
-                                //     """
-                                // }
                             }
+                            // withCredentials([usernamePassword(credentialsId: 'github-cridentials', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+                            //     sh "git clone https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/${MANIFEST_REPO}"
+                            //     sh """
+                            //     sed -i 's|${DOCKERHUB_USERNAME}/${IMAGE_NAME}:.*|${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${env.DOCKER_TAG}|' ${MANIFEST_DIR}/${MANIFEST_FILE}
+                            //     """
+                            //     dir(MANIFEST_DIR) {
+                            //         sh """
+                            //         git config user.name "${env.GIT_AUTHOR_NAME}"
+                            //         git config user.email "${env.GIT_AUTHOR_EMAIL}"
+                            //         git add .
+                            //         git commit -m "Update image tag to ${env.DOCKER_TAG} from ${env.GIT_COMMIT}"
+                            //         git push origin ${env.GIT_BRANCH.replace('origin/', '')}  // GIT_BRANCH의 'origin/' 접두사를 제거
+                            //         """
+                            //     }
+                            //     // dir(MANIFEST_DIR) {
+                            //     //     sh """
+                            //     //     git config user.name "DW-K"
+                            //     //     git config user.email "pch145@naver.com"
+                            //     //     git add .
+                            //     //     git commit -m "Update image tag to ${env.DOCKER_TAG}"
+                            //     //     git push origin main
+                            //     //     """
+                            //     // }
+                            // }
                         }
                     }
                 }
