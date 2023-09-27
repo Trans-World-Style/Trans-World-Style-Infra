@@ -30,7 +30,7 @@ def call(Closure body) {
                         - cat
                         tty: true
                         volumeMounts:
-                        - mountPath: "/git/github-credentials"
+                        - mountPath: "/home/github-credentials"
                           name: "github-credentials"
                       volumes:
                       - name: jenkins-docker-cfg
@@ -93,8 +93,8 @@ def call(Closure body) {
                 steps {
                     container('git') {
                         script {
-                            sh "cd /git"
-                            sh "git config --global credential.helper 'store --file=/git/github-credentials/.git-credentials'"
+                            sh "cd /home"
+                            sh "git config credential.helper 'store --file=/home/github-credentials/.git-credentials'"
                             sh "git clone https://github.com/${MANIFEST_REPO}"
 
                             dir("${MANIFEST_REPO.split('/')[1].replace('.git', '')}") {  // GitHub 저장소 이름으로 디렉토리를 변경합니다.
