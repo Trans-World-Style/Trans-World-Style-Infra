@@ -32,8 +32,8 @@ def call(Map config = [:]) {
             }
         }
         environment {
-            DOCKERHUB_USERNAME = config.dockerhubUsername ?: 'dodo133'
-            IMAGE_NAME = config.imageName ?: 'tws-ai'
+            DOCKERHUB_USERNAME = "'${config.dockerhubUsername ?: 'dodo133'}'" // 주의: 추가적인 작은따옴표
+            IMAGE_NAME = "'${config.imageName ?: 'tws-ai'}'" // 주의: 추가적인 작은따옴표
             GIT_COMMIT_SHORT = sh(script: 'echo $GIT_COMMIT | cut -c 1-7', returnStdout: true).trim()
         }
         stages {
