@@ -84,6 +84,8 @@ def call(Closure body) {
                         withCredentials([usernamePassword(credentialsId: 'github-app-credentials',
                                           usernameVariable: 'GITHUB_APP',
                                           passwordVariable: 'GITHUB_ACCESS_TOKEN')]) {
+                            sh "pwd"
+                            sh "ls"
                             sh "echo ${MANIFEST_DIR}"
                             // if (!fileExists(MANIFEST_DIR)) {
                             //     sh "git clone https://${GITHUB_APP}:${GITHUB_ACCESS_TOKEN}@github.com/${MANIFEST_REPO}"
