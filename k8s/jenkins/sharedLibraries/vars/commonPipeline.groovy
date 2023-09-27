@@ -53,18 +53,18 @@ def call(Closure body) {
                 }
             }
 
-            stage('Before Build Stages') {
-                when {
-                    expression { return config.beforeBuildStages }
-                }
-                steps {
-                    script {
-                        config.beforeBuildStages.each { stageName, stageClosure ->
-                            stageClosure.call()
-                        }
-                    }
-                }
-            }
+            // stage('Before Build Stages') {
+            //     when {
+            //         expression { return config.beforeBuildStages }
+            //     }
+            //     steps {
+            //         script {
+            //             config.beforeBuildStages.each { stageName, stageClosure ->
+            //                 stageClosure.call()
+            //             }
+            //         }
+            //     }
+            // }
 
             stage('Build and Push') {
                 steps {
