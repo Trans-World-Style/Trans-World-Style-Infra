@@ -4,7 +4,7 @@ metadata:
   name: tws-ai-gpu-deploy
   namespace: prod
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: ai-gpu
