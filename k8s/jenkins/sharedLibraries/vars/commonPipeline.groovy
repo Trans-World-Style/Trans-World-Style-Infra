@@ -72,10 +72,13 @@ def call(Closure body) {
                 steps {
                     container('kaniko') {
                         script {
-                            sh "env"
-                            // buildAndPush(DOCKERHUB_USERNAME, IMAGE_NAME, env.IMAGE_TAG)
-                            sh "ls /kaniko/.docker"
-                            sh "echo '${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${env.IMAGE_TAG}'"
+                            withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials',
+                                usernameVariable: 'DOCKERHUB_ID', passwordVariable: 'DOCKERHUB_TOKEN')]) {
+                                sh "env"
+                                // buildAndPush(DOCKERHUB_ID, IMAGE_NAME, env.IMAGE_TAG)
+                                sh "ls /kaniko/.docker"
+                                sh "echo ${DOCKERHUB_ID}/${IMAGE_NAME}:${env.IMAGE_TAG}"
+                            }
                         }
                     }
                 }
@@ -85,8 +88,7 @@ def call(Closure body) {
                 steps {
                     script {
                         withCredentials([usernamePassword(credentialsId: 'github-app-credentials',
-                                          usernameVariable: 'GITHUB_APP',
-                                          passwordVariable: 'GITHUB_ACCESS_TOKEN')]) {
+                            usernameVariable: 'GITHUB_APP_ID', passwordVariable: 'GITHUB_ACCESS_TOKEN')]) {
                             dir("${AGENT_WORKDIR}") {
                                 sh 'git clone https://$GITHUB_APP:$GITHUB_ACCESS_TOKEN@github.com/$MANIFEST_REPO'
                                 dir("${MANIFEST_REPO.split('/')[1].replace('.git', '')}") {
@@ -97,7 +99,7 @@ def call(Closure body) {
                                         git add .
                                         git commit -m 'Update image tag to ${env.IMAGE_TAG}'
                                     """
-                                    sh 'git push https://$GITHUB_APP:$GITHUB_ACCESS_TOKEN@github.com/$MANIFEST_REPO $GIT_BRANCH'
+                                    sh 'git push https://$GITHUB_APP_ID:$GITHUB_ACCESS_TOKEN@github.com/$MANIFEST_REPO $GIT_BRANCH'
                                 }
                             }
                         }
