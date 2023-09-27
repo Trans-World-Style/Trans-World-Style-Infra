@@ -74,7 +74,7 @@ def call(Closure body) {
                         script {
                             // buildAndPush(DOCKERHUB_USERNAME, IMAGE_NAME, env.IMAGE_TAG)
                             sh "ls /kaniko/.docker"
-                            // sh "echo '${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${env.IMAGE_TAG}'"
+                            sh "echo '${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${env.IMAGE_TAG}'"
                         }
                     }
                 }
@@ -89,8 +89,6 @@ def call(Closure body) {
                             dir("${AGENT_WORKDIR}") {
                                 sh 'git clone https://$GITHUB_APP:$GITHUB_ACCESS_TOKEN@github.com/$MANIFEST_REPO'
                                 dir("${MANIFEST_REPO.split('/')[1].replace('.git', '')}") {
-                                    sh "env"
-                                    sh "echo gb: $GIT_BRANCH"
                                     sh """
                                         sed -i 's|${DOCKERHUB_USERNAME}/${IMAGE_NAME}:.*|${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${env.IMAGE_TAG}|' ${MANIFEST_DIR}/${MANIFEST_FILE}
                                         git config user.name '${env.AUTHOR_NAME}'
