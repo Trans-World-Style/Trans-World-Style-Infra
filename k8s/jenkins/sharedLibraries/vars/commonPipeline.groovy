@@ -84,6 +84,17 @@ def call(Closure body) {
                         withCredentials([usernamePassword(credentialsId: 'github-app-credentials',
                                           usernameVariable: 'GITHUB_APP',
                                           passwordVariable: 'GITHUB_ACCESS_TOKEN')]) {
+                            dir("${AGENT_WORKDIR}") {
+                                sh "git clone https://${GITHUB_APP}:${GITHUB_ACCESS_TOKEN}@github.com/${MANIFEST_REPO}"    
+                                sh """
+                                    sed -i 's|${DOCKERHUB_USERNAME}/${IMAGE_NAME}:.*|${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${env.DOCKER_TAG}|' ${MANIFEST_DIR}/${MANIFEST_FILE}
+                                    git config user.name "${env.GIT_AUTHOR_NAME}"
+                                    git config user.email "${env.GIT_AUTHOR_EMAIL}"
+                                    git add .
+                                    git commit -m "Update image tag to ${env.DOCKER_TAG} from ${env.GIT_COMMIT}"
+                                    git push origin ${env.GIT_BRANCH.replace('origin/', '')}  // GIT_BRANCH의 'origin/' 접두사를 제거
+                                """
+                            }
                             sh "pwd"
                             sh "ls"
                             sh "echo ${MANIFEST_DIR}"
