@@ -80,7 +80,7 @@ def call(Closure body) {
                                 // buildAndPush(DOCKERHUB_ID, IMAGE_NAME, env.IMAGE_TAG)
                                 env.DOCKERHUB_USERNAME = DOCKERHUB_ID
                                 sh "ls /kaniko/.docker"
-                                sh "echo ${env.DOCKERHUB_USERNAME}/${IMAGE_NAME}:${env.IMAGE_TAG}"
+                                sh "echo ${env.DOCKERHUB_USERNAME}/${config.imageName}:${env.IMAGE_TAG}"
                             }
                         }
                     }
