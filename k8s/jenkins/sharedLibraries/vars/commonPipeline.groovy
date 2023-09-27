@@ -93,6 +93,7 @@ def call(Closure body) {
                 steps {
                     container('git') {
                         script {
+                            sh "pwd"
                             sh "git config --global credential.helper 'store --file=/home/jenkins/github-credentials/.git-credentials'"
                             sh "git clone https://github.com/${MANIFEST_REPO}"
 
