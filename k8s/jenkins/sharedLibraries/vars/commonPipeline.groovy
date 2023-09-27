@@ -88,8 +88,8 @@ def call(Closure body) {
                                 sh 'git clone https://$GITHUB_APP:$GITHUB_ACCESS_TOKEN@github.com/$MANIFEST_REPO'
                                 dir("${MANIFEST_REPO.split('/')[1].replace('.git', '')}") {
                                     sh "echo ${env.GIT_BRANCH}"
-                                    def branch_name = ${env.GIT_BRANCH.replace('origin/', '')}
-                                    sh "echo ${branch_name}"
+                                    // def branch_name = ${env.GIT_BRANCH.replace('origin/', '')}
+                                    // sh "echo ${branch_name}"
                                     sh "pwd"
                                     sh "ls"
                                     sh """
@@ -99,7 +99,7 @@ def call(Closure body) {
                                         git add .
                                         git commit -m "Update image tag to ${env.DOCKER_TAG}"
                                     """
-                                    sh 'git push https://$GITHUB_APP:$GITHUB_ACCESS_TOKEN@github.com/$MANIFEST_REPO $branch_name'
+                                    sh 'git push https://$GITHUB_APP:$GITHUB_ACCESS_TOKEN@github.com/$MANIFEST_REPO $env.GIT_BRANCH'
                                 }
                             }
                             sh "pwd"
