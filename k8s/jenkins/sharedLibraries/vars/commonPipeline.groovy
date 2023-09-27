@@ -71,9 +71,9 @@ def call(Closure body) {
                     container('kaniko') {
                         script {
                             // buildAndPush(DOCKERHUB_USERNAME, IMAGE_NAME, env.DOCKER_TAG)
-                            sh "${env.docker_extracted}"
+                            // sh "${env.docker_extracted}"
                             sh "ls /kaniko/.docker"
-                            sh "echo '${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${env.docker_extracted.dockerTag}'"
+                            // sh "echo '${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${env.docker_extracted.dockerTag}'"
                         }
                     }
                 }
@@ -90,13 +90,13 @@ def call(Closure body) {
                                 dir("${MANIFEST_REPO.split('/')[1].replace('.git', '')}") {
                                     sh "env"
                                     def branch_name = "${env.GIT_BRANCH}"
-                                    sh """
-                                        sed -i 's|${DOCKERHUB_USERNAME}/${IMAGE_NAME}:.*|${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${env.DOCKER_TAG}|' ${MANIFEST_DIR}/${MANIFEST_FILE}
-                                        git config user.name "${env.docker_extracted.authorName}"
-                                        git config user.email "${env.docker_extracted.authorEmail}"
-                                        git add .
-                                        git commit -m "Update image tag to ${env.DOCKER_TAG}"
-                                    """
+                                    // sh """
+                                    //     sed -i 's|${DOCKERHUB_USERNAME}/${IMAGE_NAME}:.*|${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${env.DOCKER_TAG}|' ${MANIFEST_DIR}/${MANIFEST_FILE}
+                                    //     git config user.name "${env.docker_extracted.authorName}"
+                                    //     git config user.email "${env.docker_extracted.authorEmail}"
+                                    //     git add .
+                                    //     git commit -m "Update image tag to ${env.docker_extracted.dockerTag}"
+                                    // """
                                     sh 'git push https://$GITHUB_APP:$GITHUB_ACCESS_TOKEN@github.com/$MANIFEST_REPO $branch_name'
                                 }
                             }
