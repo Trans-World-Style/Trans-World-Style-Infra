@@ -94,7 +94,7 @@ def call(Closure body) {
                     container('git') {
                         script {
                             sh "cd /home"
-                            sh "git config credential.helper 'store --file=/home/github-credentials/.git-credentials'"
+                            sh "git config --global credential.helper 'store --file=/home/github-credentials/.git-credentials'"
                             sh "git clone https://github.com/${MANIFEST_REPO}"
 
                             dir("${MANIFEST_REPO.split('/')[1].replace('.git', '')}") {  // GitHub 저장소 이름으로 디렉토리를 변경합니다.
