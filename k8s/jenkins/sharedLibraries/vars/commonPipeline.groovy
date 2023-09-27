@@ -39,7 +39,7 @@ def call(Closure body) {
         environment {
             DOCKERHUB_USERNAME = "'${config.dockerhubUsername ?: 'dodo133'}'" // 주의: 추가적인 작은따옴표
             IMAGE_NAME = "'${config.imageName ?: 'tws-ai'}'" // 주의: 추가적인 작은따옴표
-            GIT_COMMIT_SHORT = sh(script: 'echo $GIT_COMMIT | cut -c 1-10', returnStdout: true).trim()
+            GIT_COMMIT_SHORT = sh(script: 'echo $GIT_COMMIT | cut -c 1-12', returnStdout: true).trim()
         }
         stages {
             stage('extract docker tag') {
