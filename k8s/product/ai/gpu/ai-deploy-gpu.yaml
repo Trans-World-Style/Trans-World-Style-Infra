@@ -4,7 +4,7 @@ metadata:
   name: tws-ai-gpu-deploy
   namespace: prod
 spec:
-  replicas: 0
+  replicas: 2
   selector:
     matchLabels:
       app: ai-gpu
@@ -12,6 +12,11 @@ spec:
     metadata:
       labels:
         app: ai-gpu
+    strategy:
+      type: RollingUpdate
+      rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 1
     spec:
       affinity:
         nodeAffinity:
@@ -32,5 +37,7 @@ spec:
         ports:
         - containerPort: 8000
         resources:
+          requests:
+            nvidia.com/gpu: 1
           limits:
             nvidia.com/gpu: 1
