@@ -102,7 +102,7 @@ def call(Closure body) {
                             //     """
                             // }
                         }
-                        
+                        sh "git clone https://${GITHUB_APP}:${GITHUB_ACCESS_TOKEN}@github.com/${MANIFEST_REPO}"
                         // withCredentials([usernamePassword(credentialsId: 'github-cridentials', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
                         //     sh "git clone https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/${MANIFEST_REPO}"
                         //     sh """
