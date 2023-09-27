@@ -81,13 +81,15 @@ def call(Closure body) {
             stage('Delivery To Github Manifest') {
                 steps {
                     script {
-                        def branch_name = ${env.GIT_BRANCH.replace('origin/', '')}
                         withCredentials([usernamePassword(credentialsId: 'github-app-credentials',
                                           usernameVariable: 'GITHUB_APP',
                                           passwordVariable: 'GITHUB_ACCESS_TOKEN')]) {
                             dir("${AGENT_WORKDIR}") {
                                 sh 'git clone https://$GITHUB_APP:$GITHUB_ACCESS_TOKEN@github.com/$MANIFEST_REPO'
                                 dir("${MANIFEST_REPO.split('/')[1].replace('.git', '')}") {
+                                    sh "echo ${env.GIT_BRANCH}"
+                                    def branch_name = ${env.GIT_BRANCH.replace('origin/', '')}
+                                    sh "echo ${branch_name}"
                                     sh "pwd"
                                     sh "ls"
                                     sh """
