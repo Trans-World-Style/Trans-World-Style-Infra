@@ -43,7 +43,7 @@ def call(Closure body) {
                                   path: config.json
                       - name: github-credentials
                         secret:
-                          secretName: github-secret
+                          secretName: github-credentials
                     '''
             }
         }
