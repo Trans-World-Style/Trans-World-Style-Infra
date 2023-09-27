@@ -50,12 +50,19 @@ def call(Closure body) {
                 }
             }
 
-            if (config.beforeBuildStages) {
-                config.beforeBuildStages.each { stageName, stageClosure ->
-                    stage(stageName) {
-                        steps {
-                            script {
-                                stageClosure.call()
+            stage('Before Build Stages') {
+                when {
+                    expression { return config.beforeBuildStages }
+                }
+                steps {
+                    script {
+                        config.beforeBuildStages.each { stageName, stageClosure ->
+                            stage(stageName) {
+                                steps {
+                                    script {
+                                        stageClosure.call()
+                                    }
+                                }
                             }
                         }
                     }
@@ -73,12 +80,19 @@ def call(Closure body) {
                 }
             }
 
-            if (config.afterBuildStages) {
-                config.afterBuildStages.each { stageName, stageClosure ->
-                    stage(stageName) {
-                        steps {
-                            script {
-                                stageClosure.call()
+            stage('After Build Stages') {
+                when {
+                    expression { return config.afterBuildStages }
+                }
+                steps {
+                    script {
+                        config.afterBuildStages.each { stageName, stageClosure ->
+                            stage(stageName) {
+                                steps {
+                                    script {
+                                        stageClosure.call()
+                                    }
+                                }
                             }
                         }
                     }
