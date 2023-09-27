@@ -115,7 +115,9 @@ def call(Closure body) {
                 steps {
                     script {
                         config.afterBuildStages.each { stageName, stageClosure ->
+                            echo "Starting custom stage: ${stageName}"
                             stageClosure.call()
+                            echo "Finished custom stage: ${stageName}"
                         }
                     }
                 }
