@@ -96,9 +96,10 @@ def call(Closure body) {
                         withCredentials([usernamePassword(credentialsId: 'github-app-credentials',
                             usernameVariable: 'GITHUB_APP_ID', passwordVariable: 'GITHUB_ACCESS_TOKEN')]) {
                             dir("${AGENT_WORKDIR}") {
-                                sh 'git clone https://$GITHUB_APP_ID:$GITHUB_ACCESS_TOKEN@github.com/$MANIFEST_REPO $MANIFEST_BRANCH'
+                                sh 'git clone https://$GITHUB_APP_ID:$GITHUB_ACCESS_TOKEN@github.com/$MANIFEST_REPO'
                                 dir("${MANIFEST_REPO.split('/')[1].replace('.git', '')}") {
                                     sh """
+                                        git checkout ${MANIFEST_BRANCH}
                                         sed -i 's|${DOCKERHUB_USERNAME}/${IMAGE_NAME}:.*|${env.DOCKERHUB_USERNAME}/${IMAGE_NAME}:${env.IMAGE_TAG}|' ${MANIFEST_DIR}/${MANIFEST_FILE}
                                         git config user.name '${env.AUTHOR_NAME}'
                                         git config user.email '${env.AUTHOR_EMAIL}'
@@ -128,13 +129,13 @@ def call(Closure body) {
                 }
             }
         }
-        post {
-            failure {
-                script {
-                    echo "An error occurred. Keeping the pod running for debugging..."
-                    sleep 3600 // Pod will be kept running for 1 hour
-                }
-            }
-        }
+        // post {
+        //     failure {
+        //         script {
+        //             echo "An error occurred. Keeping the pod running for debugging..."
+        //             sleep 3600 // Pod will be kept running for 1 hour
+        //         }
+        //     }
+        // }
     }
 }
