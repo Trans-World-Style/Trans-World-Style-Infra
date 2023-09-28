@@ -4,7 +4,7 @@ def call(Closure body) {
     body.delegate = config
     body()
 
-    if (!config.imageName || !config.manifestRepo || !config.manifestDir || !config.manifestFile) {
+    if (!config.imageName || !config.manifestRepo || !config.manifestDir || !config.manifestFile || !config.manifestBranch) {
         error("Mandatory config values are missing!")
     }
 
@@ -45,6 +45,7 @@ def call(Closure body) {
             MANIFEST_REPO = "${config.manifestRepo}"
             MANIFEST_DIR = "${config.manifestDir}"
             MANIFEST_FILE = "${config.manifestFile}"
+            MANIFEST_BRANCH = "${config.manifestBranch}"
             GIT_COMMIT_SHORT = sh(script: 'echo $GIT_COMMIT | cut -c 1-12', returnStdout: true).trim()
         }
         stages {
@@ -91,11 +92,11 @@ def call(Closure body) {
             stage('Delivery To Github Manifest') {
                 steps {
                     script {
-                        sh "env"
+                        // sh "env"
                         withCredentials([usernamePassword(credentialsId: 'github-app-credentials',
                             usernameVariable: 'GITHUB_APP_ID', passwordVariable: 'GITHUB_ACCESS_TOKEN')]) {
                             dir("${AGENT_WORKDIR}") {
-                                sh 'git clone https://$GITHUB_APP_ID:$GITHUB_ACCESS_TOKEN@github.com/$MANIFEST_REPO'
+                                sh 'git clone https://$GITHUB_APP_ID:$GITHUB_ACCESS_TOKEN@github.com/$MANIFEST_REPO $MANIFEST_BRANCH'
                                 dir("${MANIFEST_REPO.split('/')[1].replace('.git', '')}") {
                                     sh """
                                         sed -i 's|${DOCKERHUB_USERNAME}/${IMAGE_NAME}:.*|${env.DOCKERHUB_USERNAME}/${IMAGE_NAME}:${env.IMAGE_TAG}|' ${MANIFEST_DIR}/${MANIFEST_FILE}
@@ -104,7 +105,7 @@ def call(Closure body) {
                                         git add .
                                         git commit -m 'Update image tag to ${env.IMAGE_TAG}'
                                     """
-                                    sh 'git push https://$GITHUB_APP_ID:$GITHUB_ACCESS_TOKEN@github.com/$MANIFEST_REPO $GIT_BRANCH'
+                                    sh 'git push https://$GITHUB_APP_ID:$GITHUB_ACCESS_TOKEN@github.com/$MANIFEST_REPO $MANIFEST_BRANCH'
                                 }
                             }
                         }

@@ -15,27 +15,27 @@ spec:
     spec:
       containers:
       - name: config
-        image: dodo133/config_backend_spring_service
+        image: dodo133/config_backend_spring_service:latest
         ports:
         - containerPort: 9089
 
       - name: gateway
-        image: dodo133/prod_gateway_backend_spring_service
+        image: dodo133/prod_gateway_backend_spring_service:latest
         ports:
         - containerPort: 9090
 
       - name: member
-        image: dodo133/prod_member_backend_spring_service
+        image: dodo133/prod_member_backend_spring_service:latest
         ports:
         - containerPort: 9091
 
       - name: video
-        image: dodo133/prod_video_backend_spring_service
+        image: dodo133/prod_video_backend_spring_service:latest
         ports:
         - containerPort: 9092
 
       - name: email
-        image: dodo133/prod_email_backend_spring_service
+        image: dodo133/prod_email_backend_spring_service:latest
         ports:
         - containerPort: 9093
 
