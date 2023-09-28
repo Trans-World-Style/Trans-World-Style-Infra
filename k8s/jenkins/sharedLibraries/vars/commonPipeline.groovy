@@ -79,9 +79,9 @@ def call(Closure body) {
                                 usernameVariable: 'DOCKERHUB_ID', passwordVariable: 'DOCKERHUB_TOKEN')]) {
                             
                                 env.DOCKERHUB_USERNAME = DOCKERHUB_ID
-                                // buildAndPush(env.DOCKERHUB_USERNAME, IMAGE_NAME, env.IMAGE_TAG)
-                                sh "ls /kaniko/.docker"
-                                sh "echo ${env.DOCKERHUB_USERNAME}/${IMAGE_NAME}:${env.IMAGE_TAG}"
+                                buildAndPush(env.DOCKERHUB_USERNAME, IMAGE_NAME, env.IMAGE_TAG)
+                                // sh "ls /kaniko/.docker"
+                                // sh "echo ${env.DOCKERHUB_USERNAME}/${IMAGE_NAME}:${env.IMAGE_TAG}"
                             }
                         }
                     }
