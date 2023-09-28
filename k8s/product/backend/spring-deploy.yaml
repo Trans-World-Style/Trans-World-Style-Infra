@@ -25,7 +25,7 @@ spec:
         - containerPort: 9090
 
       - name: member
-        image: dodo133/prod_member_backend_spring_service:latest
+        image: dodo133/prod_member_backend_spring_service:test-a7a4f0affce5
         ports:
         - containerPort: 9091
 
