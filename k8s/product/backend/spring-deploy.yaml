@@ -30,7 +30,7 @@ spec:
         - containerPort: 9091
 
       - name: video
-        image: dodo133/prod_video_backend_spring_service:test-5fa6ff79587e
+        image: dodo133/prod_video_backend_spring_service:test-a224ffe3647f
         ports:
         - containerPort: 9092
 
