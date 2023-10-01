@@ -1,0 +1,17 @@
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-issuer
+spec:
+  acme:
+    # Let's Encrypt의 ACME 서버 URL
+    server: https://acme-v02.api.letsencrypt.org/directory
+    # 이메일 주소는 Let's Encrypt의 알림을 받기 위함
+    email: pch14545@gmail.com
+    privateKeySecretRef:
+      # 이것은 cert-manager가 생성할 secret 이름
+      name: letsencrypt-account-key
+    solvers:
+    - http01:
+        ingress:
+          class: nginx
