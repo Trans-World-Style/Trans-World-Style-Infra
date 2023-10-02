@@ -7,9 +7,9 @@ metadata:
   name: prometheus-ui
   namespace: monitoring
   annotations:
-    kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
+  ingressClassName: nginx
   rules:
   # Use the host you used in your kubernetes Ingress Configurations
   - host: tw-style.duckdns.org
