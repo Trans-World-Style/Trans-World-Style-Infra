@@ -1,0 +1,26 @@
+## Nginx Ingress
+## Follow https://devopscube.com/setup-ingress-kubernetes-nginx-controller/
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: monitoring-ui
+  namespace: monitoring
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts: 
+    - tw-style.duckdns.org
+    secretName: monitoring-secret
+  rules:
+  # Use the host you used in your kubernetes Ingress Configurations
+  - host: tw-style.duckdns.org
+    http:
+      paths:
+      - path: /pt
+        pathType: Prefix
+        backend:
+          service:
+            name: prometheus-service
+            port:
+              number: 8080
