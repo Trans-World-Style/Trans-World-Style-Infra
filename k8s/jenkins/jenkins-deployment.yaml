@@ -20,9 +20,6 @@ spec:
       containers:
         - name: jenkins
           image: dodo133/jenkins:latest
-          env:
-          - name: JENKINS_OPTS
-            value: "--prefix=/jenkins"
           resources:
             limits:
               memory: "2Gi"
