@@ -10,6 +10,10 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
   ingressClassName: nginx
+  tls:
+  - hosts: 
+    - tw-style.duckdns.org
+    secretName: prometheus-secret
   rules:
   # Use the host you used in your kubernetes Ingress Configurations
   - host: tw-style.duckdns.org
@@ -22,10 +26,6 @@ spec:
             name: prometheus-service
             port:
               number: 8080
-  tls:
-  - hosts: 
-    - tw-style.duckdns.org
-    secretName: prometheus-secret
 ---
 apiVersion: v1
 kind: Secret
