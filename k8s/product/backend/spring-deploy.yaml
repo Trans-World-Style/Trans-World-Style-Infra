@@ -20,7 +20,7 @@ spec:
         - containerPort: 9089
 
       - name: gateway
-        image: dodo133/prod_gateway_backend_spring_service:latest
+        image: dodo133/prod_gateway_backend_spring_service:test-c31bd20aeafb
         ports:
         - containerPort: 9090
 
