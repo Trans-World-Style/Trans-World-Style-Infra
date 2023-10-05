@@ -7,7 +7,7 @@ def call(Closure body) {
     if (!config.imageName || !config.manifestRepo || !config.manifestDir || !config.manifestFile || !config.manifestBranch) {
         error("Mandatory config values are missing!")
     }
-
+// plugins/kaniko:1.8
     pipeline {
         agent {
             kubernetes {
@@ -20,7 +20,7 @@ def call(Closure body) {
                     spec:
                       containers:
                       - name: kaniko
-                        image: plugins/kaniko:1.8
+                        image: gcr.io/kaniko-project/executor:debug
                         command:
                         - /busybox/cat
                         imagePullPolicy: Always
@@ -129,13 +129,13 @@ def call(Closure body) {
                 }
             }
         }
-        post {
-            failure {
-                script {
-                    echo "An error occurred. Keeping the pod running for debugging..."
-                    sleep 3600 // Pod will be kept running for 1 hour 
-                }
-            }
-        }
+        // post {
+        //     failure {
+        //         script {
+        //             echo "An error occurred. Keeping the pod running for debugging..."
+        //             sleep 3600 // Pod will be kept running for 1 hour 
+        //         }
+        //     }
+        // }
     }
 }
