@@ -20,7 +20,7 @@ def call(Closure body) {
                     spec:
                       containers:
                       - name: kaniko
-                        image: gcr.io/kaniko-project/executor:debug
+                        image: plugins/kaniko:1.8
                         command:
                         - /busybox/cat
                         imagePullPolicy: Always
