@@ -35,7 +35,7 @@ spec:
         - containerPort: 9092
 
       - name: email
-        image: dodo133/prod_email_backend_spring_service:latest
+        image: dodo133/prod_email_backend_spring_service:test-88453189d79a
         ports:
         - containerPort: 9093
 
