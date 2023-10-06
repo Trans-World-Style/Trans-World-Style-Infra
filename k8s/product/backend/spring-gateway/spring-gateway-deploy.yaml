@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
       - name: gateway
-        image: dodo133/prod_gateway_backend_spring_service:test-3fdef2e20b35
+        image: dodo133/prod_gateway_backend_spring_service:test-9cf6b2a2251c
         ports:
         - containerPort: 8080
