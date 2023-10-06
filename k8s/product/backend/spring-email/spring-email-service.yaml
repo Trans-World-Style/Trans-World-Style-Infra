@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: spring-email-service
+  namespace: prod
+spec:
+  selector:
+    app: spring-email
+  ports:
+    - protocol: TCP
+      port: 8080

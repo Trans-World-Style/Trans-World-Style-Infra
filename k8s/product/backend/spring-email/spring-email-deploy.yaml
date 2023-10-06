@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-email
+  namespace: prod
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spring-email
+  template:
+    metadata:
+      labels:
+        app: spring-email
+    spec:
+      containers:
+      - name: email
+        image: dodo133/prod_email_backend_spring_service:test-88453189d79a
+        ports:
+        - containerPort: 8080

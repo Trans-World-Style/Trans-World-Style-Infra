@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-member
+  namespace: prod
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spring-member
+  template:
+    metadata:
+      labels:
+        app: spring-member
+    spec:
+      containers:
+      - name: member
+        image: dodo133/prod_member_backend_spring_service:test-67ae9bcd1572
+        ports:
+        - containerPort: 8080

@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-video
+  namespace: prod
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spring-video
+  template:
+    metadata:
+      labels:
+        app: spring-video
+    spec:
+      containers:
+      - name: video
+        image: dodo133/prod_video_backend_spring_service:test-38eeeb93f903
+        ports:
+        - containerPort: 8080
