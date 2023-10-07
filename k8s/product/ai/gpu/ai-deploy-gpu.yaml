@@ -22,16 +22,16 @@ spec:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
-            # - matchExpressions:
-            #   - key: driver
-            #     operator: In
-            #     values:
-            #     - vulkan
             - matchExpressions:
-              - key: kubernetes.io/hostname
+              - key: driver
                 operator: In
                 values:
-                - ubuntu-msi
+                - vulkan
+            # - matchExpressions:
+            #   - key: kubernetes.io/hostname
+            #     operator: In
+            #     values:
+            #     - ubuntu-msi
       containers:
       - name: ai-gpu
         image: dodo133/tws-ai:test
