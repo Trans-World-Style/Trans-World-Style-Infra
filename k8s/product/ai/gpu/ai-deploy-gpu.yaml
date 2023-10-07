@@ -4,7 +4,7 @@ metadata:
   name: tws-ai-gpu-deploy
   namespace: prod
 spec:
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       app: ai-gpu
@@ -22,11 +22,16 @@ spec:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
+            # - matchExpressions:
+            #   - key: driver
+            #     operator: In
+            #     values:
+            #     - vulkan
             - matchExpressions:
-              - key: driver
+              - key: kubernetes.io/hostname
                 operator: In
                 values:
-                - vulkan
+                - ubuntu-msi
       containers:
       - name: ai-gpu
         image: dodo133/tws-ai:test
