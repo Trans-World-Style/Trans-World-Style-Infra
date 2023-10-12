@@ -90,7 +90,7 @@ data:
     {
       "Network": "10.244.0.0/16",
       "Backend": {
-        "Type": "host-gw"
+        "Type": "vxlan"
       }
     }
 kind: ConfigMap
