@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
       - name: email
-        image: dodo133/prod_email_backend_spring_service:test-db68d1ffa0f7
+        image: dodo133/prod_email_backend_spring_service:test-9def6632aa49
         ports:
         - containerPort: 8080
