@@ -1,0 +1,26 @@
+{{<- if not .Values.argocd.source.plugin.enabled >}}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{< print .Values.argocd.appNamePrefix "deploykf-app-of-apps" | quote >}}
+  namespace: {{< .Values.argocd.namespace | quote >}}
+  labels:
+    app.kubernetes.io/name: deploykf-app-of-apps
+    app.kubernetes.io/part-of: {{< print .Values.argocd.appNamePrefix "deploykf" | quote >}}
+spec:
+  project: {{< .Values.argocd.project | quote >}}
+  source:
+    {{<- if not .Values.argocd.source.repo.url >}}
+    {{<- fail "required value is unset: `argocd.source.repo.url`" >}}
+    {{<- end >}}
+    repoURL: {{< .Values.argocd.source.repo.url | quote >}}
+    {{<- if not .Values.argocd.source.repo.revision >}}
+    {{<- fail "required value is unset: `argocd.source.repo.revision`" >}}
+    {{<- end >}}
+    targetRevision: {{< .Values.argocd.source.repo.revision | quote >}}
+    path: {{< path.Join .Values.argocd.source.repo.path "argocd" | quote >}}
+  destination:
+    ## NOTE: even if the internal apps target a remote cluster, the apps themselves should be in the Argo CD cluster
+    server: "https://kubernetes.default.svc"
+    namespace: {{< .Values.argocd.namespace | quote >}}
+{{<- end >}}

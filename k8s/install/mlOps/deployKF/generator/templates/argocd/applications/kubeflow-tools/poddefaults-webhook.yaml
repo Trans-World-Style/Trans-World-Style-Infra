@@ -1,0 +1,45 @@
+{{<- $generator_folder_path := "manifests/kubeflow-tools/poddefaults-webhook" >}}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kf-tools--poddefaults-webhook
+  namespace: {{< .Values.argocd.namespace | quote >}}
+  annotations:
+    ## applications in 'kubeflow-tools' come after 'kubeflow-dependencies'
+    argocd.argoproj.io/sync-wave: "60"
+  labels:
+    app.kubernetes.io/name: poddefaults-webhook
+    app.kubernetes.io/component: kubeflow-tools
+    app.kubernetes.io/part-of: {{< print .Values.argocd.appNamePrefix "deploykf" | quote >}}
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: {{< .Values.argocd.project | quote >}}
+  {{<- if .Values.argocd.source.plugin.enabled >}}
+  {{<- $output_kustomize_path := $generator_folder_path >}}
+  source: {{< tmpl.Exec "argocd.plugin_source.kustomize" (dict "output_kustomize_path" $output_kustomize_path) | yaml | toJSON >}}
+  {{<- else >}}
+  source:
+    repoURL: {{< .Values.argocd.source.repo.url | quote >}}
+    targetRevision: {{< .Values.argocd.source.repo.revision | quote >}}
+    path: {{< path.Join .Values.argocd.source.repo.path $generator_folder_path | quote >}}
+  {{<- end >}}
+  destination:
+    {{<- if .Values.argocd.destination.name >}}
+    name: {{< .Values.argocd.destination.name | quote >}}
+    {{<- else >}}
+    server: {{< .Values.argocd.destination.server | quote >}}
+    {{<- end >}}
+    namespace: kubeflow
+  ignoreDifferences:
+    ## `caBundle` is injected by cert-manager
+    - group: admissionregistration.k8s.io
+      kind: MutatingWebhookConfiguration
+      jqPathExpressions:
+        - ".webhooks[]?.clientConfig.caBundle"
+
+    ## `rules` are aggregated when `aggregationRule.clusterRoleSelectors` is set
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRole
+      jqPathExpressions:
+        - "select(.aggregationRule.clusterRoleSelectors | length > 0) | .rules"
