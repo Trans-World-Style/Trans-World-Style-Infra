@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
       - name: member
-        image: dodo133/prod_member_backend_spring_service:test-ad38c8d36c82
+        image: dodo133/prod_member_backend_spring_service:test-1de64b6ff48a
         ports:
         - containerPort: 8080
