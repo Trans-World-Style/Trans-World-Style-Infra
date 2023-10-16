@@ -86,7 +86,10 @@ deploykf_core:
   ##        deploykf-istio-gateway
   ## --------------------------------------
   deploykf_istio_gateway:
-    {} # <-- REMOVE THIS, IF YOU INCLUDE VALUES UNDER THIS SECTION!
+    gatewayService:
+      name: "deploykf-gateway"
+      type: "LoadBalancer"
+    # {} # <-- REMOVE THIS, IF YOU INCLUDE VALUES UNDER THIS SECTION!
 
     ## extra manifests
     ##  - https://www.deploykf.org/guides/platform/deploykf-gateway/#expose-with-ingress
