@@ -7,10 +7,10 @@ spec:
   ingressClassName: nginx
   tls:
   - hosts:
-      - mlargo.dev-tw-style.duckdns.org
+      - mlag.dev-tw-style.duckdns.org
     secretName: dev-tw-style-duckdns-tls-secret
   rules:
-  - host: mlargo.dev-tw-style.duckdns.org
+  - host: mlag.dev-tw-style.duckdns.org
     http:
       paths:
       - path: /
