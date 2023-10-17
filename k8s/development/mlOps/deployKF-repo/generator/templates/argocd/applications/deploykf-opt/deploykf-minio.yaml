@@ -1,0 +1,52 @@
+{{<- $generator_folder_path := "manifests/deploykf-opt/deploykf-minio" >}}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: dkf-opt--deploykf-minio
+  namespace: {{< .Values.argocd.namespace | quote >}}
+  annotations:
+    ## applications in 'deploykf-opt' come after 'deploykf-core'
+    argocd.argoproj.io/sync-wave: "30"
+  labels:
+    app.kubernetes.io/name: deploykf-minio
+    app.kubernetes.io/component: deploykf-opt
+    app.kubernetes.io/part-of: {{< print .Values.argocd.appNamePrefix "deploykf" | quote >}}
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: {{< .Values.argocd.project | quote >}}
+  {{<- if .Values.argocd.source.plugin.enabled >}}
+  {{<- $output_helm_path := $generator_folder_path >}}
+  {{<- $output_helm_values_files := coll.Slice "values-overrides.yaml" >}}
+  source: {{< tmpl.Exec "argocd.plugin_source.helm" (dict "output_helm_path" $output_helm_path "output_helm_values_files" $output_helm_values_files) | yaml | toJSON >}}
+  {{<- else >}}
+  source:
+    repoURL: {{< .Values.argocd.source.repo.url | quote >}}
+    targetRevision: {{< .Values.argocd.source.repo.revision | quote >}}
+    path: {{< path.Join .Values.argocd.source.repo.path $generator_folder_path | quote >}}
+    helm:
+      ignoreMissingValueFiles: true
+      valueFiles:
+        - values-overrides.yaml
+  {{<- end >}}
+  destination:
+    {{<- if .Values.argocd.destination.name >}}
+    name: {{< .Values.argocd.destination.name | quote >}}
+    {{<- else >}}
+    server: {{< .Values.argocd.destination.server | quote >}}
+    {{<- end >}}
+    namespace: {{< .Values.deploykf_opt.deploykf_minio.namespace | quote >}}
+  syncPolicy:
+    syncOptions:
+      ## ensure argo-cd does not remove the fields added by kyverno
+      - RespectIgnoreDifferences=true
+  ignoreDifferences:
+    ## we use kyverno to trigger restarts by setting the "deploykf.org/restart-trigger" annotation when secrets change
+    - group: apps
+      kind: Deployment
+      jsonPointers:
+        - /spec/template/metadata/annotations/deploykf.org~1restart-trigger
+    - group: apps
+      kind: StatefulSet
+      jsonPointers:
+        - /spec/template/metadata/annotations/deploykf.org~1restart-trigger
