@@ -14,4 +14,4 @@ kubectl create ns "$NAMESPACE" || echo "namespace '$NAMESPACE' already exists"
 kubectl apply -f ./certificate.yaml
 
 # add annotation for kubed
-kubectl annotate secret dev-tw-style-duckdns-tls-secret kubed.appscode.com/sync="app=dev"
+kubectl annotate secret dev-tw-style-duckdns-tls-secret -n "$NAMESPACE" kubed.appscode.com/sync="app=dev"
