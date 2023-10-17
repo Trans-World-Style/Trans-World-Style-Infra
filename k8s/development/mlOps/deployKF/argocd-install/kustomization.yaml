@@ -12,6 +12,7 @@ resources:
 
 patchesStrategicMerge:
   - deploykf-plugin/repo-server-patch.yaml
+  - deploykf-plugin/argocd-server-insecure-patch.yaml
 
 configMapGenerator:
   - name: argocd-deploykf-plugin
