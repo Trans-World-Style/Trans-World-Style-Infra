@@ -8,7 +8,6 @@ resources:
   ## TIP: if you don't have a default storage class, you may need to set the `spec.storageClassName`
   ## TIP: if you have an HA argocd-repo-server deployment, you will need to make this a ReadWriteMany volume
   - deploykf-plugin/assets-pvc.yaml
-  - mlops-argocd-ingress.yaml
 
 patchesStrategicMerge:
   - deploykf-plugin/repo-server-patch.yaml
