@@ -13,4 +13,4 @@ spec:
     kind: ClusterIssuer
   dnsNames:
   - tw-style.duckdns.org
-  - www.tw-style.duckdns.org
+  - api.tw-style.duckdns.org

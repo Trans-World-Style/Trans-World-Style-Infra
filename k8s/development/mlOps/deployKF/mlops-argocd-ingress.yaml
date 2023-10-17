@@ -1,16 +1,16 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: argocd-ingress
+  name: mlops-argocd-ingress
   namespace: mlops-argocd
 spec:
   ingressClassName: nginx
   tls:
   - hosts:
-      - mlops-argocd.dev-tw-style.duckdns.org
+      - mlargo.dev-tw-style.duckdns.org
     secretName: dev-tw-style-duckdns-tls-secret
   rules:
-  - host: mlops-argocd.dev-tw-style.duckdns.org
+  - host: mlargo.dev-tw-style.duckdns.org
     http:
       paths:
       - path: /
