@@ -1,16 +1,16 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: tw-style-duckdns-org-prod-certificate
+  name: dev-tw-style-duckdns-certificate
   namespace: dev
   annotations:
     cert-manager.io/issue-temporary-certificate: "true"
     acme.cert-manager.io/http01-edit-in-place: "true"
 spec:
-  secretName: tw-style-duckdns-org-prod-tls
+  secretName: dev-tw-style-duckdns-tls-secret
   issuerRef:
     name: letsencrypt-issuer
     kind: ClusterIssuer
   dnsNames:
-  - tw-style.duckdns.org
-  - www.tw-style.duckdns.org
+  - '*.dev-tw-style.duckdns.org'
+  - 'www.*.dev-tw-style.duckdns.org'
