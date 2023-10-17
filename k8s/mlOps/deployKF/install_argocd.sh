@@ -5,7 +5,7 @@ set -euo pipefail
 THIS_SCRIPT_PATH=$(cd "$(dirname "$0")" && pwd)
 cd "$THIS_SCRIPT_PATH"
 
-ARGOCD_NAMESPACE="mlOps-argocd"
+ARGOCD_NAMESPACE="mlops-argocd"
 
 # create the argocd namespace
 kubectl create ns "$ARGOCD_NAMESPACE" || echo "namespace '$ARGOCD_NAMESPACE' already exists"
