@@ -12,8 +12,8 @@ spec:
     name: letsencrypt-issuer
     kind: ClusterIssuer
   dnsNames:
-  # - ag.dev-tw-style.duckdns.org
-  # - jk.dev-tw-style.duckdns.org
+  - ag.dev-tw-style.duckdns.org
+  - jk.dev-tw-style.duckdns.org
   # - pm.dev-tw-style.duckdns.org
   # - gf.dev-tw-style.duckdns.org
   - mlag.dev-tw-style.duckdns.org
