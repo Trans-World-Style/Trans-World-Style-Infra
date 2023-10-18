@@ -20,3 +20,11 @@ spec:
             name: jenkins-server
             port:
               number: 8080
+      - path: /login
+        pathType: Prefix
+        backend:
+          service:
+            name: jenkins-server
+            port:
+              number: 8080
+
