@@ -10,12 +10,10 @@ metadata:
 spec:
   selector:
     app: jenkins-server
-  type: NodePort
   ports:
     - name: http
       port: 8080
       targetPort: 8080
-      nodePort: 32000
     - name: jnlp
       port: 50000
       targetPort: 50000
