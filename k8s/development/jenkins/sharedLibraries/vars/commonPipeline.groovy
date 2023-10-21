@@ -20,6 +20,7 @@ def call(Closure body) {
     useConfigMap = false
   }
 
+  echo "Use Config Map: ${useConfigMap}" // <-- 이 부분을 추가합니다.
 
   def yamlString = '''
       apiVersion: v1
