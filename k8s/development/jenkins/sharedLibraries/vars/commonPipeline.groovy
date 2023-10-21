@@ -20,12 +20,12 @@ def call(Closure body) {
 
   pipeline {
     agent {
-      namespace 'prod'
       kubernetes {
         yaml '''
           apiVersion: v1
           kind: Pod
           metadata:
+            namespace: prod
             labels:
               jenkins: slave
           spec:
