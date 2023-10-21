@@ -28,6 +28,7 @@ def call(Closure body) {
             labels:
               jenkins: slave
           spec:
+            serviceAccountName: jenkins-admin
             containers:
             - name: kaniko
               image: gcr.io/kaniko-project/executor:debug
@@ -97,11 +98,11 @@ def call(Closure body) {
                 usernameVariable: 'DOCKERHUB_ID', passwordVariable: 'DOCKERHUB_TOKEN')]) {
                 
                 def imageFullName = "${DOCKERHUB_ID}/${IMAGE_NAME}:${IMAGE_TAG}"
-                sh """
+                sh '''
                   export DOCKER_USERNAME=${DOCKERHUB_ID}
                   export DOCKER_PASSWORD=${DOCKERHUB_TOKEN}
-                  /kaniko/executor --context `pwd` --destination ${imageFullName} --cache
-                """
+                    /kaniko/executor --context `pwd` --destination $DOCKER_USERNAME/$IMAGE_NAME:$IMAGE_TAG --cache
+                '''
               }
             }
           }
