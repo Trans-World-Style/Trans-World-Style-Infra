@@ -97,7 +97,6 @@ def call(Closure body) {
             script {
               withCredentials([usernamePassword(credentialsId: 'dockerhub-secret',
                                 usernameVariable: 'DOCKERHUB_ID', passwordVariable: 'DOCKERHUB_TOKEN')]) {
-                DOCKERHUB_USERNAME = ${DOCKERHUB_ID}
                 // echo "{\"auths\":{\"https://index.docker.io/v1/\":{\"auth\":\"$(echo -n "$DOCKERHUB_ID:$DOCKERHUB_TOKEN" | base64)\"}}}" > /kaniko/.docker/config.json
                 sh '''
                   ENCODED_AUTH=$(echo -n "$DOCKERHUB_ID:$DOCKERHUB_TOKEN" | base64)
@@ -115,19 +114,22 @@ def call(Closure body) {
         steps {
           script {
             withCredentials([usernamePassword(credentialsId: 'github-app-credentials',
-              usernameVariable: 'GITHUB_APP_ID', passwordVariable: 'GITHUB_ACCESS_TOKEN')]) {
-              dir("${AGENT_WORKDIR}") {
-                sh 'git clone https://$GITHUB_APP_ID:$GITHUB_ACCESS_TOKEN@github.com/$MANIFEST_REPO'
-                dir("${MANIFEST_REPO.split('/')[1].replace('.git', '')}") {
-                  sh """
-                    git checkout ${MANIFEST_BRANCH}
-                    sed -i 's|${DOCKERHUB_USERNAME}/${IMAGE_NAME}:.*|${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${IMAGE_TAG}|' ${MANIFEST_DIR}/${MANIFEST_FILE}
-                    git config user.name '${AUTHOR_NAME}'
-                    git config user.email '${AUTHOR_EMAIL}'
-                    git add .
-                    git commit -m 'Update image tag to ${IMAGE_TAG}'
-                  """
-                  sh 'git push https://$GITHUB_APP_ID:$GITHUB_ACCESS_TOKEN@github.com/$MANIFEST_REPO $MANIFEST_BRANCH'
+                            usernameVariable: 'GITHUB_APP_ID', passwordVariable: 'GITHUB_ACCESS_TOKEN')]) {
+              withCredentials([usernamePassword(credentialsId: 'dockerhub-secret',
+                              usernameVariable: 'DOCKERHUB_ID', passwordVariable: 'DOCKERHUB_TOKEN')]) {
+                dir("${AGENT_WORKDIR}") {
+                  sh 'git clone https://$GITHUB_APP_ID:$GITHUB_ACCESS_TOKEN@github.com/$MANIFEST_REPO'
+                  dir("${MANIFEST_REPO.split('/')[1].replace('.git', '')}") {
+                    sh """
+                      git checkout ${MANIFEST_BRANCH}
+                      sed -i 's|${DOCKERHUB_ID}/${IMAGE_NAME}:.*|${DOCKERHUB_ID}/${IMAGE_NAME}:${IMAGE_TAG}|' ${MANIFEST_DIR}/${MANIFEST_FILE}
+                      git config user.name '${AUTHOR_NAME}'
+                      git config user.email '${AUTHOR_EMAIL}'
+                      git add .
+                      git commit -m 'Update image tag to ${IMAGE_TAG}'
+                    """
+                    sh 'git push https://$GITHUB_APP_ID:$GITHUB_ACCESS_TOKEN@github.com/$MANIFEST_REPO $MANIFEST_BRANCH'
+                  }
                 }
               }
             }
