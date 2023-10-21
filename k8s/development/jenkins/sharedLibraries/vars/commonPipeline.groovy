@@ -4,40 +4,104 @@ def call(Closure body) {
     body.delegate = config
     body()
 
+    properties([
+      parameters([
+        string(name: 'CONFIG_MAP_NAME', defaultValue: 'default-config', description: 'Name of the ConfigMap'),
+        string(name: 'CONFIG_MAP_MOUNT_PATH', defaultValue: '/config', description: 'Mount path for the ConfigMap in the container')
+      ])
+    ])
+
     if (!config.imageName || !config.manifestRepo || !config.manifestDir || !config.manifestFile || !config.manifestBranch) {
         error("Mandatory config values are missing!")
     }
+    // Check if ConfigMap should be used
+    def useConfigMap = !(params.CONFIG_MAP_NAME == 'default-config' && params.CONFIG_MAP_MOUNT_PATH == '/config')
+
+    // Dynamically construct Pod YAML
+    def podYaml = """
+        apiVersion: v1
+        kind: Pod
+        metadata:
+          labels:
+            jenkins: slave
+        spec:
+          containers:
+          - name: kaniko
+            image: gcr.io/kaniko-project/executor:debug
+            command:
+            - /busybox/cat
+            imagePullPolicy: Always
+            tty: true
+            volumeMounts:
+            - name: jenkins-docker-cfg
+              mountPath: /kaniko/.docker
+    """
+    
+    if (useConfigMap) {
+        podYaml += """
+            - name: application-cfg
+              mountPath: "${params.CONFIG_MAP_MOUNT_PATH}"
+        """
+    }
+
+    podYaml += """
+          volumes:
+          - name: jenkins-docker-cfg
+            projected:
+              sources:
+              - secret:
+                  name: dockerhub-secret
+                  items:
+                    - key: config.json
+                      path: config.json
+    """
+
+    if (useConfigMap) {
+        podYaml += """
+          - name: application-cfg-volume
+            configMap:
+              name: "${params.CONFIG_MAP_NAME}"
+        """
+    }
+
 // plugins/kaniko:1.8
     pipeline {
         agent {
             kubernetes {
-                yaml '''
-                    apiVersion: v1
-                    kind: Pod
-                    metadata:
-                      labels:
-                        jenkins: slave
-                    spec:
-                      containers:
-                      - name: kaniko
-                        image: gcr.io/kaniko-project/executor:debug
-                        command:
-                        - /busybox/cat
-                        imagePullPolicy: Always
-                        tty: true
-                        volumeMounts:
-                        - name: jenkins-docker-cfg
-                          mountPath: /kaniko/.docker
-                      volumes:
-                      - name: jenkins-docker-cfg
-                        projected:
-                          sources:
-                          - secret:
-                              name: dockerhub-secret
-                              items:
-                                - key: config.json
-                                  path: config.json
-                    '''
+                yaml podYaml
+
+                // yaml '''
+                //     apiVersion: v1
+                //     kind: Pod
+                //     metadata:
+                //       labels:
+                //         jenkins: slave
+                //     spec:
+                //       containers:
+                //       - name: kaniko
+                //         image: gcr.io/kaniko-project/executor:debug
+                //         command:
+                //         - /busybox/cat
+                //         imagePullPolicy: Always
+                //         tty: true
+                //         volumeMounts:
+                //         - name: jenkins-docker-cfg
+                //           mountPath: /kaniko/.docker
+                //         - name: application-cfg
+                //           mountPath: "${params.CONFIG_MAP_MOUNT_PATH}"
+                //       volumes:
+                //       - name: jenkins-docker-cfg
+                //         projected:
+                //           sources:
+                //           - secret:
+                //               name: dockerhub-secret
+                //               items:
+                //                 - key: config.json
+                //                   path: config.json
+                //       - name: application-cfg-volume
+                //         configMap:
+                //           name: "${params.CONFIG_MAP_NAME}"
+                //     '''
             }
         }
         environment {
@@ -129,14 +193,14 @@ def call(Closure body) {
                 }
             }
         }
-        // post {
-        //     always {
-        //         script {
-        //             echo "Keeping the pod running for debugging..."
-        //             sleep 3600 // Pod will be kept running for 1 hour 
-        //         }
-        //     }
-        // }
+        post {
+            always {
+                script {
+                    echo "Keeping the pod running for debugging..."
+                    sleep 3600 // Pod will be kept running for 1 hour 
+                }
+            }
+        }
 
         // post {
         //     failure {
