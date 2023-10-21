@@ -7,7 +7,6 @@ def call(Closure body) {
   properties([
     parameters([
       string(name: 'CONFIG_MAP_NAME', defaultValue: '', description: 'Name of the ConfigMap'),
-      string(name: 'CONFIG_MAP_NAMESPACE', defaultValue: '', description: 'Namespace of the ConfigMap'),
       string(name: 'CONFIG_FILE_NAME', defaultValue: '', description: 'Name of the Config File from ConfigMap'),
       string(name: 'CONFIG_MAP_MOUNT_PATH', defaultValue: '', description: 'Mount path for the ConfigMap in the container')
     ])
@@ -16,7 +15,7 @@ def call(Closure body) {
   if (!config.imageName || !config.manifestRepo || !config.manifestDir || !config.manifestFile || !config.manifestBranch) {
     error("Mandatory config values are missing!")
   }
-  def useConfigMap = !(params.CONFIG_MAP_NAME == '' || params.CONFIG_MAP_NAMESPACE == '' || params.CONFIG_MAP_MOUNT_PATH == '' || params.CONFIG_MAP_NAME == '')
+  def useConfigMap = !(params.CONFIG_MAP_NAME == '' || params.CONFIG_MAP_MOUNT_PATH == '' || params.CONFIG_MAP_FILE_NAME == '')
 
   pipeline {
     agent {
@@ -30,17 +29,23 @@ def call(Closure body) {
               jenkins: slave
           spec:
             containers:
-            - name: kubectl
-              image: bitnami/kubectl:latest
-              command:
-              - cat
-              tty: true
             - name: kaniko
               image: gcr.io/kaniko-project/executor:debug
               command:
               - /busybox/cat
               imagePullPolicy: Always
               tty: true
+              ''' + (useConfigMap ? '''
+              volumeMounts:
+              - name: configmap-volume
+                mountPath: ''' + params.CONFIG_MAP_MOUNT_PATH + '''
+              ''' : '') + '''
+            ''' + (useConfigMap ? '''
+            volumes:
+            - name: configmap-volume
+              configMap:
+                name: ''' + params.CONFIG_MAP_NAME + '''
+            ''' : '') + '''
     '''
       }
     }
