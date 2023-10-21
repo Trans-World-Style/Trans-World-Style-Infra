@@ -20,7 +20,7 @@ def call(Closure body) {
 
   pipeline {
     agent {
-      // namespace 'prod'
+      namespace 'prod'
       kubernetes {
         yaml '''
           apiVersion: v1
