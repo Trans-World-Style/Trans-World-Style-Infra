@@ -6,16 +6,16 @@ def call(Closure body) {
 
   properties([
     parameters([
-      string(name: 'CONFIG_MAP_NAME', defaultValue: ' ', description: 'Name of the ConfigMap'),
-      string(name: 'CONFIG_FILE_NAME', defaultValue: ' ', description: 'Name of the Config File from ConfigMap'),
-      string(name: 'CONFIG_MAP_MOUNT_PATH', defaultValue: ' ', description: 'Mount path for the ConfigMap in the container')
+      string(name: 'CONFIG_MAP_NAME', defaultValue: config.CONFIG_MAP_NAME ?: ' ', description: 'Name of the ConfigMap'),
+      string(name: 'CONFIG_FILE_NAME', defaultValue: config.CONFIG_FILE_NAME ?: ' ', description: 'Name of the Config File from ConfigMap'),
+      string(name: 'CONFIG_MAP_MOUNT_PATH', defaultValue: config.CONFIG_MAP_MOUNT_PATH ?: ' ', description: 'Mount path for the ConfigMap in the container')
     ])
   ])
 
   if (!config.imageName || !config.manifestRepo || !config.manifestDir || !config.manifestFile || !config.manifestBranch) {
     error("Mandatory config values are missing!")
   }
-  def useConfigMap = !(params.CONFIG_MAP_NAME == '' || params.CONFIG_MAP_MOUNT_PATH == '' || params.CONFIG_MAP_FILE_NAME == '')
+  def useConfigMap = !(params.CONFIG_MAP_NAME == ' ' || params.CONFIG_MAP_MOUNT_PATH == ' ' || params.CONFIG_MAP_FILE_NAME == ' ')
 
   pipeline {
     agent {
