@@ -98,17 +98,7 @@ def call(Closure body) {
                                 usernameVariable: 'DOCKERHUB_ID', passwordVariable: 'DOCKERHUB_TOKEN')]) {
                 // def imageFullName = "${DOCKERHUB_ID}/${IMAGE_NAME}:${IMAGE_TAG}"
                 sh '''
-                  ENCODED_AUTH=$(echo -n "$DOCKERHUB_ID:$DOCKERHUB_TOKEN" | base64)
-
-                  cat > /kaniko/.docker/config.json <<EOF
-                  {
-                    "auths": {
-                      "https://index.docker.io/v1/": {
-                        "auth": "$ENCODED_AUTH"
-                      }
-                    }
-                  }
-                  EOF
+                  echo "{\"auths\":{\"https://index.docker.io/v1/\":{\"auth\":\"$(echo -n "$DOCKERHUB_ID:$DOCKERHUB_TOKEN" | base64)\"}}}" > /kaniko/.docker/config.json
 
                   /kaniko/executor --context `pwd` --destination $DOCKERHUB_ID/$IMAGE_NAME:$IMAGE_TAG --cache
                 '''
