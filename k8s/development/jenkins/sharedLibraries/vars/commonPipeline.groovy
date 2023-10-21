@@ -94,14 +94,14 @@ def call(Closure body) {
         steps {
           container('kaniko') {
             script {
-              withCredentials([usernamePassword(credentialsId: 'dockerhub-secret',
-                usernameVariable: 'DOCKERHUB_ID', passwordVariable: 'DOCKERHUB_TOKEN')]) {
+              withCredentials([file(credentialsId: 'dockerhub-secret', variable: 'DOCKER_CONFIG')]) {
+              // withCredentials([usernamePassword(credentialsId: 'dockerhub-secret',
+              //   usernameVariable: 'DOCKERHUB_ID', passwordVariable: 'DOCKERHUB_TOKEN')]) {
                 
                 def imageFullName = "${DOCKERHUB_ID}/${IMAGE_NAME}:${IMAGE_TAG}"
                 sh '''
-                  export DOCKER_USERNAME=${DOCKERHUB_ID}
-                  export DOCKER_PASSWORD=${DOCKERHUB_TOKEN}
-                    /kaniko/executor --context `pwd` --destination $DOCKER_USERNAME/$IMAGE_NAME:$IMAGE_TAG --cache
+                  cp $DOCKER_CONFIG /kaniko/.docker/config.json
+                  /kaniko/executor --context `pwd` --destination $IMAGE_NAME:$IMAGE_TAG --cache
                 '''
               }
             }
