@@ -29,7 +29,6 @@ def call(Closure body) {
             labels:
               jenkins: slave
           spec:
-            serviceAccountName: jenkins-admin
             containers:
             - name: kubectl
               image: bitnami/kubectl:latest
