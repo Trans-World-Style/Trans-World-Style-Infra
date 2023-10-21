@@ -33,9 +33,9 @@ def call(Closure body) {
 
   if (useConfigMap) {
     yamlString += '''
-        volumeMounts:
-        - name: configmap-volume
-          mountPath: ''' + config.CONFIG_MAP_MOUNT_PATH + '''
+          volumeMounts:
+          - name: configmap-volume
+            mountPath: ''' + config.CONFIG_MAP_MOUNT_PATH + '''
         volumes:
         - name: configmap-volume
           configMap:
