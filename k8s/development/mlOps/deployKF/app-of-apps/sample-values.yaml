@@ -34,7 +34,7 @@ argocd:
 
   ## the namespace in which argocd is deployed
   ##
-  namespace: mlops-argocd
+  namespace: argocd
 
   ## the project used for deployKF argocd applications
   ##

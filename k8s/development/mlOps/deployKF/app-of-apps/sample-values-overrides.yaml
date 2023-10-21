@@ -22,7 +22,8 @@ deploykf_dependencies:
   ##             cert-manager
   ## --------------------------------------
   cert_manager:
-    {} # <-- REMOVE THIS, IF YOU INCLUDE VALUES UNDER THIS SECTION!
+    # {} # <-- REMOVE THIS, IF YOU INCLUDE VALUES UNDER THIS SECTION!
+    namespace: mlops-cert-manager
 
     ## extra manifests
     ##  - https://www.deploykf.org/guides/platform/deploykf-gateway/#step-2-create-a-clusterissuer
@@ -48,13 +49,15 @@ deploykf_dependencies:
   ##                 istio
   ## --------------------------------------
   istio:
-    {} # <-- REMOVE THIS, IF YOU INCLUDE VALUES UNDER THIS SECTION!
+    # {} # <-- REMOVE THIS, IF YOU INCLUDE VALUES UNDER THIS SECTION!
+    namespace: mlops-istio
 
   ## --------------------------------------
   ##                kyverno
   ## --------------------------------------
   kyverno:
-    {} # <-- REMOVE THIS, IF YOU INCLUDE VALUES UNDER THIS SECTION!
+    # {} # <-- REMOVE THIS, IF YOU INCLUDE VALUES UNDER THIS SECTION!
+    namespace: mlops-kyverno
 
 ## --------------------------------------------------------------------------------
 ##                                  deploykf-core
