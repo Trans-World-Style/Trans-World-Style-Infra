@@ -148,18 +148,24 @@ def call(Closure body) {
             }
 
             stage('Load ConfigMap Data') {
-                when {
-                    expression { return useConfigMap }
-                }
-                steps {
-                    script {
-                        // kubectl을 사용하여 configMap 데이터를 불러와 workspace에 저장
-                        sh """
-                            kubectl get configmap ${params.CONFIG_MAP_NAME} -n ${params.CONFIG_MAP_NAMESPACE} -o jsonpath='{.data}' > ${params.CONFIG_FILE_NAME}
-                        """
-                    }
+            when {
+                expression { return useConfigMap }
+            }
+            agent {
+                docker {
+                    image 'bitnami/kubectl:latest'
                 }
             }
+            steps {
+                script {
+                    // kubectl을 사용하여 configMap 데이터를 불러와 workspace에 저장
+                    sh """
+                        kubectl get configmap ${params.CONFIG_MAP_NAME} -n ${params.CONFIG_MAP_NAMESPACE} -o jsonpath='{.data.${params.CONFIG_FILE_NAME}}' > ${params.CONFIG_FILE_NAME}
+                    """
+                }
+            }
+        }
+
 
             stage('Build and Push') {
                 steps {
@@ -172,6 +178,7 @@ def call(Closure body) {
                                 // buildAndPush(env.DOCKERHUB_USERNAME, IMAGE_NAME, env.IMAGE_TAG)
                                 // sh "ls /kaniko/.docker"
                                 // sh "echo ${env.DOCKERHUB_USERNAME}/${IMAGE_NAME}:${env.IMAGE_TAG}"
+                                def imageFullName = "${DOCKERHUB_ID}/${IMAGE_NAME}:${IMAGE_TAG}"
                                 sh """
                                 export DOCKER_USERNAME=${DOCKERHUB_ID}
                                 export DOCKER_PASSWORD=${DOCKERHUB_TOKEN}
