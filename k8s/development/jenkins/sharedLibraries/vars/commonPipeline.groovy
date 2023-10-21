@@ -4,19 +4,11 @@ def call(Closure body) {
   body.delegate = config
   body()
 
-  properties([
-    parameters([
-      string(name: 'CONFIG_MAP_NAME', defaultValue: config.CONFIG_MAP_NAME ?: ' ', description: 'Name of the ConfigMap'),
-      string(name: 'CONFIG_FILE_NAME', defaultValue: config.CONFIG_FILE_NAME ?: ' ', description: 'Name of the Config File from ConfigMap'),
-      string(name: 'CONFIG_MAP_MOUNT_PATH', defaultValue: config.CONFIG_MAP_MOUNT_PATH ?: ' ', description: 'Mount path for the ConfigMap in the container')
-    ])
-  ])
-
   if (!config.imageName || !config.manifestRepo || !config.manifestDir || !config.manifestFile || !config.manifestBranch) {
     error("Mandatory config values are missing!")
   }
   def useConfigMap = true
-  if (!config.CONFIG_MAP_NAME || !config.CONFIG_MAP_MOUNT_PATH || !config.CONFIG_MAP_FILE_NAME) {
+  if (!config.CONFIG_MAP_NAME || !config.CONFIG_MAP_MOUNT_PATH || !config.CONFIG_FILE_NAME) {
     useConfigMap = false
   }
 
