@@ -15,9 +15,9 @@ def call(Closure body) {
   if (!config.imageName || !config.manifestRepo || !config.manifestDir || !config.manifestFile || !config.manifestBranch) {
     error("Mandatory config values are missing!")
   }
-  def useConfigMap = true
+  def useConfigMap = True
   if (!config.CONFIG_MAP_NAME || !config.CONFIG_MAP_MOUNT_PATH || !config.CONFIG_MAP_FILE_NAME) {
-    useConfigMap = false
+    useConfigMap = False
   }
 
   pipeline {
@@ -49,7 +49,7 @@ def call(Closure body) {
               configMap:
                 name: ''' + config.CONFIG_MAP_NAME + '''
             ''' : '') + '''
-    '''
+        '''
       }
     }
     environment {
@@ -78,21 +78,6 @@ def call(Closure body) {
           script {
             config.beforeBuildStages.each { stageName, stageClosure ->
               stageClosure.call()
-            }
-          }
-        }
-      }
-
-      stage('Load ConfigMap Data') {
-        when {
-          expression { return useConfigMap }
-        }
-        steps {
-          container('kubectl') {
-            script {
-              sh """
-                kubectl get configmap ${params.CONFIG_MAP_NAME} -n ${params.CONFIG_MAP_NAMESPACE} -o jsonpath='{.data.${params.CONFIG_FILE_NAME}}' > ${params.CONFIG_FILE_NAME}
-              """
             }
           }
         }
@@ -159,14 +144,14 @@ def call(Closure body) {
         }
       }
     }
-    // post {
-    //   always {
-    //     script {
-    //       echo "Keeping the pod running for debugging..."
-    //       sleep 3600
-    //     }
-    //   }
-    // }
+    post {
+      always {
+        script {
+          echo "Keeping the pod running for debugging..."
+          sleep 3600
+        }
+      }
+    }
 
     // post {
     //     failure {
