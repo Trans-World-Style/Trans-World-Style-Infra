@@ -15,41 +15,45 @@ def call(Closure body) {
   if (!config.imageName || !config.manifestRepo || !config.manifestDir || !config.manifestFile || !config.manifestBranch) {
     error("Mandatory config values are missing!")
   }
-  def useConfigMap = True
+  def useConfigMap = true
   if (!config.CONFIG_MAP_NAME || !config.CONFIG_MAP_MOUNT_PATH || !config.CONFIG_MAP_FILE_NAME) {
-    useConfigMap = False
+    useConfigMap = false
+  }
+
+
+  def yamlString = '''
+      apiVersion: v1
+      kind: Pod
+      metadata:
+        namespace: prod
+        labels:
+          jenkins: slave
+      spec:
+        containers:
+        - name: kaniko
+          image: gcr.io/kaniko-project/executor:debug
+          command:
+          - /busybox/cat
+          imagePullPolicy: Always
+          tty: true
+  '''
+
+  if (useConfigMap) {
+    yamlString += '''
+        volumeMounts:
+        - name: configmap-volume
+          mountPath: ''' + config.CONFIG_MAP_MOUNT_PATH + '''
+        volumes:
+        - name: configmap-volume
+          configMap:
+            name: ''' + config.CONFIG_MAP_NAME + '''
+    '''
   }
 
   pipeline {
     agent {
       kubernetes {
-        yaml '''
-          apiVersion: v1
-          kind: Pod
-          metadata:
-            namespace: prod
-            labels:
-              jenkins: slave
-          spec:
-            containers:
-            - name: kaniko
-              image: gcr.io/kaniko-project/executor:debug
-              command:
-              - /busybox/cat
-              imagePullPolicy: Always
-              tty: true
-              ''' + (useConfigMap ? '''
-              volumeMounts:
-              - name: configmap-volume
-                mountPath: ''' + config.CONFIG_MAP_MOUNT_PATH + '''
-              ''' : '') + '''
-            ''' + (useConfigMap ? '''
-            volumes:
-            - name: configmap-volume
-              configMap:
-                name: ''' + config.CONFIG_MAP_NAME + '''
-            ''' : '') + '''
-        '''
+        yaml yamlString
       }
     }
     environment {
