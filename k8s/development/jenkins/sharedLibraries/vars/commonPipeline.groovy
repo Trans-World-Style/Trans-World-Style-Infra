@@ -30,18 +30,30 @@ def call(Closure body) {
           spec:
             serviceAccountName: jenkins-admin
             containers:
+            - name: kubectl
+              image: bitnami/kubectl:latest
+              command:
+              - cat
+              tty: true
             - name: kaniko
               image: gcr.io/kaniko-project/executor:debug
               command:
               - /busybox/cat
               imagePullPolicy: Always
               tty: true
-            - name: kubectl
-              image: bitnami/kubectl:latest
-              command:
-              - cat
-              tty: true
-        '''
+              volumeMounts:
+              - name: jenkins-docker-cfg
+                mountPath: /kaniko/.docker
+            volumes:
+            - name: jenkins-docker-cfg
+              projected:
+                sources:
+                - secret:
+                    name: dockerhub-secret
+                    items:
+                      - key: config.json
+                        path: config.json
+    '''
       }
     }
     environment {
@@ -93,17 +105,11 @@ def call(Closure body) {
       stage('Build and Push') {
         steps {
           container('kaniko') {
-            script {
-              withCredentials([file(credentialsId: 'dockerhub-secret', variable: 'config.json')]) {
-              // withCredentials([usernamePassword(credentialsId: 'dockerhub-secret',
-              //   usernameVariable: 'DOCKERHUB_ID', passwordVariable: 'DOCKERHUB_TOKEN')]) {
-                
-                def imageFullName = "${DOCKERHUB_ID}/${IMAGE_NAME}:${IMAGE_TAG}"
-                sh '''
-                  cp $config.json /kaniko/.docker/config.json
-                  /kaniko/executor --context `pwd` --destination $IMAGE_NAME:$IMAGE_TAG --cache
-                '''
-              }
+            script {                
+              // def imageFullName = "${DOCKERHUB_ID}/${IMAGE_NAME}:${IMAGE_TAG}"
+              sh '''
+                /kaniko/executor --context `pwd` --destination $IMAGE_NAME:$IMAGE_TAG --cache
+              '''
             }
           }
         }
