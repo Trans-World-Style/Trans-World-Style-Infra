@@ -8,7 +8,7 @@ def call(Closure body) {
       parameters([
         string(name: 'CONFIG_MAP_NAME', defaultValue: '', description: 'Name of the ConfigMap'),
         string(name: 'CONFIG_MAP_NAMESPACE', defaultValue: '', description: 'Namespace of the ConfigMap'),
-        string(name: 'CONFIG_FILE_NAME', defaultValue: '', description: 'Name of the Config File from ConfigMap')
+        string(name: 'CONFIG_FILE_NAME', defaultValue: '', description: 'Name of the Config File from ConfigMap'),
         string(name: 'CONFIG_MAP_MOUNT_PATH', defaultValue: '', description: 'Mount path for the ConfigMap in the container')
       ])
     ])
