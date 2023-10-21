@@ -15,7 +15,10 @@ def call(Closure body) {
   if (!config.imageName || !config.manifestRepo || !config.manifestDir || !config.manifestFile || !config.manifestBranch) {
     error("Mandatory config values are missing!")
   }
-  def useConfigMap = !(params.CONFIG_MAP_NAME == ' ' || params.CONFIG_MAP_MOUNT_PATH == ' ' || params.CONFIG_MAP_FILE_NAME == ' ')
+  def useConfigMap = true
+  if (!config.CONFIG_MAP_NAME || !config.CONFIG_MAP_MOUNT_PATH || !config.CONFIG_MAP_FILE_NAME) {
+    useConfigMap = false
+  }
 
   pipeline {
     agent {
@@ -38,13 +41,13 @@ def call(Closure body) {
               ''' + (useConfigMap ? '''
               volumeMounts:
               - name: configmap-volume
-                mountPath: ''' + params.CONFIG_MAP_MOUNT_PATH + '''
+                mountPath: ''' + config.CONFIG_MAP_MOUNT_PATH + '''
               ''' : '') + '''
             ''' + (useConfigMap ? '''
             volumes:
             - name: configmap-volume
               configMap:
-                name: ''' + params.CONFIG_MAP_NAME + '''
+                name: ''' + config.CONFIG_MAP_NAME + '''
             ''' : '') + '''
     '''
       }
@@ -156,14 +159,14 @@ def call(Closure body) {
         }
       }
     }
-    post {
-      always {
-        script {
-          echo "Keeping the pod running for debugging..."
-          sleep 3600
-        }
-      }
-    }
+    // post {
+    //   always {
+    //     script {
+    //       echo "Keeping the pod running for debugging..."
+    //       sleep 3600
+    //     }
+    //   }
+    // }
 
     // post {
     //     failure {
