@@ -105,11 +105,14 @@ def call(Closure body) {
       stage('Build and Push') {
         steps {
           container('kaniko') {
-            script {                
-              // def imageFullName = "${DOCKERHUB_ID}/${IMAGE_NAME}:${IMAGE_TAG}"
-              sh '''
-                /kaniko/executor --context `pwd` --destination $IMAGE_NAME:$IMAGE_TAG --cache
-              '''
+            script {
+              withCredentials([usernamePassword(credentialsId: 'dockerhub-secret',
+                                usernameVariable: 'DOCKERHUB_ID', passwordVariable: 'DOCKERHUB_TOKEN')]) {
+                // def imageFullName = "${DOCKERHUB_ID}/${IMAGE_NAME}:${IMAGE_TAG}"
+                sh '''
+                  /kaniko/executor --context `pwd` --destination $DOCKERHUB_ID/$IMAGE_NAME:$IMAGE_TAG --cache
+                '''
+              }
             }
           }
         }
