@@ -37,7 +37,7 @@ def call(Closure body) {
   if (useSecret) {
       volumeMounts << '''
             - name: secret-volume
-              mountPath: /config
+              mountPath: /secret
       '''
       volumes << '''
           - name: secret-volume
@@ -181,6 +181,7 @@ def call(Closure body) {
                 // echo "{\"auths\":{\"https://index.docker.io/v1/\":{\"auth\":\"$(echo -n "$DOCKERHUB_ID:$DOCKERHUB_TOKEN" | base64)\"}}}" > /kaniko/.docker/config.json
                 if(useConfigMap) {
                   sh "cp /config/* `pwd`/${config.CONFIG_MAP_MOUNT_PATH}"
+                  sh "cp /secret/* `pwd`/${config.CONFIG_MAP_MOUNT_PATH}"
                   // sh "cp /config/.* `pwd`/${config.CONFIG_MAP_MOUNT_PATH}"
                 }
                 sh '''
