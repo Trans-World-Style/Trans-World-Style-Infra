@@ -12,9 +12,8 @@ def call(Closure body) {
     useConfigMap = false
   }
 
-  echo "Use Config Map: ${useConfigMap}"
   echo "Environment Variables:"
-  env.each { key, value ->
+  env.getEnvironment().each { key, value ->
       echo "${key}: ${value}"
   }
 
