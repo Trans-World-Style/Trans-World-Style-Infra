@@ -12,13 +12,6 @@ def call(Closure body) {
     useConfigMap = false
   }
 
-  // echo "Environment Variables:"
-  // env.getEnvironment().each { key, value ->
-  //     echo "${key}: ${value}"
-  // }
-
-  // def currentDir = sh(script: 'pwd', returnStdout: true).trim()
-
   def yamlString = '''
       apiVersion: v1
       kind: Pod
@@ -37,12 +30,10 @@ def call(Closure body) {
   '''
 
   if (useConfigMap) {
-    def mountPath = env.WORKSPACE + (config.CONFIG_MAP_MOUNT_PATH ?: '')
-
     yamlString += '''
           volumeMounts:
           - name: configmap-volume
-            mountPath: ''' + mountPath + '''
+            mountPath: ''' + config.CONFIG_MAP_MOUNT_PATH + '''
         volumes:
         - name: configmap-volume
           configMap:
@@ -97,6 +88,7 @@ def call(Closure body) {
                 sh '''
                   ENCODED_AUTH=$(echo -n "$DOCKERHUB_ID:$DOCKERHUB_TOKEN" | base64)
                   echo '{\"auths\":{\"https://index.docker.io/v1/\":{\"auth\":\"'$ENCODED_AUTH'\"}}}' > /kaniko/.docker/config.json
+                  cp -r /config `pwd`/config
                   /kaniko/executor --context `pwd` --destination $DOCKERHUB_ID/$IMAGE_NAME:$IMAGE_TAG --cache
                 '''
               }
