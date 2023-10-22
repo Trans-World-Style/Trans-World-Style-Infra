@@ -1,0 +1,8 @@
+apiVersion: v1
+metadata:
+  name: web-configmap
+  namespace: prod
+kind: ConfigMap
+data:
+  .env: |
+    REACT_APP_GOOGLE_OAUTH_CLIENT_ID=585543292084-nglvej9fqvsm7in5bgev62scqbqpnllr.apps.googleusercontent.com
