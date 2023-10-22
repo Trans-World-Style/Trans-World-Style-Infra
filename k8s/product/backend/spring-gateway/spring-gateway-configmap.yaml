@@ -4,7 +4,7 @@ metadata:
   namespace: prod
 kind: ConfigMap
 data:
-  application-gateway.properties: |
+  config: |
     server.port=8080
     spring.cloud.gateway.globalcors.cors-configurations[/**].allowed-origins=https://tw-style.duckdns.org/
     spring.cloud.gateway.globalcors.cors-configurations[/**].allowed-methods=GET,POST,PUT,DELETE
