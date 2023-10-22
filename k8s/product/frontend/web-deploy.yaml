@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
       - name: tws-web
-        image: dodo133/tws-fe:latest-d3c67b92804d
+        image: dodo133/tws-fe:latest-c315a2be7e9f
         ports:
         - containerPort: 80
