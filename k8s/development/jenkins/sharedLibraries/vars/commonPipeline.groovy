@@ -141,14 +141,14 @@ def call(Closure body) {
         }
       }
     }
-    // post {
-    //   always {
-    //     script {
-    //       echo "Keeping the pod running for debugging..."
-    //       sleep 3600
-    //     }
-    //   }
-    // }
+    post {
+      always {
+        script {
+          echo "Keeping the pod running for debugging..."
+          sleep 3600
+        }
+      }
+    }
 
     // post {
     //     failure {
