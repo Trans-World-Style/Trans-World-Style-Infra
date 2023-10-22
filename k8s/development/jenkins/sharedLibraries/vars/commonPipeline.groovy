@@ -9,11 +9,13 @@ def call(Closure body) {
   }
   def useConfigMap = true
   if (!config.CONFIG_MAP_NAME || !config.CONFIG_MAP_MOUNT_PATH || !config.CONFIG_FILE_NAME) {
+    echo 'config map not used'
     useConfigMap = false
   }
 
   def useSecret = true
   if (!config.SECRET_NAME || !config.SECRET_MOUNT_PATH || !config.SECRET_FILE_NAME) {
+    echo 'secret not used'
     useConfigMap = false
   }
 
