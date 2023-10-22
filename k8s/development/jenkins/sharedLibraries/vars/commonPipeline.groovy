@@ -12,6 +12,11 @@ def call(Closure body) {
     useConfigMap = false
   }
 
+  def useSecret = true
+  if (!config.SECRET_NAME || !config.SECRET_MOUNT_PATH || !config.SECRET_FILE_NAME) {
+    useConfigMap = false
+  }
+
   def yamlString = '''
       apiVersion: v1
       kind: Pod
@@ -29,34 +34,34 @@ def call(Closure body) {
           tty: true
   '''
 
-  if (useConfigMap) {
-    yamlString += '''
-          volumeMounts:
-          - name: configmap-volume
-            mountPath: /config
-          - name: secret-volume
-            mountPath: /secret
-        volumes:
-        - name: configmap-volume
-          configMap:
-            name: ''' + config.CONFIG_MAP_NAME + '''
-        - name: secret-volume
-          secret:
-            secretName: spring-gateway-secret
-    '''
-  }
-
   // if (useConfigMap) {
   //   yamlString += '''
   //         volumeMounts:
   //         - name: configmap-volume
   //           mountPath: /config
+  //         - name: secret-volume
+  //           mountPath: /secret
   //       volumes:
   //       - name: configmap-volume
   //         configMap:
   //           name: ''' + config.CONFIG_MAP_NAME + '''
+  //       - name: secret-volume
+  //         secret:
+  //           secretName: spring-gateway-secret
   //   '''
   // }
+
+  if (useConfigMap) {
+    yamlString += '''
+          volumeMounts:
+          - name: configmap-volume
+            mountPath: /config
+        volumes:
+        - name: configmap-volume
+          configMap:
+            name: ''' + config.CONFIG_MAP_NAME + '''
+    '''
+  }
 
   pipeline {
     agent {
