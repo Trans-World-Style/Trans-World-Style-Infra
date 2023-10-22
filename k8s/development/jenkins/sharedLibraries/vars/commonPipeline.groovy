@@ -29,20 +29,32 @@ def call(Closure body) {
           tty: true
   '''
 
+  // if (useConfigMap) {
+  //   yamlString += '''
+  //         volumeMounts:
+  //         - name: configmap-volume
+  //           mountPath: /
+  //         - name: secret-volume
+  //           mountPath: /etc/secrets
+  //       volumes:
+  //       - name: configmap-volume
+  //         configMap:
+  //           name: ''' + config.CONFIG_MAP_NAME + '''
+  //       - name: secret-volume
+  //         secret:
+  //           secretName: spring-gateway-secret
+  //   '''
+  // }
+
   if (useConfigMap) {
     yamlString += '''
           volumeMounts:
           - name: configmap-volume
             mountPath: /
-          - name: secret-volume
-            mountPath: /etc/secrets
         volumes:
         - name: configmap-volume
           configMap:
             name: ''' + config.CONFIG_MAP_NAME + '''
-        - name: secret-volume
-          secret:
-            secretName: spring-gateway-secret
     '''
   }
 
