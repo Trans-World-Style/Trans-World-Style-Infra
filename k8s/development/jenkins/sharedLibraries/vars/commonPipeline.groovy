@@ -19,49 +19,119 @@ def call(Closure body) {
     useSecret = false
   }
 
-  def yamlString = '''
-      apiVersion: v1
-      kind: Pod
-      metadata:
-        namespace: prod
-        labels:
-          jenkins: slave
-      spec:
-        containers:
-        - name: kaniko
-          image: gcr.io/kaniko-project/executor:debug
-          command:
-          - /busybox/cat
-          imagePullPolicy: Always
-          tty: true
-  '''
+  def volumeMounts = []
+  def volumes = []
 
   if (useConfigMap) {
-    yamlString += '''
-          volumeMounts:
+      volumeMounts << '''
+            - name: configmap-volume
+              mountPath: /config
+      '''
+      volumes << '''
           - name: configmap-volume
-            mountPath: /config
-        volumes:
-        - name: configmap-volume
-          configMap:
-            name: ''' + config.CONFIG_MAP_NAME + '''
-    '''
+            configMap:
+              name: ''' + config.CONFIG_MAP_NAME + '''
+      '''
   }
 
-    // if (useConfigMap) {
+  if (useSecret) {
+      volumeMounts << '''
+            - name: secret-volume
+              mountPath: /config
+      '''
+      volumes << '''
+          - name: secret-volume
+            secret:
+              secretName: ''' + config.SECRET_NAME + '''
+      '''
+  }
+
+  def yamlString = """
+        apiVersion: v1
+        kind: Pod
+        metadata:
+          namespace: prod
+          labels:
+            jenkins: slave
+        spec:
+          containers:
+          - name: kaniko
+            image: gcr.io/kaniko-project/executor:debug
+            command:
+            - /busybox/cat
+            imagePullPolicy: Always
+            tty: true
+            ${volumeMounts ? 'volumeMounts:\n' + volumeMounts.join('\n') : ''}
+          ${volumes ? 'volumes:\n' + volumes.join('\n') : ''}
+  """
+
+  // def yamlString = '''
+  //     apiVersion: v1
+  //     kind: Pod
+  //     metadata:
+  //       namespace: prod
+  //       labels:
+  //         jenkins: slave
+  //     spec:
+  //       containers:
+  //       - name: kaniko
+  //         image: gcr.io/kaniko-project/executor:debug
+  //         command:
+  //         - /busybox/cat
+  //         imagePullPolicy: Always
+  //         tty: true
+  // '''
+
+  // if (useConfigMap) {
   //   yamlString += '''
   //         volumeMounts:
   //         - name: configmap-volume
   //           mountPath: /config
-  //         - name: secret-volume
-  //           mountPath: /secret
   //       volumes:
   //       - name: configmap-volume
   //         configMap:
   //           name: ''' + config.CONFIG_MAP_NAME + '''
+  //   '''
+  // }
+
+  // if (useConfigMap || useSecret) {
+  //   yamlString += '''
+  //         volumeMounts:
+  //   '''
+  // }
+  // if (useConfigMap) {
+  //   yamlString += '''
+  //         - name: configmap-volume
+  //           mountPath: /config
+  //   '''
+  // }
+
+  // if (useSecret) {
+  //   yamlString += '''
+  //         - name: secret-volume
+  //           mountPath: /config
+  //   '''
+  // }
+
+  // if (useConfigMap || useSecret) {
+  //   yamlString += '''
+  //       volumes:    
+  //   '''
+  // }
+
+  // if (useConfigMap) {
+  //   yamlString += '''
+  //       - name: configmap-volume
+  //         configMap:
+  //           name: ''' + config.CONFIG_MAP_NAME + '''
+  //   '''
+  // }
+
+  // if (useSecret) {
+  //   yamlString += '''
   //       - name: secret-volume
   //         secret:
-  //           secretName: spring-gateway-secret
+  //           secretName: ''' + config.SECRET_NAME + '''
   //   '''
   // }
 
@@ -111,7 +181,7 @@ def call(Closure body) {
                 // echo "{\"auths\":{\"https://index.docker.io/v1/\":{\"auth\":\"$(echo -n "$DOCKERHUB_ID:$DOCKERHUB_TOKEN" | base64)\"}}}" > /kaniko/.docker/config.json
                 if(useConfigMap) {
                   sh "cp /config/* `pwd`/${config.CONFIG_MAP_MOUNT_PATH}"
-                  sh "cp /config/.* `pwd`/${config.CONFIG_MAP_MOUNT_PATH}"
+                  // sh "cp /config/.* `pwd`/${config.CONFIG_MAP_MOUNT_PATH}"
                 }
                 sh '''
                   ENCODED_AUTH=$(echo -n "$DOCKERHUB_ID:$DOCKERHUB_TOKEN" | base64)
