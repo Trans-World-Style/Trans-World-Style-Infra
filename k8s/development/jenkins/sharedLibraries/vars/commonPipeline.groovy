@@ -13,7 +13,9 @@ def call(Closure body) {
   }
 
   echo "Use Config Map: ${useConfigMap}"
-  def currentDir = sh(script: 'pwd', returnStdout: true).trim()
+  // def currentDir = sh(script: 'pwd', returnStdout: true).trim()
+  echo env
+  def currentDir = " "
 
   def yamlString = '''
       apiVersion: v1
