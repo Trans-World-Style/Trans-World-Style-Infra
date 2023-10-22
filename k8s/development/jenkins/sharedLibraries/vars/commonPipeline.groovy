@@ -86,7 +86,10 @@ def call(Closure body) {
                                 usernameVariable: 'DOCKERHUB_ID', passwordVariable: 'DOCKERHUB_TOKEN')]) {
                 // echo "{\"auths\":{\"https://index.docker.io/v1/\":{\"auth\":\"$(echo -n "$DOCKERHUB_ID:$DOCKERHUB_TOKEN" | base64)\"}}}" > /kaniko/.docker/config.json
                 if(useConfigMap) {
-                  sh "cp /config/* `pwd`/$CONFIG_MAP_MOUNT_PATH"
+                  sh '''
+                    echo $CONFIG_MAP_MOUNT_PATH
+                    cp /config/* `pwd`/$CONFIG_MAP_MOUNT_PATH
+                  '''
                 }
                 sh '''
                   ENCODED_AUTH=$(echo -n "$DOCKERHUB_ID:$DOCKERHUB_TOKEN" | base64)
