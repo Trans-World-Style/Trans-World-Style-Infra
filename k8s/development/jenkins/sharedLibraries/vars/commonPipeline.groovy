@@ -12,10 +12,10 @@ def call(Closure body) {
     useConfigMap = false
   }
 
-  echo "Environment Variables:"
-  env.getEnvironment().each { key, value ->
-      echo "${key}: ${value}"
-  }
+  // echo "Environment Variables:"
+  // env.getEnvironment().each { key, value ->
+  //     echo "${key}: ${value}"
+  // }
 
   // def currentDir = sh(script: 'pwd', returnStdout: true).trim()
 
@@ -37,7 +37,7 @@ def call(Closure body) {
   '''
 
   if (useConfigMap) {
-    def mountPath = ${env.WORKSPACE} + (config.CONFIG_MAP_MOUNT_PATH ?: '')
+    def mountPath = env.WORKSPACE + (config.CONFIG_MAP_MOUNT_PATH ?: '')
 
     yamlString += '''
           volumeMounts:
