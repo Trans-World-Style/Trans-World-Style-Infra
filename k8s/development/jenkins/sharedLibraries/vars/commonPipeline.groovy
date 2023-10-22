@@ -13,8 +13,12 @@ def call(Closure body) {
   }
 
   echo "Use Config Map: ${useConfigMap}"
+  echo "Environment Variables:"
+  env.each { key, value ->
+      echo "${key}: ${value}"
+  }
+
   // def currentDir = sh(script: 'pwd', returnStdout: true).trim()
-  echo env
   def currentDir = " "
 
   def yamlString = '''
