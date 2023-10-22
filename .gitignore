@@ -1,4 +1,4 @@
-# *-secret.yaml
+*origin-secret.yaml
 *.pem
 *.p12
 .DS_Store
