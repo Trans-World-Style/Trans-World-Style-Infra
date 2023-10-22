@@ -18,7 +18,6 @@ def call(Closure body) {
   }
 
   // def currentDir = sh(script: 'pwd', returnStdout: true).trim()
-  def currentDir = " "
 
   def yamlString = '''
       apiVersion: v1
@@ -38,7 +37,7 @@ def call(Closure body) {
   '''
 
   if (useConfigMap) {
-    def mountPath = currentDir + (config.CONFIG_MAP_MOUNT_PATH ?: '')
+    def mountPath = ${env.WORKSPACE} + (config.CONFIG_MAP_MOUNT_PATH ?: '')
 
     yamlString += '''
           volumeMounts:
