@@ -16,7 +16,7 @@ def call(Closure body) {
   def useSecret = true
   if (!config.SECRET_NAME || !config.SECRET_MOUNT_PATH || !config.SECRET_FILE_NAME) {
     echo 'secret not used'
-    useConfigMap = false
+    useSecret = false
   }
 
   def yamlString = '''
