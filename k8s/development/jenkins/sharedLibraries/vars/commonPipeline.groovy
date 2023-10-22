@@ -14,7 +14,7 @@ def call(Closure body) {
   }
 
   def useSecret = true
-  if (!config.SECRET_NAME || !config.SECRET_MOUNT_PATH || !config.SECRET_FILE_NAME) {
+  if (!config.SECRET_NAME) {
     echo 'secret not used'
     useSecret = false
   }
@@ -25,7 +25,7 @@ def call(Closure body) {
   if (useConfigMap) {
       volumeMounts << '''
             - name: configmap-volume
-              mountPath: /config
+              mountPath: /etc/config
       '''
       volumes << '''
           - name: configmap-volume
@@ -37,7 +37,7 @@ def call(Closure body) {
   if (useSecret) {
       volumeMounts << '''
             - name: secret-volume
-              mountPath: /secret
+              mountPath: /etc/secret
       '''
       volumes << '''
           - name: secret-volume
@@ -179,10 +179,33 @@ def call(Closure body) {
               withCredentials([usernamePassword(credentialsId: 'dockerhub-secret',
                                 usernameVariable: 'DOCKERHUB_ID', passwordVariable: 'DOCKERHUB_TOKEN')]) {
                 // echo "{\"auths\":{\"https://index.docker.io/v1/\":{\"auth\":\"$(echo -n "$DOCKERHUB_ID:$DOCKERHUB_TOKEN" | base64)\"}}}" > /kaniko/.docker/config.json
-                if(useConfigMap) {
-                  sh "cp /config/* `pwd`/${config.CONFIG_MAP_MOUNT_PATH}"
-                  sh "cp /secret/* `pwd`/${config.CONFIG_MAP_MOUNT_PATH}"
-                  // sh "cp /config/.* `pwd`/${config.CONFIG_MAP_MOUNT_PATH}"
+                
+                if(useConfigMap || useSecret) {
+                  // def configPath = "`pwd`/${config.CONFIG_MAP_MOUNT_PATH}"
+                  // touch "${configPath}/config" "${configPath}/secret"
+
+                  // if(useConfigMap) {
+                  //   sh "cp /etc/config/config ${configPath}/${config.CONFIG_FILE_NAME}"
+                  // }
+                  // if(useSecret) {
+                  //   sh "cp /etc/secret/secret ${configPath}/${config.SECRET_FILE_NAME}"
+                  // }
+
+                  // cat "${configPath}/config" "${configPath}/secret" > "${configPath}/${config.CONFIG_FILE_NAME}"
+                  def configPath = "`pwd`/${config.CONFIG_MAP_MOUNT_PATH}"
+
+                  sh """
+                    touch ${configPath}/config ${configPath}/secret
+                    
+                    if [ "${useConfigMap}" == "true" ]; then
+                        cp /etc/config/config ${configPath}/
+                    fi
+                    if [ "${useSecret}" == "true" ]; then
+                        cp /etc/secret/secret ${configPath}/
+                    fi
+
+                    cat ${configPath}/config ${configPath}/secret > ${configPath}/${config.CONFIG_FILE_NAME}
+                  """
                 }
                 sh '''
                   ENCODED_AUTH=$(echo -n "$DOCKERHUB_ID:$DOCKERHUB_TOKEN" | base64)
