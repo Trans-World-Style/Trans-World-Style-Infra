@@ -12,7 +12,7 @@ def call(Closure body) {
     useConfigMap = false
   }
 
-  echo "Use Config Map: ${useConfigMap}" // <-- 이 부분을 추가합니다.
+  echo "Use Config Map: ${useConfigMap}"
 
   def yamlString = '''
       apiVersion: v1
@@ -90,7 +90,7 @@ def call(Closure body) {
                 sh '''
                   ENCODED_AUTH=$(echo -n "$DOCKERHUB_ID:$DOCKERHUB_TOKEN" | base64)
                   echo '{\"auths\":{\"https://index.docker.io/v1/\":{\"auth\":\"'$ENCODED_AUTH'\"}}}' > /kaniko/.docker/config.json
-
+                  echo `pwd`
                   /kaniko/executor --context `pwd` --destination $DOCKERHUB_ID/$IMAGE_NAME:$IMAGE_TAG --cache
                 '''
               }
