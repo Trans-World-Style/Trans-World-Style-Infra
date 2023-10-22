@@ -32,10 +32,13 @@ def call(Closure body) {
   '''
 
   if (useConfigMap) {
+    def currentDir = sh(script: 'pwd', returnStdout: true).trim()
+    def mountPath = currentDir + (config.CONFIG_MAP_MOUNT_PATH ?: '')
+
     yamlString += '''
           volumeMounts:
           - name: configmap-volume
-            mountPath: ''' + config.CONFIG_MAP_MOUNT_PATH + '''
+            mountPath: ''' + mountPath + '''
         volumes:
         - name: configmap-volume
           configMap:
@@ -90,7 +93,6 @@ def call(Closure body) {
                 sh '''
                   ENCODED_AUTH=$(echo -n "$DOCKERHUB_ID:$DOCKERHUB_TOKEN" | base64)
                   echo '{\"auths\":{\"https://index.docker.io/v1/\":{\"auth\":\"'$ENCODED_AUTH'\"}}}' > /kaniko/.docker/config.json
-                  echo `pwd`
                   /kaniko/executor --context `pwd` --destination $DOCKERHUB_ID/$IMAGE_NAME:$IMAGE_TAG --cache
                 '''
               }
