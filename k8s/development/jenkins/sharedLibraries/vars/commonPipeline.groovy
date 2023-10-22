@@ -13,6 +13,7 @@ def call(Closure body) {
   }
 
   echo "Use Config Map: ${useConfigMap}"
+  def currentDir = sh(script: 'pwd', returnStdout: true).trim()
 
   def yamlString = '''
       apiVersion: v1
@@ -32,7 +33,6 @@ def call(Closure body) {
   '''
 
   if (useConfigMap) {
-    def currentDir = sh(script: 'pwd', returnStdout: true).trim()
     def mountPath = currentDir + (config.CONFIG_MAP_MOUNT_PATH ?: '')
 
     yamlString += '''
