@@ -33,11 +33,16 @@ def call(Closure body) {
     yamlString += '''
           volumeMounts:
           - name: configmap-volume
-            mountPath: /config
+            mountPath: /
+          - name: secret-volume
+            mountPath: /etc/secrets
         volumes:
         - name: configmap-volume
           configMap:
             name: ''' + config.CONFIG_MAP_NAME + '''
+        - name: secret-volume
+          secret:
+            secretName: spring-gateway-secret
     '''
   }
 
