@@ -98,14 +98,14 @@ spec:
                 # {} # <-- REMOVE THIS, IF YOU INCLUDE VALUES UNDER THIS SECTION!
                 # change namespace and add label for kubed
                 namespace: dfk-istio
-                extraManifests:
-                - |
-                  apiVersion: v1
-                  kind: Namespace
-                  metadata:
-                    name: dfk-istio
-                    labels:
-                      app: dev
+                # extraManifests:
+                # - |
+                #   apiVersion: v1
+                #   kind: Namespace
+                #   metadata:
+                #     name: dfk-istio
+                #     labels:
+                #       app: dev
 
               ## --------------------------------------
               ##                kyverno
@@ -454,6 +454,7 @@ spec:
                 ##  - https://www.deploykf.org/user-guides/access-kubeflow-pipelines-api/#authenticate-with-kubernetes-serviceaccount-token
                 ##
                 #kfpApiTokenPodDefault: true
+
 
   destination:
     server: "https://kubernetes.default.svc"
