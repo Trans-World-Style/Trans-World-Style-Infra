@@ -36,7 +36,7 @@ spec:
         ##
         - name: "values_files"
           array:
-            - "./sample-values.yaml"
+            - "./values/sample-values.yaml"
 
         ## a string containing the contents of a values file
         ##  - this parameter allows defining values without needing to create a file in the repo
