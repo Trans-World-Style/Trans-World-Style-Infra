@@ -22,7 +22,8 @@
               ##             cert-manager
               ## --------------------------------------
               cert_manager:
-                {} # <-- REMOVE THIS, IF YOU INCLUDE VALUES UNDER THIS SECTION!
+                # {} # <-- REMOVE THIS, IF YOU INCLUDE VALUES UNDER THIS SECTION!
+                namespace: dfk-cert-manager
 
                 ## extra manifests
                 ##  - https://www.deploykf.org/guides/platform/deploykf-gateway/#step-2-create-a-clusterissuer
@@ -48,13 +49,15 @@
               ##                 istio
               ## --------------------------------------
               istio:
-                {} # <-- REMOVE THIS, IF YOU INCLUDE VALUES UNDER THIS SECTION!
+                # {} # <-- REMOVE THIS, IF YOU INCLUDE VALUES UNDER THIS SECTION!
+                namespace: dfk-istio
 
               ## --------------------------------------
               ##                kyverno
               ## --------------------------------------
               kyverno:
-                {} # <-- REMOVE THIS, IF YOU INCLUDE VALUES UNDER THIS SECTION!
+                # {} # <-- REMOVE THIS, IF YOU INCLUDE VALUES UNDER THIS SECTION!
+                namespace: dfk-kyverno
 
             ## --------------------------------------------------------------------------------
             ##                                  deploykf-core
