@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: deploykf-app-of-apps
-  namespace: mlops
+  namespace: argocd
   labels:
     app.kubernetes.io/name: deploykf-app-of-apps
     app.kubernetes.io/part-of: deploykf
@@ -435,4 +435,4 @@ spec:
 
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: "mlops"
+    namespace: "argocd"
