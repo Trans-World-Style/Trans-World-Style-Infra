@@ -52,17 +52,6 @@
                 # {} # <-- REMOVE THIS, IF YOU INCLUDE VALUES UNDER THIS SECTION!
                 # change namespace and add label for kubed
                 namespace: dfk-istio
-                extraManifests:
-                - |
-                  apiVersion: v1
-                  kind: Namespace
-                  metadata:
-                    name: dfk-istio
-                    labels:
-                      kubernetes.io/metadata.name: dfk-istio
-                      app: dev
-                      app.kubernetes.io/instance: dkf-dep--istio
-                      istio-injection: disabled
 
               ## --------------------------------------
               ##                kyverno
