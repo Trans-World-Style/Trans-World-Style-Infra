@@ -36,7 +36,7 @@ spec:
         ##
         - name: "values_files"
           array:
-            - "./values/sample-values.yaml"
+            - "./sample-values.yaml"
 
         ## a string containing the contents of a values file
         ##  - this parameter allows defining values without needing to create a file in the repo
@@ -436,4 +436,3 @@ spec:
   destination:
     server: "https://kubernetes.default.svc"
     namespace: "argocd"
-    
