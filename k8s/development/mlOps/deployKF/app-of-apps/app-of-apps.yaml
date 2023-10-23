@@ -96,7 +96,16 @@ spec:
               ## --------------------------------------
               istio:
                 # {} # <-- REMOVE THIS, IF YOU INCLUDE VALUES UNDER THIS SECTION!
+                # change namespace and add label for kubed
                 namespace: dfk-istio
+                extraManifests:
+                - |
+                  apiVersion: v1
+                  kind: Namespace
+                  metadata:
+                    name: dfk-istio
+                    labels:
+                      app: dev
 
               ## --------------------------------------
               ##                kyverno
@@ -135,23 +144,36 @@ spec:
               ##        deploykf-istio-gateway
               ## --------------------------------------
               deploykf_istio_gateway:
-                gatewayService:
-                  name: "deploykf-gateway"
-                  type: "LoadBalancer"
                 # {} # <-- REMOVE THIS, IF YOU INCLUDE VALUES UNDER THIS SECTION!
 
                 ## extra manifests
                 ##  - https://www.deploykf.org/guides/platform/deploykf-gateway/#expose-with-ingress
                 ##  - we recommend using a LoadBalancer Service instead of an Ingress
                 ##
-                #extraManifests:
-                #  - |
-                #    apiVersion: extensions/v1beta1
-                #    kind: Ingress
-                #    metadata:
-                #      name: deploykf-gateway
-                #    spec:
-                #      << YOUR INGRESS CONFIGURATION >>
+                extraManifests:
+                 - |
+                  apiVersion: networking.k8s.io/v1
+                kind: Ingress
+                metadata:
+                  name: deploykf-gateway-ingress
+                  namespace: dfk-istio
+                spec:
+                  ingressClassName: nginx
+                  tls:
+                  - hosts:
+                      - dfk.dev-tw-style.duckdns.org
+                    secretName: dev-tw-style-duckdns-tls-secret
+                  rules:
+                  - host: dfk.dev-tw-style.duckdns.org
+                    http:
+                      paths:
+                      - path: /
+                        pathType: Prefix
+                        backend:
+                          service:
+                            name: deploykf-gateway
+                            port:
+                              number: 80
 
                 ## istio gateway configs
                 ##  - https://www.deploykf.org/guides/platform/deploykf-gateway/#2-configure-dns
@@ -432,6 +454,7 @@ spec:
                 ##  - https://www.deploykf.org/user-guides/access-kubeflow-pipelines-api/#authenticate-with-kubernetes-serviceaccount-token
                 ##
                 #kfpApiTokenPodDefault: true
+
 
   destination:
     server: "https://kubernetes.default.svc"
