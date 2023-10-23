@@ -61,7 +61,7 @@
                     labels:
                       kubernetes.io/metadata.name: dfk-istio
                       app: dev
-                      app.kubernetes.io/instance: deploykf-app-of-apps
+                      app.kubernetes.io/instance: dkf-dep--istio
                       istio-injection: disabled
 
               ## --------------------------------------
