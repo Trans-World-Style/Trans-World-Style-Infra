@@ -23,7 +23,7 @@
               ## --------------------------------------
               cert_manager:
                 # {} # <-- REMOVE THIS, IF YOU INCLUDE VALUES UNDER THIS SECTION!
-                namespace: dfk-cert-manager
+                namespace: dkf-cert-manager
 
                 ## extra manifests
                 ##  - https://www.deploykf.org/guides/platform/deploykf-gateway/#step-2-create-a-clusterissuer
@@ -51,14 +51,14 @@
               istio:
                 # {} # <-- REMOVE THIS, IF YOU INCLUDE VALUES UNDER THIS SECTION!
                 # change namespace and add label for kubed
-                namespace: dfk-istio
+                namespace: dkf-istio
 
               ## --------------------------------------
               ##                kyverno
               ## --------------------------------------
               kyverno:
                 # {} # <-- REMOVE THIS, IF YOU INCLUDE VALUES UNDER THIS SECTION!
-                namespace: dfk-kyverno
+                namespace: dkf-kyverno
 
             ## --------------------------------------------------------------------------------
             ##                                  deploykf-core
@@ -102,15 +102,15 @@
                   kind: Ingress
                   metadata:
                     name: deploykf-gateway-ingress
-                    namespace: dfk-istio
+                    namespace: dkf-istio
                   spec:
                     ingressClassName: nginx
                     tls:
                     - hosts:
-                        - dfk.dev-tw-style.duckdns.org
+                        - dkf.dev-tw-style.duckdns.org
                       secretName: dev-tw-style-duckdns-tls-secret
                     rules:
-                    - host: dfk.dev-tw-style.duckdns.org
+                    - host: dkf.dev-tw-style.duckdns.org
                       http:
                         paths:
                         - path: /
