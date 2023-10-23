@@ -68,8 +68,7 @@ spec:
               ##             cert-manager
               ## --------------------------------------
               cert_manager:
-                # {} # <-- REMOVE THIS, IF YOU INCLUDE VALUES UNDER THIS SECTION!
-                namespace: mlops-cert-manager
+                {} # <-- REMOVE THIS, IF YOU INCLUDE VALUES UNDER THIS SECTION!
 
                 ## extra manifests
                 ##  - https://www.deploykf.org/guides/platform/deploykf-gateway/#step-2-create-a-clusterissuer
@@ -95,15 +94,13 @@ spec:
               ##                 istio
               ## --------------------------------------
               istio:
-                # {} # <-- REMOVE THIS, IF YOU INCLUDE VALUES UNDER THIS SECTION!
-                namespace: mlops-istio
+                {} # <-- REMOVE THIS, IF YOU INCLUDE VALUES UNDER THIS SECTION!
 
               ## --------------------------------------
               ##                kyverno
               ## --------------------------------------
               kyverno:
-                # {} # <-- REMOVE THIS, IF YOU INCLUDE VALUES UNDER THIS SECTION!
-                namespace: mlops-kyverno
+                {} # <-- REMOVE THIS, IF YOU INCLUDE VALUES UNDER THIS SECTION!
 
             ## --------------------------------------------------------------------------------
             ##                                  deploykf-core
@@ -197,7 +194,7 @@ spec:
                     ## the default Kubeflow Pipelines configs for profiles
                     ##
                     kubeflowPipelines:
-                      # {} # <-- REMOVE THIS, IF YOU INCLUDE VALUES UNDER THIS SECTION!
+                      {} # <-- REMOVE THIS, IF YOU INCLUDE VALUES UNDER THIS SECTION!
 
                       ## the default Kubeflow Pipelines object store auth configs for profiles
                       ##  - https://www.deploykf.org/guides/tools/external-object-store/#authentication
