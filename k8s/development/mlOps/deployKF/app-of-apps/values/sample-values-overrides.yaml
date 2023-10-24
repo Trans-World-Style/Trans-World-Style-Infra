@@ -124,49 +124,49 @@
                 #               name: deploykf-gateway
                 #               port:
                 #                 number: 8443
-                # extraManifests:
-                # - |
-                #   apiVersion: networking.k8s.io/v1
-                #   kind: Ingress
-                #   metadata:
-                #     name: deploykf-gateway-ingress
-                #     namespace: deploykf-istio-gateway
-                #     annotations:
-                #       nginx.ingress.kubernetes.io/ssl-passthrough: "true"
-                #       nginx.ingress.kubernetes.io/ssl-redirect: "false"
-                #       nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-                #   spec:
-                #     ingressClassName: nginx
-                #     tls:
-                #     - hosts:
-                #       - dkf.dev-tw-style.duckdns.org
-                #       secretName: dev-tw-style-duckdns-tls-secret
-                #     rules:
-                #     - host: "dkf.dev-tw-style.duckdns.org"
-                #       http:
-                #         paths:
-                #         - path: "/*"
-                #           pathType: ImplementationSpecific
-                #           backend:
-                #             service:
-                #               name: "deploykf-gateway"
-                #               port:
-                #                 name: https
-                #     - host: "*.dkf.dev-tw-style.duckdns.org"
-                #       http:
-                #         paths:
-                #         - path: "/*"
-                #           pathType: ImplementationSpecific
-                #           backend:
-                #             service:
-                #               name: "deploykf-gateway"
-                #               port:
-                #                 name: https
-                gateway:
-                 hostname: dkf-tw-style.duckdns.org
-                 ports:
-                   http: 80
-                   https: 443
+                extraManifests:
+                - |
+                  apiVersion: networking.k8s.io/v1
+                  kind: Ingress
+                  metadata:
+                    name: deploykf-gateway-ingress
+                    namespace: deploykf-istio-gateway
+                    annotations:
+                      nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+                      nginx.ingress.kubernetes.io/ssl-redirect: "false"
+                      nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+                  spec:
+                    ingressClassName: nginx
+                    # tls:
+                    # - hosts:
+                    #   - dkf.dev-tw-style.duckdns.org
+                      # secretName: dev-tw-style-duckdns-tls-secret
+                    rules:
+                    - host: "dkf.dev-tw-style.duckdns.org"
+                      http:
+                        paths:
+                        - path: "/*"
+                          pathType: ImplementationSpecific
+                          backend:
+                            service:
+                              name: "deploykf-gateway"
+                              port:
+                                name: https
+                    - host: "*.dkf.dev-tw-style.duckdns.org"
+                      http:
+                        paths:
+                        - path: "/*"
+                          pathType: ImplementationSpecific
+                          backend:
+                            service:
+                              name: "deploykf-gateway"
+                              port:
+                                name: https
+                # gateway:
+                #  hostname: dkf-tw-style.duckdns.org
+                #  ports:
+                #    http: 80
+                #    https: 443
                 gatewayService:
                  name: deploykf-gateway
                  type: NodePort
