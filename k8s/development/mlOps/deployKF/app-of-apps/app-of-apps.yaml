@@ -8,7 +8,6 @@ metadata:
     app.kubernetes.io/part-of: deploykf
 spec:
   project: "default"
-  appNamePrefix: "dkf"
   source:
     ## source git repo configuration
     ##  - we use the 'deploykf/deploykf' repo so we can read its 'sample-values.yaml'
@@ -45,6 +44,8 @@ spec:
         ##
         - name: "values"
           string: |
+            argocd:
+              appNamePrefix: "dkf"
             ##
             ##
             ## This file demonstrates how you might structure overrides for the 'sample-values.yaml' file.
