@@ -102,7 +102,7 @@
                   kind: Ingress
                   metadata:
                     name: deploykf-gateway-ingress
-                    namespace: dkf-istio
+                    namespace: deploykf-istio-gateway
                   spec:
                     ingressClassName: nginx
                     tls:
@@ -119,7 +119,7 @@
                             service:
                               name: deploykf-gateway
                               port:
-                                number: 80
+                                number: 8080
 
                 ## istio gateway configs
                 ##  - https://www.deploykf.org/guides/platform/deploykf-gateway/#2-configure-dns
