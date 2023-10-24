@@ -68,7 +68,8 @@ spec:
               ##             cert-manager
               ## --------------------------------------
               cert_manager:
-                {} # <-- REMOVE THIS, IF YOU INCLUDE VALUES UNDER THIS SECTION!
+                namespace: dkf-cert-manager
+                # {} # <-- REMOVE THIS, IF YOU INCLUDE VALUES UNDER THIS SECTION!
 
                 ## extra manifests
                 ##  - https://www.deploykf.org/guides/platform/deploykf-gateway/#step-2-create-a-clusterissuer
@@ -94,14 +95,16 @@ spec:
               ##                 istio
               ## --------------------------------------
               istio:
-                {} # <-- REMOVE THIS, IF YOU INCLUDE VALUES UNDER THIS SECTION!
+                namespace: dkf-istio
+                # {} # <-- REMOVE THIS, IF YOU INCLUDE VALUES UNDER THIS SECTION!
                 # change namespace and add label for kubed
 
               ## --------------------------------------
               ##                kyverno
               ## --------------------------------------
               kyverno:
-                {} # <-- REMOVE THIS, IF YOU INCLUDE VALUES UNDER THIS SECTION!
+                namespace: dkf-kyverno
+                # {} # <-- REMOVE THIS, IF YOU INCLUDE VALUES UNDER THIS SECTION!
 
             ## --------------------------------------------------------------------------------
             ##                                  deploykf-core
@@ -494,7 +497,6 @@ spec:
                 ##  - https://www.deploykf.org/user-guides/access-kubeflow-pipelines-api/#authenticate-with-kubernetes-serviceaccount-token
                 ##
                 #kfpApiTokenPodDefault: true
-
 
   destination:
     server: "https://kubernetes.default.svc"
