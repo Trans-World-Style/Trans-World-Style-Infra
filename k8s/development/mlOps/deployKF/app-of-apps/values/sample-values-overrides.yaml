@@ -133,8 +133,8 @@
                     namespace: deploykf-istio-gateway
                     annotations:
                       nginx.ingress.kubernetes.io/ssl-passthrough: "true"
-                      nginx.ingress.kubernetes.io/ssl-redirect: "false"
-                      nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+                      # nginx.ingress.kubernetes.io/ssl-redirect: "false"
+                      # nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
                   spec:
                     ingressClassName: nginx
                     rules:
