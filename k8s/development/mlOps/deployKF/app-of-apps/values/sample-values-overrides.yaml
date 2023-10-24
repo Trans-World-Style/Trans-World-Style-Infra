@@ -139,28 +139,30 @@
                     ingressClassName: nginx
                     tls:
                     - hosts:
-                        - dkf.dev-tw-style.duckdns.org
+                      - dkf.dev-tw-style.duckdns.org
                       secretName: dev-tw-style-duckdns-tls-secret
                     rules:
                     - host: "dkf.dev-tw-style.duckdns.org"
                       http:
                         paths:
-                          - path: "/*"
-                            backend:
-                              service:
-                                name: "deploykf-gateway"
-                                port:
-                                  name: https
+                        - path: "/*"
+                          pathType: ImplementationSpecific
+                          backend:
+                            service:
+                              name: "deploykf-gateway"
+                              port:
+                                name: https
                     - host: "*.dkf.dev-tw-style.duckdns.org"
                       http:
                         paths:
-                          - path: "/*"
-                            backend:
-                              service:
-                                name: "deploykf-gateway"
-                                port:
-                                  name: https
-                                  
+                        - path: "/*"
+                          pathType: ImplementationSpecific
+                          backend:
+                            service:
+                              name: "deploykf-gateway"
+                              port:
+                                name: https
+
                 gatewayService:
                  name: deploykf-gateway
                  type: NodePort
