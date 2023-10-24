@@ -165,7 +165,7 @@ spec:
                             service:
                               name: deploykf-gateway
                               port:
-                                number: 8080
+                                number: 8443
 
                 ## istio gateway configs
                 ##  - https://www.deploykf.org/guides/platform/deploykf-gateway/#2-configure-dns
