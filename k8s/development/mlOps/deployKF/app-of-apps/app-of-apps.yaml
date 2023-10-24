@@ -183,10 +183,6 @@ spec:
                       nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
                   spec:
                     ingressClassName: nginx
-                    # tls:
-                    # - hosts:
-                    #   - dkf.dev-tw-style.duckdns.org
-                      # secretName: dev-tw-style-duckdns-tls-secret
                     rules:
                     - host: "dkf.dev-tw-style.duckdns.org"
                       http:
@@ -195,9 +191,9 @@ spec:
                           pathType: ImplementationSpecific
                           backend:
                             service:
-                              name: "deploykf-gateway"
+                              name: deploykf-gateway
                               port:
-                                name: https
+                                number: 8443
                     - host: "*.dkf.dev-tw-style.duckdns.org"
                       http:
                         paths:
@@ -205,9 +201,9 @@ spec:
                           pathType: ImplementationSpecific
                           backend:
                             service:
-                              name: "deploykf-gateway"
+                              name: deploykf-gateway
                               port:
-                                name: https
+                                number: 8443
                 # gateway:
                 #  hostname: dkf-tw-style.duckdns.org
                 #  ports:
@@ -497,7 +493,6 @@ spec:
                 ##  - https://www.deploykf.org/user-guides/access-kubeflow-pipelines-api/#authenticate-with-kubernetes-serviceaccount-token
                 ##
                 #kfpApiTokenPodDefault: true
-
 
   destination:
     server: "https://kubernetes.default.svc"
