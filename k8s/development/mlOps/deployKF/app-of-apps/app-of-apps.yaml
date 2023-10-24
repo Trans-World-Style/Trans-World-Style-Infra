@@ -209,7 +209,7 @@ spec:
                 #               port:
                 #                 name: https
                 gateway:
-                 hostname: dkf.dev-tw-style.duckdns.org
+                 hostname: dkf-tw-style.duckdns.org
                  ports:
                    http: 80
                    https: 443
