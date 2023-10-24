@@ -22,8 +22,7 @@
               ##             cert-manager
               ## --------------------------------------
               cert_manager:
-                # {} # <-- REMOVE THIS, IF YOU INCLUDE VALUES UNDER THIS SECTION!
-                namespace: dkf-cert-manager
+                {} # <-- REMOVE THIS, IF YOU INCLUDE VALUES UNDER THIS SECTION!
 
                 ## extra manifests
                 ##  - https://www.deploykf.org/guides/platform/deploykf-gateway/#step-2-create-a-clusterissuer
@@ -49,16 +48,14 @@
               ##                 istio
               ## --------------------------------------
               istio:
-                # {} # <-- REMOVE THIS, IF YOU INCLUDE VALUES UNDER THIS SECTION!
+                {} # <-- REMOVE THIS, IF YOU INCLUDE VALUES UNDER THIS SECTION!
                 # change namespace and add label for kubed
-                namespace: dkf-istio
 
               ## --------------------------------------
               ##                kyverno
               ## --------------------------------------
               kyverno:
-                # {} # <-- REMOVE THIS, IF YOU INCLUDE VALUES UNDER THIS SECTION!
-                namespace: dkf-kyverno
+                {} # <-- REMOVE THIS, IF YOU INCLUDE VALUES UNDER THIS SECTION!
 
             ## --------------------------------------------------------------------------------
             ##                                  deploykf-core
@@ -124,45 +121,49 @@
                 #               name: deploykf-gateway
                 #               port:
                 #                 number: 8443
-                extraManifests:
-                - |
-                  apiVersion: networking.k8s.io/v1
-                  kind: Ingress
-                  metadata:
-                    name: deploykf-gateway-ingress
-                    namespace: deploykf-istio-gateway
-                    annotations:
-                      nginx.ingress.kubernetes.io/ssl-passthrough: "true"
-                      nginx.ingress.kubernetes.io/ssl-redirect: "false"
-                      nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-                  spec:
-                    ingressClassName: nginx
-                    tls:
-                    - hosts:
-                      - dkf.dev-tw-style.duckdns.org
-                      secretName: dev-tw-style-duckdns-tls-secret
-                    rules:
-                    - host: "dkf.dev-tw-style.duckdns.org"
-                      http:
-                        paths:
-                        - path: "/*"
-                          pathType: ImplementationSpecific
-                          backend:
-                            service:
-                              name: "deploykf-gateway"
-                              port:
-                                name: https
-                    - host: "*.dkf.dev-tw-style.duckdns.org"
-                      http:
-                        paths:
-                        - path: "/*"
-                          pathType: ImplementationSpecific
-                          backend:
-                            service:
-                              name: "deploykf-gateway"
-                              port:
-                                name: https
-
+                # extraManifests:
+                # - |
+                #   apiVersion: networking.k8s.io/v1
+                #   kind: Ingress
+                #   metadata:
+                #     name: deploykf-gateway-ingress
+                #     namespace: deploykf-istio-gateway
+                #     annotations:
+                #       nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+                #       nginx.ingress.kubernetes.io/ssl-redirect: "false"
+                #       nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+                #   spec:
+                #     ingressClassName: nginx
+                #     tls:
+                #     - hosts:
+                #       - dkf.dev-tw-style.duckdns.org
+                #       secretName: dev-tw-style-duckdns-tls-secret
+                #     rules:
+                #     - host: "dkf.dev-tw-style.duckdns.org"
+                #       http:
+                #         paths:
+                #         - path: "/*"
+                #           pathType: ImplementationSpecific
+                #           backend:
+                #             service:
+                #               name: "deploykf-gateway"
+                #               port:
+                #                 name: https
+                #     - host: "*.dkf.dev-tw-style.duckdns.org"
+                #       http:
+                #         paths:
+                #         - path: "/*"
+                #           pathType: ImplementationSpecific
+                #           backend:
+                #             service:
+                #               name: "deploykf-gateway"
+                #               port:
+                #                 name: https
+                gateway:
+                 hostname: dkf.dev-tw-style.duckdns.org
+                 ports:
+                   http: 80
+                   https: 443
                 gatewayService:
                  name: deploykf-gateway
                  type: NodePort
