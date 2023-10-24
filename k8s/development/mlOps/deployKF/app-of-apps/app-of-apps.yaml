@@ -44,8 +44,6 @@ spec:
         ##
         - name: "values"
           string: |
-            argocd:
-              appNamePrefix: "dkf"
             ##
             ##
             ## This file demonstrates how you might structure overrides for the 'sample-values.yaml' file.

@@ -1,5 +1,3 @@
-            argocd:
-              appNamePrefix: "dkf"
             ##
             ##
             ## This file demonstrates how you might structure overrides for the 'sample-values.yaml' file.
@@ -24,7 +22,8 @@
               ##             cert-manager
               ## --------------------------------------
               cert_manager:
-                {} # <-- REMOVE THIS, IF YOU INCLUDE VALUES UNDER THIS SECTION!
+                namespace: dkf-cert-manager
+                # {} # <-- REMOVE THIS, IF YOU INCLUDE VALUES UNDER THIS SECTION!
 
                 ## extra manifests
                 ##  - https://www.deploykf.org/guides/platform/deploykf-gateway/#step-2-create-a-clusterissuer
@@ -50,14 +49,16 @@
               ##                 istio
               ## --------------------------------------
               istio:
-                {} # <-- REMOVE THIS, IF YOU INCLUDE VALUES UNDER THIS SECTION!
+                namespace: dkf-istio
+                # {} # <-- REMOVE THIS, IF YOU INCLUDE VALUES UNDER THIS SECTION!
                 # change namespace and add label for kubed
 
               ## --------------------------------------
               ##                kyverno
               ## --------------------------------------
               kyverno:
-                {} # <-- REMOVE THIS, IF YOU INCLUDE VALUES UNDER THIS SECTION!
+                namespace: dkf-kyverno
+                # {} # <-- REMOVE THIS, IF YOU INCLUDE VALUES UNDER THIS SECTION!
 
             ## --------------------------------------------------------------------------------
             ##                                  deploykf-core
