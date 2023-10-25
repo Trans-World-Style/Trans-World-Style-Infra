@@ -185,7 +185,7 @@ spec:
                     ingressClassName: nginx
                     tls:
                     - hosts:
-                      - tw-style.duckdns.org
+                      - dkf.dev-tw-style.duckdns.org
                       ## NOTE: this secret is created as part of the deployKF installation
                       secretName: "deploykf-istio-gateway-cert"
                     rules:
