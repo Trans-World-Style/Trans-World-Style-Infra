@@ -133,9 +133,13 @@
                     namespace: deploykf-istio-gateway
                     annotations:
                       nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+                      nginx.ingress.kubernetes.io/ssl-redirect: "false"
                       nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
                   spec:
                     ingressClassName: nginx
+                    tls:
+                    ## NOTE: this secret is created as part of the deployKF installation
+                    - secretName: "deploykf-istio-gateway-cert"
                     rules:
                     - host: "dkf.dev-tw-style.duckdns.org"
                       http:
