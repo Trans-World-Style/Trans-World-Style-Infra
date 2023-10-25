@@ -131,10 +131,6 @@
                   metadata:
                     name: deploykf-gateway-ingress
                     namespace: deploykf-istio-gateway
-                    annotations:
-                      nginx.ingress.kubernetes.io/ssl-passthrough: "true"
-                      nginx.ingress.kubernetes.io/ssl-redirect: "false"
-                      nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
                   spec:
                     ingressClassName: nginx
                     rules:
@@ -158,11 +154,7 @@
                               name: deploykf-gateway
                               port:
                                 name: https
-                # gateway:
-                #  hostname: dkf-tw-style.duckdns.org
-                #  ports:
-                #    http: 80
-                #    https: 443
+
                 gatewayService:
                  name: deploykf-gateway
                  type: NodePort
