@@ -96,34 +96,6 @@
                 ##  - https://www.deploykf.org/guides/platform/deploykf-gateway/#expose-with-ingress
                 ##  - we recommend using a LoadBalancer Service instead of an Ingress
                 ##
-                # extraManifests:
-                # - |
-                #   apiVersion: networking.k8s.io/v1
-                #   kind: Ingress
-                #   metadata:
-                #     name: deploykf-gateway-ingress
-                #     namespace: deploykf-istio-gateway
-                #     annotations:
-                #       nginx.ingress.kubernetes.io/ssl-passthrough: "true"
-                #       nginx.ingress.kubernetes.io/ssl-redirect: "false"
-                #       nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-                #   spec:
-                #     ingressClassName: nginx
-                #     tls:
-                #     - hosts:
-                #         - dkf.dev-tw-style.duckdns.org
-                #       secretName: dev-tw-style-duckdns-tls-secret
-                #     rules:
-                #     - host: dkf.dev-tw-style.duckdns.org
-                #       http:
-                #         paths:
-                #         - path: /
-                #           pathType: Prefix
-                #           backend:
-                #             service:
-                #               name: deploykf-gateway
-                #               port:
-                #                 number: 8443
                 extraManifests:
                 - |
                   apiVersion: networking.k8s.io/v1
@@ -134,12 +106,11 @@
                     annotations:
                       nginx.ingress.kubernetes.io/ssl-passthrough: "true"
                       nginx.ingress.kubernetes.io/ssl-redirect: "false"
-                      nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+                      # nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
                   spec:
                     ingressClassName: nginx
                     tls:
-                    - hosts:
-                      - dkf-tw-style.duckdns.org
+                    - hosts: "dkf-tw-style.duckdns.org"
                       ## NOTE: this secret is created as part of the deployKF installation
                       secretName: "deploykf-istio-gateway-cert"
                     rules:
@@ -150,7 +121,7 @@
                           pathType: ImplementationSpecific
                           backend:
                             service:
-                              name: deploykf-gateway
+                              name: "deploykf-gateway"
                               port:
                                 name: https
                     - host: "*.dkf-tw-style.duckdns.org"
@@ -160,7 +131,7 @@
                           pathType: ImplementationSpecific
                           backend:
                             service:
-                              name: deploykf-gateway
+                              name: "deploykf-gateway"
                               port:
                                 name: https
 
