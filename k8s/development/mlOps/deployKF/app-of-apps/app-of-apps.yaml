@@ -212,9 +212,7 @@ spec:
 
                 gateway:
                  hostname: dkf.dev-tw-style.duckdns.org
-                 ports:
-                   http: 80
-                   https: 443
+                 
                 gatewayService:
                  name: deploykf-gateway
                  type: NodePort
