@@ -139,11 +139,11 @@
                     ingressClassName: nginx
                     tls:
                     - hosts:
-                      - dkf.dev-tw-style.duckdns.org
+                      - dkf-tw-style.duckdns.org
                       ## NOTE: this secret is created as part of the deployKF installation
                       secretName: "deploykf-istio-gateway-cert"
                     rules:
-                    - host: "dkf.dev-tw-style.duckdns.org"
+                    - host: "dkf-tw-style.duckdns.org"
                       http:
                         paths:
                         - path: "/*"
@@ -153,7 +153,7 @@
                               name: deploykf-gateway
                               port:
                                 name: https
-                    - host: "*.dkf.dev-tw-style.duckdns.org"
+                    - host: "*.dkf-tw-style.duckdns.org"
                       http:
                         paths:
                         - path: "/*"
@@ -165,8 +165,8 @@
                                 name: https
 
                 gateway:
-                 hostname: dkf.dev-tw-style.duckdns.org
-                 
+                 hostname: dkf-tw-style.duckdns.org
+
                 gatewayService:
                  name: deploykf-gateway
                  type: NodePort
