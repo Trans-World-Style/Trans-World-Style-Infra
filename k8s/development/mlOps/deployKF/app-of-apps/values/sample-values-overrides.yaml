@@ -131,6 +131,8 @@
                   metadata:
                     name: deploykf-gateway-ingress
                     namespace: deploykf-istio-gateway
+                    annotations:
+                      nginx.ingress.kubernetes.io/ssl-passthrough: "true"
                   spec:
                     ingressClassName: nginx
                     rules:
