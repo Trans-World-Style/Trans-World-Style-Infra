@@ -267,38 +267,38 @@
                 # user entities
                 #  - https://www.deploykf.org/guides/platform/deploykf-profiles/#user-entities
                 #
-                users:
-                 - id: doowon
-                   email: "pch14545@gmail.com"
-                 - id: david
-                   email: "byunghoonhwang97@gmail.com"
+                # users:
+                #  - id: doowon
+                #    email: "pch14545@gmail.com"
+                #  - id: david
+                #    email: "byunghoonhwang97@gmail.com"
 
-                # group entities
-                #  - https://www.deploykf.org/guides/platform/deploykf-profiles/#group-entities
-                #
-                groups:
-                 - id: tws-ai-team
-                   users:
-                     - doowon
-                     - david
+                # # group entities
+                # #  - https://www.deploykf.org/guides/platform/deploykf-profiles/#group-entities
+                # #
+                # groups:
+                #  - id: tws-ai-team
+                #    users:
+                #      - doowon
+                #      - david
 
-                # profile definitions
-                #  - https://www.deploykf.org/guides/platform/deploykf-profiles/#profile-definitions
-                #
-                profiles:
-                 - name: tws-ai-team
-                   members:
-                     - group: tws-ai-team
-                       access:
-                         role: edit
-                         notebooksAccess: true
+                # # profile definitions
+                # #  - https://www.deploykf.org/guides/platform/deploykf-profiles/#profile-definitions
+                # #
+                # profiles:
+                #  - name: tws-ai-team
+                #    members:
+                #      - group: tws-ai-team
+                #        access:
+                #          role: edit
+                #          notebooksAccess: true
                 
-                 - name: tws-prod-team
-                   members:
-                     - group: tws-ai-team
-                       access:
-                         role: view
-                         notebooksAccess: false
+                #  - name: tws-prod-team
+                #    members:
+                #      - group: tws-ai-team
+                #        access:
+                #          role: view
+                #          notebooksAccess: false
 
             ## --------------------------------------------------------------------------------
             ##                                   deploykf-opt
