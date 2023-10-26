@@ -22,8 +22,7 @@
               ##             cert-manager
               ## --------------------------------------
               cert_manager:
-                enabled: false
-                # {} # <-- REMOVE THIS, IF YOU INCLUDE VALUES UNDER THIS SECTION!
+                {} # <-- REMOVE THIS, IF YOU INCLUDE VALUES UNDER THIS SECTION!
 
                 ## extra manifests
                 ##  - https://www.deploykf.org/guides/platform/deploykf-gateway/#step-2-create-a-clusterissuer
