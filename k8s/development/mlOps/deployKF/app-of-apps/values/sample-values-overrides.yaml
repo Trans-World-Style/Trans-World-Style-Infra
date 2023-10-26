@@ -140,9 +140,7 @@
                  hostname: dkf-tw-style.duckdns.org
 
                 gatewayService:
-                 name: deploykf-gateway
-                 type: NodePort
-                 annotations: {}
+                 type: ClusterIP
 
                 ## istio gateway configs
                 ##  - https://www.deploykf.org/guides/platform/deploykf-gateway/#2-configure-dns
