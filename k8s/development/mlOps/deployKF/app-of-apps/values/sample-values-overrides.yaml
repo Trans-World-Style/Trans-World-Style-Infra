@@ -111,10 +111,9 @@
                     ingressClassName: nginx
                     tls:
                     - secretName: "deploykf-istio-gateway-cert"
-                      # hosts: 
-                      # - "dkf-tw-style.duckdns.org"
+                      hosts: 
+                      - "dkf-tw-style.duckdns.org"
                       # - "*.dkf-tw-style.duckdns.org"
-                      
                     rules:
                     - host: "dkf-tw-style.duckdns.org"
                       http:
