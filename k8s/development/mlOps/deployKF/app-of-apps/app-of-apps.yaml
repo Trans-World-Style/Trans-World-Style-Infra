@@ -206,8 +206,8 @@ spec:
                     - host: "dkf-tw-style.duckdns.org"
                       http:
                         paths:
-                        - path: "/*"
-                          pathType: ImplementationSpecific
+                        - path: "/"
+                          pathType: Prefix
                           backend:
                             service:
                               name: "deploykf-gateway"
@@ -216,8 +216,8 @@ spec:
                     - host: "argo-server.dkf-tw-style.duckdns.org"
                       http:
                         paths:
-                        - path: "/*"
-                          pathType: ImplementationSpecific
+                        - path: "/"
+                          pathType: Prefix
                           backend:
                             service:
                               name: "deploykf-gateway"
@@ -226,8 +226,8 @@ spec:
                     - host: "minio-api.dkf-tw-style.duckdns.org"
                       http:
                         paths:
-                        - path: "/*"
-                          pathType: ImplementationSpecific
+                        - path: "/"
+                          pathType: Prefix
                           backend:
                             service:
                               name: "deploykf-gateway"
@@ -236,8 +236,8 @@ spec:
                     - host: "minio-console.dkf-tw-style.duckdns.org"
                       http:
                         paths:
-                        - path: "/*"
-                          pathType: ImplementationSpecific
+                        - path: "/"
+                          pathType: Prefix
                           backend:
                             service:
                               name: "deploykf-gateway"
