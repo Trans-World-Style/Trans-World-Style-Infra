@@ -17,16 +17,3 @@ data:
     cloud.aws.region.static=ap-northeast-2
     cloud.aws.region.auto=false
     cloud.aws.stack.auto=false
-    aiApi=http://endnjs.iptime.org:12530/upscale_video?key=upload/
-
-    spring.datasource.master.hikari.username=root
-    spring.datasource.master.hikari.password=root1234
-    spring.datasource.slave.hikari.username=root
-    spring.datasource.slave.hikari.password=root1234
-    cloud.aws.credentials.access-key=AKIA4NJHVZKRCWWUG5KJ
-    cloud.aws.credentials.secret-key=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
-    google.client-id=585543292084-nglvej9fqvsm7in5bgev62scqbqpnllr.apps.googleusercontent.com
-
-    
-
-    
