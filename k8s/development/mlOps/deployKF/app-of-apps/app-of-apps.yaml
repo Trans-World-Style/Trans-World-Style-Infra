@@ -276,6 +276,9 @@ spec:
 
                 ## profile defaults
                 profileDefaults:
+                  memberAccess:
+                    role: edit
+                    notebooksAccess: true
 
                   ## the default access for members of profiles, when not explicitly specified
                   ##
