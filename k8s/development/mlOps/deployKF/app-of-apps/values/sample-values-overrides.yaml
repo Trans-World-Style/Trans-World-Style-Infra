@@ -200,7 +200,7 @@
 
                 gatewayService:
                   name: deploykf-gateway
-                  type: ClusterIP
+                  type: LoadBalancer
 
                 gateway:
                  hostname: dkf-tw-style.duckdns.org
