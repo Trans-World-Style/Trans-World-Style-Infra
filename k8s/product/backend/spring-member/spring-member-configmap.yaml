@@ -9,21 +9,24 @@ data:
     cors.origin=https://tw-style.duckdns.org/
     spring.datasource.master.hikari.driver-class-name=com.mysql.cj.jdbc.Driver
     spring.datasource.master.hikari.jdbc-url=jdbc:mysql://transdb.cdpfdkmgosu6.ap-northeast-2.rds.amazonaws.com:3307/trans
-    spring.datasource.master.hikari.username=root
-    spring.datasource.master.hikari.password=root1234
     spring.datasource.slave.hikari.driver-class-name=com.mysql.cj.jdbc.Driver
     spring.datasource.slave.hikari.jdbc-url=jdbc:mysql://transdb.cdpfdkmgosu6.ap-northeast-2.rds.amazonaws.com:3307/trans
-    spring.datasource.slave.hikari.username=root
-    spring.datasource.slave.hikari.password=root1234
     spring.mvc.view.prefix=/WEB-INF/views/
     spring.mvc.view.suffix=.jsp
     cloud.aws.s3.bucket=trans-world-style
-    cloud.aws.credentials.access-key=AKIA4NJHVZKRCWWUG5KJ
-    cloud.aws.credentials.secret-key=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
     cloud.aws.region.static=ap-northeast-2
     cloud.aws.region.auto=false
     cloud.aws.stack.auto=false
-    google.client-id=585543292084-nglvej9fqvsm7in5bgev62scqbqpnllr.apps.googleusercontent.com
     aiApi=http://endnjs.iptime.org:12530/upscale_video?key=upload/
+
+    spring.datasource.master.hikari.username=root
+    spring.datasource.master.hikari.password=root1234
+    spring.datasource.slave.hikari.username=root
+    spring.datasource.slave.hikari.password=root1234
+    cloud.aws.credentials.access-key=AKIA4NJHVZKRCWWUG5KJ
+    cloud.aws.credentials.secret-key=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
+    google.client-id=585543292084-nglvej9fqvsm7in5bgev62scqbqpnllr.apps.googleusercontent.com
+
+    
 
     
