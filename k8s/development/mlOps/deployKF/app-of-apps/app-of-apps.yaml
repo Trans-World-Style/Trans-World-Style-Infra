@@ -68,7 +68,7 @@ spec:
               ##             cert-manager
               ## --------------------------------------
               cert_manager:
-                namespace: dkf-cert-manager
+                enabled: false
                 # {} # <-- REMOVE THIS, IF YOU INCLUDE VALUES UNDER THIS SECTION!
 
                 ## extra manifests
@@ -95,16 +95,14 @@ spec:
               ##                 istio
               ## --------------------------------------
               istio:
-                namespace: dkf-istio
-                # {} # <-- REMOVE THIS, IF YOU INCLUDE VALUES UNDER THIS SECTION!
+                {} # <-- REMOVE THIS, IF YOU INCLUDE VALUES UNDER THIS SECTION!
                 # change namespace and add label for kubed
 
               ## --------------------------------------
               ##                kyverno
               ## --------------------------------------
               kyverno:
-                namespace: dkf-kyverno
-                # {} # <-- REMOVE THIS, IF YOU INCLUDE VALUES UNDER THIS SECTION!
+                {} # <-- REMOVE THIS, IF YOU INCLUDE VALUES UNDER THIS SECTION!
 
             ## --------------------------------------------------------------------------------
             ##                                  deploykf-core
@@ -142,6 +140,49 @@ spec:
                 ##  - https://www.deploykf.org/guides/platform/deploykf-gateway/#expose-with-ingress
                 ##  - we recommend using a LoadBalancer Service instead of an Ingress
                 ##
+                # extraManifests:
+                # - |
+                #   apiVersion: networking.k8s.io/v1
+                #   kind: Ingress
+                #   metadata:
+                #     name: deploykf-gateway-ingress
+                #     namespace: deploykf-istio-gateway
+                #     annotations:
+                #       nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+                #       nginx.ingress.kubernetes.io/ssl-redirect: "false"
+                #       nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+                #   spec:
+                #     ingressClassName: nginx
+                #     tls:
+                #     - secretName: "deploykf-istio-gateway-cert"
+                #       hosts: 
+                #       - "dkf-tw-style.duckdns.org"
+                #       # - "*.dkf-tw-style.duckdns.org"
+                #     rules:
+                #     - host: "dkf-tw-style.duckdns.org"
+                #       http:
+                #         paths:
+                #         - path: "/*"
+                #           pathType: ImplementationSpecific
+                #           backend:
+                #             service:
+                #               name: "deploykf-gateway"
+                #               port:
+                #                 name: https
+                #     - host: "*.dkf-tw-style.duckdns.org"
+                #       http:
+                #         paths:
+                #         - path: "/*"
+                #           pathType: ImplementationSpecific
+                #           backend:
+                #             service:
+                #               name: "deploykf-gateway"
+                #               port:
+                #                 name: https
+
+                # gateway:
+                #  hostname: dkf-tw-style.duckdns.org
+
                 extraManifests:
                 - |
                   apiVersion: networking.k8s.io/v1
@@ -159,7 +200,9 @@ spec:
                     - secretName: "deploykf-istio-gateway-cert"
                       hosts: 
                       - "dkf-tw-style.duckdns.org"
-                      # - "*.dkf-tw-style.duckdns.org"
+                      - "argo-server.dkf-tw-style.duckdns.org"
+                      - "minio-api.dkf-tw-style.duckdns.org"
+                      - "minio-console.dkf-tw-style.duckdns.org"
                     rules:
                     - host: "dkf-tw-style.duckdns.org"
                       http:
@@ -171,7 +214,27 @@ spec:
                               name: "deploykf-gateway"
                               port:
                                 name: https
-                    - host: "*.dkf-tw-style.duckdns.org"
+                    - host: "argo-server.dkf-tw-style.duckdns.org"
+                      http:
+                        paths:
+                        - path: "/*"
+                          pathType: ImplementationSpecific
+                          backend:
+                            service:
+                              name: "deploykf-gateway"
+                              port:
+                                name: https
+                    - host: "minio-api.dkf-tw-style.duckdns.org"
+                      http:
+                        paths:
+                        - path: "/*"
+                          pathType: ImplementationSpecific
+                          backend:
+                            service:
+                              name: "deploykf-gateway"
+                              port:
+                                name: https
+                    - host: "minio-console.dkf-tw-style.duckdns.org"
                       http:
                         paths:
                         - path: "/*"
@@ -182,11 +245,12 @@ spec:
                               port:
                                 name: https
 
+                gatewayService:
+                  name: deploykf-gateway
+                  type: ClusterIP
+
                 gateway:
                  hostname: dkf-tw-style.duckdns.org
-
-                gatewayService:
-                 type: ClusterIP
 
                 ## istio gateway configs
                 ##  - https://www.deploykf.org/guides/platform/deploykf-gateway/#2-configure-dns
