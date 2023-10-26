@@ -116,7 +116,17 @@ spec:
                 ## dex configs
                 ##
                 dex:
-                  {} # <-- REMOVE THIS, IF YOU INCLUDE VALUES UNDER THIS SECTION!
+                  # {} # <-- REMOVE THIS, IF YOU INCLUDE VALUES UNDER THIS SECTION!
+                  staticPasswords:
+                  - email: "admin@example.com"
+                    password:
+                      value: "admin"
+                  - email: "pch14545@gmail.com"
+                    password:
+                      value: "1111"
+                  - email: "byunghoonhwang97@gmail.com"
+                    password:
+                      value: "2222"
 
                   ## dex static passwords
                   ##  - https://www.deploykf.org/guides/platform/deploykf-authentication/#static-userpassword-combinations
@@ -276,10 +286,6 @@ spec:
 
                 ## profile defaults
                 profileDefaults:
-                  memberAccess:
-                    role: edit
-                    notebooksAccess: true
-
                   ## the default access for members of profiles, when not explicitly specified
                   ##
                   #memberAccess:
@@ -316,38 +322,38 @@ spec:
                 # user entities
                 #  - https://www.deploykf.org/guides/platform/deploykf-profiles/#user-entities
                 #
-                # users:
-                #  - id: doowon
-                #    email: "pch14545@gmail.com"
-                #  - id: david
-                #    email: "byunghoonhwang97@gmail.com"
+                users:
+                 - id: doowon
+                   email: "pch14545@gmail.com"
+                 - id: david
+                   email: "byunghoonhwang97@gmail.com"
 
-                # # group entities
-                # #  - https://www.deploykf.org/guides/platform/deploykf-profiles/#group-entities
-                # #
-                # groups:
-                #  - id: tws-ai-team
-                #    users:
-                #      - doowon
-                #      - david
+                # group entities
+                #  - https://www.deploykf.org/guides/platform/deploykf-profiles/#group-entities
+                #
+                groups:
+                 - id: tws-ai-team
+                   users:
+                     - doowon
+                     - david
 
-                # # profile definitions
-                # #  - https://www.deploykf.org/guides/platform/deploykf-profiles/#profile-definitions
-                # #
-                # profiles:
-                #  - name: tws-ai-team
-                #    members:
-                #      - group: tws-ai-team
-                #        access:
-                #          role: edit
-                #          notebooksAccess: true
+                # profile definitions
+                #  - https://www.deploykf.org/guides/platform/deploykf-profiles/#profile-definitions
+                #
+                profiles:
+                 - name: tws-ai-team
+                   members:
+                     - group: tws-ai-team
+                       access:
+                         role: edit
+                         notebooksAccess: true
                 
-                #  - name: tws-prod-team
-                #    members:
-                #      - group: tws-ai-team
-                #        access:
-                #          role: view
-                #          notebooksAccess: false
+                 - name: tws-prod-team
+                   members:
+                     - group: tws-ai-team
+                       access:
+                         role: view
+                         notebooksAccess: false
 
             ## --------------------------------------------------------------------------------
             ##                                   deploykf-opt
