@@ -250,6 +250,9 @@ spec:
 
                 gateway:
                  hostname: dkf-tw-style.duckdns.org
+                 ports:
+                  http: 80
+                  https: 443
 
                 ## istio gateway configs
                 ##  - https://www.deploykf.org/guides/platform/deploykf-gateway/#2-configure-dns
