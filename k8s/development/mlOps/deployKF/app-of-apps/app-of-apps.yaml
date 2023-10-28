@@ -422,6 +422,25 @@ spec:
                 ##  - https://www.deploykf.org/guides/tools/kubeflow-notebooks/
                 ##
                 spawnerFormDefaults:
+                  gpus:
+                    readOnly: false
+
+                    ## configs for gpu/device-plugin limits of the container
+                    ## https://kubernetes.io/docs/tasks/manage-gpus/scheduling-gpus/#using-device-plugins
+                    value:
+                      ## the `limitKey` of the default vendor
+                      ## (to have no default, set as "")
+                      vendor: "nvidia.com/gpu"
+
+                      ## the list of available vendors in the dropdown
+                      ##  `limitsKey` - what will be set as the actual limit
+                      ##  `uiName` - what will be displayed in the dropdown UI
+                      vendors:
+                       - limitsKey: "nvidia.com/gpu"
+                         uiName: "NVIDIA"
+                       - limitsKey: "amd.com/gpu"
+                         uiName: "AMD"
+                         
                   affinityConfig:
                     readOnly: true
                     value: "dedicated_node_per_notebook"
