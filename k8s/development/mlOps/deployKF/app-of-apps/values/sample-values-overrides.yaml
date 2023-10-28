@@ -376,7 +376,72 @@
                 ##  - https://www.deploykf.org/guides/tools/kubeflow-notebooks/
                 ##
                 spawnerFormDefaults:
-                  {} # <-- REMOVE THIS, IF YOU INCLUDE VALUES UNDER THIS SECTION!
+                  affinityConfig:
+                    readOnly: true
+                    value: "dedicated_node_per_notebook"
+                    options:
+                      - configKey: "dedicated_node_per_notebook"
+                        displayName: "Dedicated Node Per Notebook"
+                        affinity:
+                          ## Require a Node with label `lifecycle=kubeflow-notebook`
+                          nodeAffinity:
+                            requiredDuringSchedulingIgnoredDuringExecution:
+                              nodeSelectorTerms:
+                                - matchExpressions:
+                                    - key: "lifecycle"
+                                      operator: "In"
+                                      values:
+                                        - "kubeflow-notebook"
+
+                          ## Require a Node WITHOUT an existing Pod having `notebook-name` label
+                          podAntiAffinity:
+                            requiredDuringSchedulingIgnoredDuringExecution:
+                              - labelSelector:
+                                  matchExpressions:
+                                    - key: "notebook-name"
+                                      operator: "Exists"
+                                topologyKey: "kubernetes.io/hostname"
+                                namespaceSelector: {}
+
+                  ## Tolerations
+                  ##
+                  tolerationGroup:
+                    readOnly: false
+                    value: "group_1"
+                    options:
+                      - groupKey: "group_1"
+                        displayName: "4 CPU 8Gb Mem at ~$X.XXX USD per day"
+                        tolerations:
+                          - key: "dedicated"
+                            operator: "Equal"
+                            value: "kubeflow-c5.xlarge"
+                            effect: "NoSchedule"
+
+                      - groupKey: "group_2"
+                        displayName: "8 CPU 16Gb Mem at ~$X.XXX USD per day"
+                        tolerations:
+                          - key: "dedicated"
+                            operator: "Equal"
+                            value: "kubeflow-c5.2xlarge"
+                            effect: "NoSchedule"
+
+                      - groupKey: "group_3"
+                        displayName: "16 CPU 32Gb Mem at ~$X.XXX USD per day"
+                        tolerations:
+                          - key: "dedicated"
+                            operator: "Equal"
+                            value: "kubeflow-c5.4xlarge"
+                            effect: "NoSchedule"
+
+                      - groupKey: "group_4"
+                        displayName: "32 CPU 256Gb Mem at ~$X.XXX USD per day"
+                        tolerations:
+                          - key: "dedicated"
+                            operator: "Equal"
+                            value: "kubeflow-r5.8xlarge"
+                            effect: "NoSchedule"
+
+                  # {} # <-- REMOVE THIS, IF YOU INCLUDE VALUES UNDER THIS SECTION!
 
                   ## Jupyter-like Container Images
                   ##  - https://www.deploykf.org/guides/tools/kubeflow-notebooks/#container-images
