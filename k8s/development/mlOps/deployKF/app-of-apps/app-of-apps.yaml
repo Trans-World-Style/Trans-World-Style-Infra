@@ -168,7 +168,7 @@ spec:
                       - "dkf.dev-tw-style.duckdns.org"
                       - "*.dev-tw-style.duckdns.org"
                     rules:
-                    - host: "dkf-tw-style.duckdns.org"
+                    - host: "dkf.dev-tw-style.duckdns.org"
                       http:
                         paths:
                         - path: "/"
@@ -178,7 +178,7 @@ spec:
                               name: "deploykf-gateway"
                               port:
                                 name: https
-                    - host: "*.dkf.tw-style.duckdns.org"
+                    - host: "*.dkf.dev-tw-style.duckdns.org"
                       http:
                         paths:
                         - path: "/"
@@ -194,7 +194,7 @@ spec:
                   type: LoadBalancer
 
                 gateway:
-                 hostname: dkf.tw-style.duckdns.org
+                 hostname: dkf.dev-tw-style.duckdns.org
 
                 ## istio gateway configs
                 ##  - https://www.deploykf.org/guides/platform/deploykf-gateway/#2-configure-dns
