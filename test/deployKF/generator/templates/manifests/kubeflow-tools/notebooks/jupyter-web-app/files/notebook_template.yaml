@@ -1,3 +1,0 @@
-{{<- if .Values.kubeflow_tools.notebooks.notebookTemplate ->}}
-{{< tpl .Values.kubeflow_tools.notebooks.notebookTemplate . >}}
-{{<- end >}}
