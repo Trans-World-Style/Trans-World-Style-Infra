@@ -120,7 +120,7 @@
                     - secretName: "deploykf-istio-gateway-cert"
                       hosts: 
                       - "dkf.dev-tw-style.duckdns.org"
-                      - "*.dev-tw-style.duckdns.org"
+                      - "*.dkf.dev-tw-style.duckdns.org"
                     rules:
                     - host: "dkf.dev-tw-style.duckdns.org"
                       http:
