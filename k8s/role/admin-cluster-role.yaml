@@ -1,0 +1,9 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  # "name"는 ClusterRole의 이름입니다.
+  name: admin-role
+rules:
+- apiGroups: ["*"]     # 모든 API 그룹에 대해
+  resources: ["*"]     # 모든 리소스에 대해
+  verbs: ["get", "list", "watch"]  # 읽기 권한만 부여
