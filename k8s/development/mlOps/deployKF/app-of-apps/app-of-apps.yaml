@@ -542,7 +542,7 @@ spec:
                 ##  - https://www.deploykf.org/user-guides/access-kubeflow-pipelines-api/#authenticate-with-kubernetes-serviceaccount-token
                 ##
                 #kfpApiTokenPodDefault: true
-
+# dedicated=kubeflow-GTX_970M:NoSchedule
   destination:
     server: "https://kubernetes.default.svc"
     namespace: "argocd"
