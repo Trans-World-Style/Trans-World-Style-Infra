@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
       - name: video
-        image: dodo133/prod_video_backend_spring_service:test-bccd46061624
+        image: dodo133/prod_video_backend_spring_service:test-3fcf74e234ee
         ports:
         - containerPort: 8080
