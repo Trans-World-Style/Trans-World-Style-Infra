@@ -4,7 +4,7 @@ metadata:
   name: tws-ai-gpu-deploy
   namespace: prod
 spec:
-  replicas: 1
+  replicas: 0
   selector:
     matchLabels:
       app: ai-gpu
@@ -35,6 +35,7 @@ spec:
       containers:
       - name: ai-gpu
         image: dodo133/tws-ai:test
+        # image: dodo133/tws-ai:cpu-7dd53b46932e
         # env:
         # - name: NVIDIA_VISIBLE_DEVICES
         #   value: "none"
