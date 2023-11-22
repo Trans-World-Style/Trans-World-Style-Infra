@@ -13,6 +13,15 @@ spec:
       labels:
         app: jenkins-server
     spec:
+      affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+              - matchExpressions:
+                - key: kubernetes.io/hostname
+                  operator: In
+                  values:
+                  - ubuntu-msi
       securityContext:
             fsGroup: 1000
             runAsUser: 1000
