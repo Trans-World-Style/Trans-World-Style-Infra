@@ -19068,7 +19068,6 @@ metadata:
     app.kubernetes.io/part-of: argocd
   name: argocd-server
 spec:
-  type: NodePort
   ports:
   - name: http
     port: 80
@@ -19078,7 +19077,6 @@ spec:
     port: 443
     protocol: TCP
     targetPort: 8080
-    nodePort: 31000
   selector:
     app.kubernetes.io/name: argocd-server
 ---
