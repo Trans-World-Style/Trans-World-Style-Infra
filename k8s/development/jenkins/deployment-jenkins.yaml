@@ -57,6 +57,11 @@ spec:
             - matchExpressions:
               - key: jenkins
                 operator: Exists
+      tolerations:
+      - key: "node.kubernetes.io/unschedulable"
+        operator: "Equal"
+        value: "NoSchedule"
+        effect: "NoSchedule"
       securityContext:
             fsGroup: 1000
             runAsUser: 1000
